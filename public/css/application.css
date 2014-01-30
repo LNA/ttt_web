@@ -1,0 +1,14 @@
+<style>
+  .square {
+      width: 80px;
+      height: 80px;
+      padding: 10px;
+      border: 2px solid #aaaaaa;
+      float: left;
+  }
+  .board {
+      padding-top:150px;
+      padding-bottom:25px;
+      padding-left:430px;
+  }
+</style>
