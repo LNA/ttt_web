@@ -1,6 +1,4 @@
-require 'game_tree'
-require 'game_state'
-
+require 'spec_helper'
 
 describe GameTree do
   before(:each) do

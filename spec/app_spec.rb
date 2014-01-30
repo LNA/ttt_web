@@ -14,8 +14,12 @@ describe App do
 
   context 'play' do
     it 'displays the ttt board' do
-      get '/play'
+      post '/play'
       last_response.should be_ok
     end
+
+    # it 'creates a new game object' do
+    #   Game.should_receive(:new)
+    # end
   end
 end

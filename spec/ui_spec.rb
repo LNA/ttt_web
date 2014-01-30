@@ -1,5 +1,3 @@
-require 'ui'
-
 describe UI do 
   
   before(:each) do

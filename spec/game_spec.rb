@@ -1,10 +1,10 @@
-require 'game'
+require 'spec_helper'
 require 'mock_ui'
 require 'mock_game_state'
-require 'game_tree'
 
 
 describe Game do 
+
   before(:each) do
     @game = Game.new
     @mock_ui = MockUI.new
@@ -13,7 +13,7 @@ describe Game do
     @game.game_state = @mock_game_state
   end
 
-  describe "#player_game_loop" do
+  context "#player_game_loop" do
     it "triggers ui ask for move message" do
       @game.player_game_loop
       @mock_ui.asked_for_move.should == true
@@ -45,14 +45,14 @@ describe Game do
     end
   end
 
-  describe "#winner" do
+  context "#winner" do
     it "asks the game_state for the final state" do
       @game.winner
       @mock_game_state.checked_final_state.should == true
     end
   end
 
-  describe "#ai_game_loop" do
+  context "#ai_game_loop" do
     it "plays the best ai move" do
       @game.ai_game_loop
       @mock_game_state.played_move.should == true

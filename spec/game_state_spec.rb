@@ -1,14 +1,14 @@
-require 'game_state'
+require 'spec_helper'
 
 describe GameState do   
-  describe "#possible_game_states" do
+  context "#possible_game_states" do
     it "has a possible_game_states array" do
       @game_state = GameState.new(@current_player, @board)
       @game_state.possible_game_states.should == []
     end
   end
 
-  describe "#valid" do
+  context "#valid" do
     before :each do
       @current_player = 'O'
       @board = ['X', 'O', 'O', 
@@ -28,7 +28,7 @@ describe GameState do
     end
   end
 
-  describe "#full_board" do
+  context "#full_board" do
     before :each do
       @current_player = 'O'
     end
@@ -110,7 +110,7 @@ describe GameState do
     end
   end
 
-  describe "#game_state_for" do
+  context "#game_state_for" do
     it "returns the game state that matches the player move" do
       @current_player = 'X'
       @board = ['X', 'O', 'O', 
@@ -129,7 +129,7 @@ describe GameState do
     end
   end
 
-  describe "#rank" do
+  context "#rank" do
     context "boards with winners" do
       before :each do
         @game_state = GameState.new(@current_player, Array.new(9))
@@ -177,7 +177,7 @@ describe GameState do
     end
   end
 
-  describe "#intermediate_state_rank" do
+  context "#intermediate_state_rank" do
     context "boards with winners" do
       before :each do
         @game_state = GameState.new('O', [])
@@ -231,7 +231,7 @@ describe GameState do
     end
   end
 
-  describe "#final_state_rank" do
+  context "#final_state_rank" do
     it "has a final state rank of 1 in an 'O' win" do
       @board= ['X', 'O', 'O', 
                'X', 'X', 'O', 
@@ -266,7 +266,7 @@ describe GameState do
   end 
 
 
-  describe "#ai_play_best_move" do
+  context "#ai_play_best_move" do
     it "plays the best move" do
       @game_state = GameState.new(@current_player, @board)
       @game_state1 = GameState.new('O', ['X', 'O', 'O', 
@@ -283,7 +283,7 @@ describe GameState do
     end
   end
 
-  describe "#winner" do
+  context "#winner" do
     context "boards with winners" do
       it "returs 'O' for a winner in the first row" do
         @game_state = GameState.new('O', ['O', 'O', 'O', 
@@ -357,7 +357,7 @@ describe GameState do
     end
   end
 
-  describe "#tie" do 
+  context "#tie" do 
     before :each do
       @current_player = 'O'
     end
@@ -441,7 +441,7 @@ describe GameState do
     end
   end
 
-  describe "#game_over" do
+  context "#game_over" do
     it "returns true in the case of a tie" do
       @game_state = GameState.new('O', ['O', 'O', 'X', 
                                         'X', 'X', 'O', 

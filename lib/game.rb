@@ -1,12 +1,12 @@
 require 'ui'
-require 'game_state'
-require 'game_tree'
+require 'spec_helper'
 
 class Game
   attr_accessor :board, 
                 :game_state,
                 :move,
-                :ui
+                :ui,
+                :player_game_loop
 
   def initialize 
     @ui = UI.new
