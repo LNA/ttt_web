@@ -1,14 +1,29 @@
-<style>
-  .square {
-      width: 80px;
-      height: 80px;
-      padding: 10px;
-      border: 2px solid #aaaaaa;
-      float: left;
-  }
-  .board {
-      padding-top:150px;
-      padding-bottom:25px;
-      padding-left:430px;
-  }
-</style>
+.square {
+  width: 80px;
+  height: 80px;
+  padding: 10px;
+  border: 2px solid #aaaaaa;
+  float: left;
+}
+.board {
+  padding-top:150px;
+  padding-bottom:25px;
+  padding-left:470px;
+}
+
+.button {
+  width: 80px;
+  height: 80px;
+  padding: 10px;
+  box-shadow:inset 0px 1px 0px 0px #97c4fe;
+  background-color:#3d94f6;
+  color:#ffffff;
+  font-family:Arial;
+  font-size:15px;
+  font-weight:bold;
+  font-style:normal;
+}
+
+.text {
+  text-align: center
+}

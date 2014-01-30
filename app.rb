@@ -6,6 +6,10 @@ require 'sinatra'
 class App < Sinatra::Application
 
   get '/' do 
-    'Welcome to Tic Tac Toe!'
+    erb '/welcome'.to_sym
+  end
+
+  post '/play' do
+    erb '/board'.to_sym
   end
 end

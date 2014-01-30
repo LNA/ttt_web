@@ -11,4 +11,11 @@ describe App do
       last_response.should be_ok
     end
   end
+
+  context 'play' do
+    it 'displays the ttt board' do
+      get '/play'
+      last_response.should be_ok
+    end
+  end
 end
