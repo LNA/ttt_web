@@ -11,7 +11,7 @@ describe GameState do
     end
   end
 
-  context "#valid" do
+  context "#valid(move)" do
     it "checks it's board for an invalid move" do 
       game_state.board[1] = 'X'
       move = 1
@@ -26,7 +26,7 @@ describe GameState do
     end
   end
 
-  context "#full_board returns true" do
+  context "#full_board returns true when full" do
     it "returns true for a completed game" do
       game_state.board = ['X'] * 9
            
@@ -55,19 +55,15 @@ describe GameState do
     end
   end
 
-  context "#game_state_for" do
+  context "#game_state_for(move)" do
     it "returns the game state that matches the player move" do
-
-      game_state1 = GameState.new('X', ['X', 'O', 'O', 
-                                        'X', 'O', 'O', 
-                                        'O', 'X', nil])
-
-      game_state2 = GameState.new('X', ['X', 'O', 'O', 
-                                        'X', 'X', 'O', 
-                                        'O', 'X', nil])
+      game_state.board = ['X', 'O', 'O', 
+                         'X', 'X', 'O', 
+                         'O', 'X', nil]
       move = 4
-      game_state.possible_game_states = [game_state1, game_state2]
-      game_state.game_state_for(move).should == game_state2
+      game_state.possible_game_states = [game_state]
+
+      game_state.game_state_for(move).should == game_state
     end
   end
 
@@ -120,25 +116,24 @@ describe GameState do
   context "#intermediate_state_rank" do
     context "boards with winners" do
       before :each do
-        @game_state = GameState.new('O', [])
-        @game_state1 = GameState.new('X', ['X', 'O', 'O', 
+        game_state1 = GameState.new('X', ['X', 'O', 'O', 
                                            'X', 'X', 'X', 
                                            nil, 'O', 'O'])
 
-        @game_state2 = GameState.new('O', ['O', 'O', 'O',
+        game_state2 = GameState.new('O', ['O', 'O', 'O',
                                            'X', 'X', 'O',
                                            'X', 'O', 'X'])      
-        @game_state.possible_game_states = [@game_state1, @game_state2]
+        game_state.possible_game_states = [game_state1, game_state2]
       end
 
       it "returns a rank for max" do
-        @game_state.intermediate_state_rank.should == 1
+        game_state.intermediate_state_rank.should == 1
       end
 
       it "returns a rank for min" do
-        @game_state.current_player = 'X'
+        game_state.current_player = 'X'
 
-        @game_state.intermediate_state_rank.should == -1
+        game_state.intermediate_state_rank.should == -1
       end
     end
   
@@ -344,7 +339,7 @@ describe GameState do
 
     it "returns false if there is no winner and no tie" do
       game_state.board = ['X', 'O', 'O', 
-                          'X',  nil,  'O', 
+                          'X', nil, 'O', 
                           'O', 'O', 'X']
 
       game_state.game_over.should == false
