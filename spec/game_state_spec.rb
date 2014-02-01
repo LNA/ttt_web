@@ -19,7 +19,7 @@ describe GameState do
   context "#valid" do
     it "checks it's board for an invalid move" do 
       move = 1
-      
+
       game_state.valid(move).should == false
     end
 
@@ -32,15 +32,16 @@ describe GameState do
 
   context "#full_board" do
     it "returns true for a completed game" do
-      game_state.board = 
+      game_state.board[4] = 'X'
+      game_state.board[5] = 'X'
             
       game_state.full_board.should == true
     end
 
     it "returns false for an empty board" do
       game_state.board = [nil, nil, nil, 
-                          nil, nil, nil, 
-                          nil, nil, nil]
+                         nil, nil, nil, 
+                         nil, nil, nil]
 
       game_state.full_board.should == false
     end

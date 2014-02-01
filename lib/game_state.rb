@@ -11,8 +11,10 @@ class GameState
   end
 
   def valid(move)
-    if @board[move.to_i] == nil
+    if @board[move.to_i].is_a? String
       return false
+    else
+      return true
     end
   end
 
