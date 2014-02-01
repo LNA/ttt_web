@@ -88,26 +88,34 @@ describe GameState do
         game_state.possible_game_states = [@game_state2]
         game_state.rank.should == -1
       end
+      # ask mike
+
+    #   [
+    #     [game_state.board = ['X', 'O', 'O', 
+    #                          'X', 'O', 'X', 
+    #                          nil, 'O', 'O'], 1, 'O']
+    #   ].each do |game_state, rank, game_peice|
+    #     it "ranks #{rank} for a favorable #{game_peice} game " do 
+    #       game_state.possible_game_states = [game_state]
+    #       game_state.rank.should == rank
+    #     end
+    #   end
     end
 
     context "boards with a tie" do
       before :each do
         @game_state1 = GameState.new('O', ['X', 'O', 'O', 
-                                           'O', 'X', 'X', 
-                                           'O', 'X', 'O'])
+                                          'O', 'X', 'X', 
+                                          'O', 'X', 'O'])
 
-        @game_state2 = GameState.new('O', ['X', 'O', 'X', 
-                                           'O', 'O', 'X', 
-                                           'O', 'X', 'O'])
+        game_state.possible_game_states = [@game_state1]
       end
 
       it "ranks a 1 for a favorable 'O' game state" do
-        game_state.possible_game_states = [@game_state1, @game_state2]
         game_state.rank.should == 0
       end
 
       it "ranks a -1 for a favorable 'X' game state" do
-        game_state.possible_game_states = [@game_state2]
         game_state.rank.should == 0
       end
     end
