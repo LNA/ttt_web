@@ -11,11 +11,15 @@ class GameState
   end
 
   def valid(move)
-    @board[move.to_i] == nil
+    if @board[move.to_i] == nil
+      return false
+    end
   end
 
   def full_board
-    !@board.include? nil
+    if (@board.include? nil ) == true
+      return false
+    end
   end
 
   def game_state_for(move)

@@ -32,24 +32,24 @@ describe GameState do
 
   context "#full_board" do
     it "returns true for a completed game" do
-      game_state.board[4] = 'X'
-      game_state.board[8] = 'X'
+      game_state.board = 
             
       game_state.full_board.should == true
     end
 
     it "returns false for an empty board" do
-      game_state.board = []
-      
+      game_state.board = [nil, nil, nil, 
+                          nil, nil, nil, 
+                          nil, nil, nil]
+
       game_state.full_board.should == false
     end
 
     it "returns false for a game with 1 open space" do
-      @board =  [nil, 'O',  'O',
-                 'X',   'X',  'O',
-                 'X',   'O',  'X']
-      @game_state = GameState.new(@current_player, @board)
-      @game_state.full_board.should == false
+      game_state.board = []
+      game_state.board[1] = 'X'
+
+      game_state.full_board.should == false
     end
 
     it "returns false for a game with 2 open space" do
