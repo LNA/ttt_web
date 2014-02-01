@@ -195,7 +195,7 @@ describe GameState do
 
     it "returns nil if not in final state and there is no winner" do
       game_state.board = [nil] * 9
-      
+
       game_state.final_state_rank.should == nil
     end
   end 
@@ -203,91 +203,86 @@ describe GameState do
 
   context "#ai_play_best_move" do
     it "plays the best move" do
-      @game_state = GameState.new(@current_player, @board)
-      @game_state1 = GameState.new('O', ['X', 'O', 'O', 
-                                         'X', 'X', 'O', 
-                                          nil,  'O',  nil])
+      game_state1 = GameState.new('O', ['X', 'O', 'O', 
+                                        'X', 'X', 'O', 
+                                        nil, 'O',  nil])
 
-      @game_state2 = GameState.new('O', ['O', 'O', 'X',
+      game_state2 = GameState.new('O',  ['O', 'O', 'X',
                                          'X', 'X', 'O',
-                                          nil,  'O', nil])
+                                         nil, 'O', nil])
 
-      @game_state.possible_game_states = [@game_state1, @game_state2]
+      game_state.possible_game_states = [game_state1, game_state2]
 
-      @game_state.ai_play_best_move.should == @game_state1
+      game_state.ai_play_best_move.should == game_state1
     end
   end
 
   context "#winner" do
     context "boards with winners" do
-      it "returs 'O' for a winner in the first row" do
-        @game_state = GameState.new('O', ['O', 'O', 'O', 
-                                          'X', 'X', 'O', 
-                                          nil, 'O', nil])
-        @game_state.winner.should == 'O'
-      end
 
-      it "returs 'O' for a winner in the second row" do
-        @game_state = GameState.new('O', ['O', 'X', 'O', 
-                                          'O', 'O', 'O', 
-                                          'X', 'O', 'X'])
-        @game_state.winner.should == 'O'
-      end
+      it "returns O as the winner for each row" do
+        game_state.board[0..2] = 'A', 'B', 'C'
+        game_state.board[3..5] = 'B', 'C', 'A'
+        game_state.board[6..8] = 'A', 'B', 'C'
 
-      it "returs 'O' for a winner in the third row" do
-        @game_state = GameState.new('O', ['O', 'X', 'X', 
-                                          'X', 'X', 'O', 
-                                          'O', 'O', 'O'])
-        @game_state.winner.should == 'O'
+        [
+          [0, 2],
+          [3, 5],
+          [6, 8]
+        ].each do |low, high|
+          game_state.board[low..high] = 'O', 'O', 'O'
+          game_state.winner.should == 'O'
+          game_state.board[low..high] = 'A', 'B', 'C'
+        end
       end
 
       it "returs 'O' for a winner in the left column" do
-        @game_state = GameState.new('O', ['O', 'X', 'O', 
+        game_state = GameState.new('O', ['O', 'X', 'O', 
                                           'O', 'X', 'O', 
                                           'O', 'O', 'X'])
-        @game_state.winner.should == 'O'
+        game_state.winner.should == 'O'
       end
 
       it "returs 'O' for a winner in the middle column" do
-        @game_state = GameState.new('O', ['X', 'O', 'O', 
+        game_state = GameState.new('O', ['X', 'O', 'O', 
                                           'X', 'O', 'X', 
                                           'O', 'O', 'X'])
-        @game_state.winner.should == 'O'
+        game_state.winner.should == 'O'
       end
 
       it "returs 'O' for a winner in the right column" do
-        @game_state = GameState.new('O', ['X', 'O', 'O', 
+        game_state = GameState.new('O', ['X', 'O', 'O', 
                                           'X', 'X', 'O', 
                                           'O', 'X', 'O'])
-        @game_state.winner.should == 'O'
+        game_state.winner.should == 'O'
       end
 
       it "returs 'O' for a winner in the left diag" do
-        @game_state = GameState.new('O', ['O', 'X', 'O', 
+        game_state = GameState.new('O', ['O', 'X', 'O', 
                                           'X', 'O', 'X', 
                                           'O', 'X', 'O'])
-        @game_state.winner.should == 'O'
+        game_state.winner.should == 'O'
       end
 
       it "returs 'O' for a winner in the right diag" do
-        @game_state = GameState.new('O', ['X', 'X', 'O', 
+        game_state = GameState.new('O', ['X', 'X', 'O', 
                                           'X', 'O', 'X' ,
                                           'O', 'X', 'O'])
-        @game_state.winner.should == 'O'
+        game_state.winner.should == 'O'
       end
 
       it "returs false for a game in progress" do
-        @game_state = GameState.new('O', ['O', 'X', 'O', 
+        game_state = GameState.new('O', ['O', 'X', 'O', 
                                           'X', nil, 'X', 
                                           'O', 'X', 'O'])
-        @game_state.winner.should == false
+        game_state.winner.should == false
       end
 
       it "returs false for a tie" do
-        @game_state = GameState.new('O', ['O', 'O', 'X', 
+        game_state = GameState.new('O', ['O', 'O', 'X', 
                                           'X', 'X', 'O', 
                                           'O', 'O', 'X'])
-        @game_state.winner.should == false
+        game_state.winner.should == false
       end
     end
   end
