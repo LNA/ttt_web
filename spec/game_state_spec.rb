@@ -288,88 +288,34 @@ describe GameState do
   end
 
   context "#tie" do 
-    before :each do
-      @current_player = 'O'
-    end
     it "returns true in the case of a tie" do
-      @game_state = GameState.new('O', ['O', 'O', 'X', 
-                                        'X', 'X', 'O', 
-                                        'O', 'O', 'X'])
-      @game_state.tie.should == true
+      game_state.board = ['O', 'O', 'X', 
+                          'X', 'X', 'O', 
+                          'O', 'O', 'X']
+      game_state.tie.should == true
     end
 
     it "returns false in the case of a win" do
-      @game_state = GameState.new('O', ['O', 'O', 'X', 
-                                        'X', 'X', 'X', 
-                                        'O', 'O', 'X'])
-      @game_state.tie.should == false
+      game_state.board = ['O', 'O', 'X', 
+                          'X', 'X', 'X', 
+                          'O', 'O', 'X']
+
+      game_state.tie.should == false
     end
 
-    it "returns false in the case of a game with 1 open space" do
-      @current_player = 'O'
-      @board = ['O', 'O', 'X', 
-                'X', nil, 'O', 
-                'O', 'O', nil]
-      @game_state = GameState.new(@current_player, @board)
-      @game_state.tie.should == false
-    end
 
-    it "returns false for a game with 2 open space" do
-      @board =  [nil, nil, 'O',
-                 'X', 'X', 'O',
-                 'X', 'O', 'X',]
-      @game_state = GameState.new(@current_player, @board)
-      @game_state.tie.should == false
+    it "returns false for a game with open spaces" do 
+      (1..9).each do |number|
+        while number > 1
+          number.times do
+            game_state.board[number] = "X"
+            number = number - 1
+          end
+        end
+      end
+    
+      game_state.tie.should == false
     end
-
-    it "returns false for a game with 3 open space" do
-      @board =  [nil, nil, nil,
-                 'X', 'X', 'O',
-                 'X', 'O', 'X']
-      @game_state = GameState.new(@current_player, @board)
-      @game_state.full_board.should == false
-    end
-
-    it "returns false for a game with 4 open space" do
-      @board =  [nil, nil, nil,
-                nil, 'X', 'O',
-                 'X', 'O', 'X']
-      @game_state = GameState.new(@current_player, @board)
-      @game_state.tie.should == false
-    end
-
-    it "returns false for a game with 5 open space" do
-      @board =  [nil, nil, nil,
-                 nil, nil,  'O',
-                 'X', 'O', 'X']
-      @game_state = GameState.new(@current_player, @board)
-      @game_state.tie.should == false
-    end
-
-    it "returns false for a game with 6 open space" do
-      @board =  [nil, nil, nil,
-                 nil, nil, nil,
-                 'X', 'O', 'X']
-      @game_state = GameState.new(@current_player, @board)
-      @game_state.tie.should == false
-    end
-
-    it "returns false for a game with 7 open space" do
-      @board =  [nil, nil, nil,
-                 nil, nil, nil,
-                nil, 'O', 'X']
-      @game_state = GameState.new(@current_player, @board)
-      @game_state.tie.should == false
-    end
-
-    it "returns false for a game with 8 open space" do
-      @board =  [nil, nil, nil,
-                 nil, nil, nil,
-                 nil, nil, 'X']
-      @game_state = GameState.new(@current_player, @board)
-      @game_state.tie.should == false
-    end
-  end
 
   context "#game_over" do
     it "returns true in the case of a tie" do
