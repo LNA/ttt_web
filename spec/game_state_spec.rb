@@ -5,7 +5,6 @@ describe GameState do
   let (:board) { [nil] * 9 }
   let (:game_state) {GameState.new(current_player, board)}
 
-
   context "#possible_game_states" do
     it "has a possible_game_states array" do
       game_state.possible_game_states.should == []
@@ -238,50 +237,50 @@ describe GameState do
 
       it "returs 'O' for a winner in the left column" do
         game_state = GameState.new('O', ['O', 'X', 'O', 
-                                          'O', 'X', 'O', 
-                                          'O', 'O', 'X'])
+                                         'O', 'X', 'O', 
+                                         'O', 'O', 'X'])
         game_state.winner.should == 'O'
       end
 
       it "returs 'O' for a winner in the middle column" do
         game_state = GameState.new('O', ['X', 'O', 'O', 
-                                          'X', 'O', 'X', 
-                                          'O', 'O', 'X'])
+                                         'X', 'O', 'X', 
+                                         'O', 'O', 'X'])
         game_state.winner.should == 'O'
       end
 
       it "returs 'O' for a winner in the right column" do
         game_state = GameState.new('O', ['X', 'O', 'O', 
-                                          'X', 'X', 'O', 
-                                          'O', 'X', 'O'])
+                                         'X', 'X', 'O', 
+                                         'O', 'X', 'O'])
         game_state.winner.should == 'O'
       end
 
       it "returs 'O' for a winner in the left diag" do
         game_state = GameState.new('O', ['O', 'X', 'O', 
-                                          'X', 'O', 'X', 
-                                          'O', 'X', 'O'])
+                                         'X', 'O', 'X', 
+                                         'O', 'X', 'O'])
         game_state.winner.should == 'O'
       end
 
       it "returs 'O' for a winner in the right diag" do
         game_state = GameState.new('O', ['X', 'X', 'O', 
-                                          'X', 'O', 'X' ,
-                                          'O', 'X', 'O'])
+                                         'X', 'O', 'X' ,
+                                         'O', 'X', 'O'])
         game_state.winner.should == 'O'
       end
 
       it "returs false for a game in progress" do
         game_state = GameState.new('O', ['O', 'X', 'O', 
-                                          'X', nil, 'X', 
-                                          'O', 'X', 'O'])
+                                         'X', nil, 'X', 
+                                         'O', 'X', 'O'])
         game_state.winner.should == false
       end
 
       it "returs false for a tie" do
         game_state = GameState.new('O', ['O', 'O', 'X', 
-                                          'X', 'X', 'O', 
-                                          'O', 'O', 'X'])
+                                         'X', 'X', 'O', 
+                                         'O', 'O', 'X'])
         game_state.winner.should == false
       end
     end
@@ -316,34 +315,39 @@ describe GameState do
     
       game_state.tie.should == false
     end
+  end
 
   context "#game_over" do
     it "returns true in the case of a tie" do
-      @game_state = GameState.new('O', ['O', 'O', 'X', 
-                                        'X', 'X', 'O', 
-                                        'O', 'O', 'X'])
-      @game_state.game_over.should == true
+      game_state.board =  ['O', 'O', 'X', 
+                           'X', 'X', 'O', 
+                           'O', 'O', 'X']
+
+      game_state.game_over.should == true
     end
 
     it "returns 'O' in the case of an 'O' win" do
-      @game_state = GameState.new('O', ['O', 'O', 'X', 
-                                        'X', 'X', 'O', 
-                                        'O', 'O', 'O'])
-      @game_state.game_over.should == 'O'
+      game_state.board = ['O', 'O', 'X', 
+                          'X', 'X', 'O', 
+                          'O', 'O', 'O']
+
+      game_state.game_over.should == 'O'
     end
 
     it "returns 'X' in the case of an 'X' win" do
-      @game_state = GameState.new('X', ['X', 'O', 'O', 
-                                        'X', 'X', 'O', 
-                                        'O', 'O', 'X'])
-      @game_state.game_over.should == 'X'
+      game_state.board = ['X', 'O', 'O', 
+                          'X', 'X', 'O', 
+                          'O', 'O', 'X']
+
+      game_state.game_over.should == 'X'
     end
 
     it "returns false if there is no winner and no tie" do
-      @game_state = GameState.new('X', ['X', 'O', 'O', 
-                                        'X',  nil,  'O', 
-                                        'O', 'O', 'X'])
-      @game_state.game_over.should == false
+      game_state.board = ['X', 'O', 'O', 
+                          'X',  nil,  'O', 
+                          'O', 'O', 'X']
+
+      game_state.game_over.should == false
     end
   end
 end
