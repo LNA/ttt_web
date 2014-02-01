@@ -58,6 +58,7 @@ describe GameState do
 
   context "#game_state_for" do
     it "returns the game state that matches the player move" do
+
       game_state1 = GameState.new('X', ['X', 'O', 'O', 
                                         'X', 'O', 'O', 
                                         'O', 'X', nil])
@@ -67,7 +68,6 @@ describe GameState do
                                         'O', 'X', nil])
       move = 4
       game_state.possible_game_states = [game_state1, game_state2]
-      
       game_state.game_state_for(move).should == game_state2
     end
   end
@@ -75,7 +75,6 @@ describe GameState do
   context "#rank" do
     context "boards with winners" do
       before :each do
-        @game_state = GameState.new(@current_player, Array.new(9))
         @game_state1 = GameState.new('O', ['X', 'O', 'O', 
                                            'X', 'O', 'X', 
                                            nil, 'O', 'O'])
@@ -86,13 +85,13 @@ describe GameState do
       end
 
       it "ranks a 1 for a favorable 'O' game state" do
-        @game_state.possible_game_states = [@game_state1]
-        @game_state.rank.should == 1
+        game_state.possible_game_states = [@game_state1]
+        game_state.rank.should == 1
       end
 
       it "ranks a -1 for a favorable 'X' game state" do
-        @game_state.possible_game_states = [@game_state2]
-        @game_state.rank.should == -1
+        game_state.possible_game_states = [@game_state2]
+        game_state.rank.should == -1
       end
     end
 
