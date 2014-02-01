@@ -97,7 +97,6 @@ describe GameState do
 
     context "boards with a tie" do
       before :each do
-        @game_state = GameState.new(@current_player, Array.new(9))
         @game_state1 = GameState.new('O', ['X', 'O', 'O', 
                                            'O', 'X', 'X', 
                                            'O', 'X', 'O'])
@@ -108,13 +107,13 @@ describe GameState do
       end
 
       it "ranks a 1 for a favorable 'O' game state" do
-        @game_state.possible_game_states = [@game_state1, @game_state2]
-        @game_state.rank.should == 0
+        game_state.possible_game_states = [@game_state1, @game_state2]
+        game_state.rank.should == 0
       end
 
       it "ranks a -1 for a favorable 'X' game state" do
-        @game_state.possible_game_states = [@game_state2]
-        @game_state.rank.should == 0
+        game_state.possible_game_states = [@game_state2]
+        game_state.rank.should == 0
       end
     end
   end
@@ -175,35 +174,29 @@ describe GameState do
 
   context "#final_state_rank" do
     it "has a final state rank of 1 in an 'O' win" do
-      @board= ['X', 'O', 'O', 
-               'X', 'X', 'O', 
-               'O', 'X', 'O']
-      @game_state = GameState.new(@current_player, @board)
-      @game_state.final_state_rank.should == 1
+      game_state.board = ['O'] * 9
+
+      game_state.final_state_rank.should == 1
     end
 
     it "has a final state rank of 0 in a tie" do
-      @board = ['O', 'O', 'X', 
-                'X', 'X', 'O', 
-                'O', 'O', 'X']
-      @game_state = GameState.new(@current_player, @board)
-      @game_state.final_state_rank.should == 0
+      game_state.board = ['O', 'O', 'X', 
+                          'X', 'X', 'O', 
+                          'O', 'O', 'X']
+
+      game_state.final_state_rank.should == 0
     end
 
     it "has a final state rank of -1 for an 'X' win" do
-      @board = ['X', 'O', 'O', 
-                'X', 'X', 'X', 
-                'O', 'X', 'O']
-      @game_state = GameState.new(@current_player, @board)
-      @game_state.final_state_rank.should == -1
+      game_state.board = ['X'] * 9
+
+      game_state.final_state_rank.should == -1
     end
 
     it "returns nil if not in final state and there is no winner" do
-      @board = [nil, 'O', 'O', 
-                'X', nil, 'X', 
-                'O', 'X', 'O']
-      @game_state = GameState.new(@current_player, @board)
-      @game_state.final_state_rank.should == nil
+      game_state.board = [nil] * 9
+      
+      game_state.final_state_rank.should == nil
     end
   end 
 
