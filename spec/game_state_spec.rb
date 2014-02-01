@@ -39,8 +39,9 @@ describe GameState do
     end
 
     it "returns false for an empty board" do
-      @game_state = GameState.new(@current_player, Array.new(9))
-      @game_state.full_board.should == false
+      game_state.board = []
+      
+      game_state.full_board.should == false
     end
 
     it "returns false for a game with 1 open space" do
