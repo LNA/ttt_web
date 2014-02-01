@@ -2,11 +2,7 @@ require 'spec_helper'
 
 describe GameState do   
   let (:current_player) {'O'}
-
-  let (:board) { ['X', 'O', 'O', 
-                  'X', nil, 'O', 
-                  'O', 'X', nil] }
-
+  let (:board) { [nil] * 9 }
   let (:game_state) {GameState.new(current_player, board)}
 
 
@@ -18,6 +14,7 @@ describe GameState do
 
   context "#valid" do
     it "checks it's board for an invalid move" do 
+      game_state.board[1] = 'X'
       move = 1
 
       game_state.valid(move).should == false
@@ -30,83 +27,32 @@ describe GameState do
     end
   end
 
-  context "#full_board" do
+  context "#full_board returns true" do
     it "returns true for a completed game" do
-      game_state.board[4] = 'X'
-      game_state.board[5] = 'X'
-            
+      game_state.board = ['X'] * 9
+           
       game_state.full_board.should == true
     end
+  end
 
+  context "#full_board returns false" do
     it "returns false for an empty board" do
-      game_state.board = [nil, nil, nil, 
-                         nil, nil, nil, 
-                         nil, nil, nil]
+      game_state.board = [nil] * 9
 
       game_state.full_board.should == false
     end
 
-    it "returns false for a game with 1 open space" do
-      game_state.board = []
-      game_state.board[1] = 'X'
-
+    it "returns false for a game with taken spaces" do 
+      (1..9).each do |number|
+        while number > 1
+          number.times do
+            game_state.board[number] = "X"
+            number = number - 1
+          end
+        end
+      end
+    
       game_state.full_board.should == false
-    end
-
-    it "returns false for a game with 2 open space" do
-      @board =  [nil, nil, 'O',
-                 'X', 'X', 'O',
-                 'X', 'O', 'X']
-      @game_state = GameState.new(@current_player, @board)
-      @game_state.full_board.should == false
-    end
-
-    it "returns false for a game with 3 open space" do
-      @board =  [nil, nil, nil, 
-                 'X', 'X', 'O',
-                 'X', 'O', 'X']
-      @game_state = GameState.new(@current_player, @board)
-      @game_state.full_board.should == false
-    end
-
-    it "returns false for a game with 4 open space" do
-      @board =  [nil, nil, nil, 
-                 nil, 'X', 'O',
-                 'X', 'O', 'X']
-      @game_state = GameState.new(@current_player, @board)
-      @game_state.full_board.should == false
-    end
-
-    it "returns false for a game with 5 open space" do
-      @board =  [nil, nil, nil, 
-                 nil, nil, 'O',
-                 'X', 'O', 'X']
-      @game_state = GameState.new(@current_player, @board)
-      @game_state.full_board.should == false
-    end
-
-    it "returns false for a game with 6 open space" do
-      @board =  [nil, nil, nil, 
-                 nil, nil, nil, 
-                 'X', 'O', 'X']
-      @game_state = GameState.new(@current_player, @board)
-      @game_state.full_board.should == false
-    end
-
-    it "returns false for a game with 7 open space" do
-      @board =  [nil, nil, nil, 
-                 nil, nil, nil, 
-                 nil, 'O', 'X']
-      @game_state = GameState.new(@current_player, @board)
-      @game_state.full_board.should == false
-    end
-
-    it "returns false for a game with 8 open space" do
-      @board =  [nil, nil, nil, 
-                 nil, nil, nil, 
-                 nil, nil, 'X']
-      @game_state = GameState.new(@current_player, @board)
-      @game_state.full_board.should == false
     end
   end
 

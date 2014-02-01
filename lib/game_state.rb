@@ -12,15 +12,17 @@ class GameState
 
   def valid(move)
     if @board[move.to_i].is_a? String
-      return false
+      false
     else
-      return true
+      true
     end
   end
 
   def full_board
     if (@board.include? nil ) == true
-      return false
+      false
+    else
+      true
     end
   end
 
