@@ -1,43 +1,41 @@
 require 'spec_helper'
 
 describe GameState do   
+  let (:current_player) {'O'}
+
+  let (:board) { ['X', 'O', 'O', 
+                  'X', nil, 'O', 
+                  'O', 'X', nil] }
+
+  let (:game_state) {GameState.new(current_player, board)}
+
+
   context "#possible_game_states" do
     it "has a possible_game_states array" do
-      @game_state = GameState.new(@current_player, @board)
-      @game_state.possible_game_states.should == []
+      game_state.possible_game_states.should == []
     end
   end
 
   context "#valid" do
-    before :each do
-      @current_player = 'O'
-      @board = ['X', 'O', 'O', 
-                'X', nil, 'O', 
-                'O', 'X', nil]
-      @game_state = GameState.new(@current_player, @board)
-    end
-
     it "checks it's board for an invalid move" do 
       move = 1
-      @game_state.valid(move).should == false
+      
+      game_state.valid(move).should == false
     end
 
     it "checks it's board for a valid move" do 
       move = 4
-      @game_state.valid(move).should == true
+
+      game_state.valid(move).should == true
     end
   end
 
   context "#full_board" do
-    before :each do
-      @current_player = 'O'
-    end
     it "returns true for a completed game" do
-      @board = ['O', 'O', 'O',
-                'X', 'X', 'O',
-                'X', 'O', 'X']
-      @game_state = GameState.new(@current_player, @board)      
-      @game_state.full_board.should == true
+      game_state.board[4] = 'X'
+      game_state.board[8] = 'X'
+            
+      game_state.full_board.should == true
     end
 
     it "returns false for an empty board" do
