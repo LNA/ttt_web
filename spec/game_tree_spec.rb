@@ -1,16 +1,14 @@
 require 'spec_helper'
 
 describe GameTree do
-  before(:each) do
-    @game_tree = GameTree.new
-  end
+  let (:game_tree) {GameTree.new}
 
   describe "#generate_all_possible_moves" do
     it "passes an initial game state to build_branches_for" do
       GameState.should_receive(:new).and_return("got it")
-      @game_tree.should_receive(:build_branches_for).with("got it")
+      game_tree.should_receive(:build_branches_for).with("got it")
 
-      @game_tree.generate_all_possible_moves
+      game_tree.generate_all_possible_moves
     end
   end
   
@@ -21,7 +19,7 @@ describe GameTree do
                                                  'X', 'X', 'O',
                                                  'X', 'O', 'X'])
 
-        @game_tree.build_branches_for(current_game_state)
+        game_tree.build_branches_for(current_game_state)
         current_game_state.possible_game_states.should == [] 
       end
     end
@@ -32,7 +30,7 @@ describe GameTree do
                                                  'X', 'X', 'O',
                                                  'X', 'O', 'X'])
 
-        @game_tree.build_branches_for(current_game_state)
+        game_tree.build_branches_for(current_game_state)
         current_game_state.possible_game_states.first.current_player.should == 'O'                                                             
       end
 
@@ -41,7 +39,7 @@ describe GameTree do
                                                  'X', 'X', 'O',
                                                  'X', 'O', 'X'])
 
-        @game_tree.build_branches_for(current_game_state)
+        game_tree.build_branches_for(current_game_state)
         current_game_state.possible_game_states.first.board.should  == ['X', 'O', 'O',
                                                                         'X', 'X', 'O',
                                                                         'X', 'O', 'X']    
@@ -54,7 +52,7 @@ describe GameTree do
                                                  'X', 'X', 'O',
                                                  'X', 'O', 'X'])
         
-        @game_tree.build_branches_for(current_game_state)
+        game_tree.build_branches_for(current_game_state)
         current_game_state.possible_game_states.first.current_player.should == 'O'                                                             
         current_game_state.possible_game_states[1].current_player.should == 'O'                                                             
       end
@@ -64,7 +62,7 @@ describe GameTree do
                                                  'X', 'X', 'O',
                                                  'X', 'O', 'X'])
 
-        @game_tree.build_branches_for(current_game_state)
+        game_tree.build_branches_for(current_game_state)
         current_game_state.possible_game_states.first.board.should  == ['X', nil, 'O',
                                                                         'X', 'X', 'O',
                                                                         'X', 'O', 'X']    
@@ -80,7 +78,7 @@ describe GameTree do
                                                  'X', 'X', 'O',
                                                  'X', 'O', 'X'])
        
-        @game_tree.build_branches_for(current_game_state)
+        game_tree.build_branches_for(current_game_state)
         current_game_state.possible_game_states.each do |game_state|
           game_state.current_player.should == 'O'
         end     
@@ -91,7 +89,7 @@ describe GameTree do
                                                  'X', 'X', 'O',
                                                  'X', 'O', 'X'])
 
-        @game_tree.build_branches_for(current_game_state)
+        game_tree.build_branches_for(current_game_state)
         resulting_game_state = current_game_state.possible_game_states.first
         resulting_game_state.board.should  == ['X', nil, nil,
                                                'X', 'X', 'O',
@@ -106,7 +104,7 @@ describe GameTree do
                                                  'X', 'X', 'O',
                                                  'X', 'O', 'X'])
 
-        @game_tree.build_branches_for(current_game_state)
+        game_tree.build_branches_for(current_game_state)
         resulting_game_state = current_game_state.possible_game_states.last
         resulting_game_state.board.should  == [nil, nil, 'X',
                                                'X', 'X', 'O',
