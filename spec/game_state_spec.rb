@@ -58,20 +58,17 @@ describe GameState do
 
   context "#game_state_for" do
     it "returns the game state that matches the player move" do
-      @current_player = 'X'
-      @board = ['X', 'O', 'O', 
-                'X', nil, 'O', 
-                'O', 'X', nil]
-      @game_state = GameState.new(@current_player, @board)
-      @game_state1 = GameState.new('X', ['X', 'O', 'O', 
-                                         'X', 'O', 'O', 
-                                         'O', 'X', nil])
-      @game_state2 = GameState.new('X', ['X', 'O', 'O', 
-                                         'X', 'X', 'O', 
-                                         'O', 'X', nil])
+      game_state1 = GameState.new('X', ['X', 'O', 'O', 
+                                        'X', 'O', 'O', 
+                                        'O', 'X', nil])
+
+      game_state2 = GameState.new('X', ['X', 'O', 'O', 
+                                        'X', 'X', 'O', 
+                                        'O', 'X', nil])
       move = 4
-      @game_state.possible_game_states = [@game_state1, @game_state2]
-      @game_state.game_state_for(move).should == @game_state2
+      game_state.possible_game_states = [game_state1, game_state2]
+      
+      game_state.game_state_for(move).should == game_state2
     end
   end
 
