@@ -4,7 +4,8 @@ describe GameState do
   let (:current_player) {'O'}
   let (:board) { [nil] * 9 }
   let (:game_state) {GameState.new(current_player, board)}
-
+  let (:tie) {['O', 'O', 'X', 'X', 'X', 'O', 'O', 'O', 'X']}
+ 
   context "#possible_game_states" do
     it "has a possible_game_states array" do
       game_state.possible_game_states.should == []
@@ -88,34 +89,20 @@ describe GameState do
         game_state.possible_game_states = [@game_state2]
         game_state.rank.should == -1
       end
-      # ask mike
-
-    #   [
-    #     [game_state.board = ['X', 'O', 'O', 
-    #                          'X', 'O', 'X', 
-    #                          nil, 'O', 'O'], 1, 'O']
-    #   ].each do |game_state, rank, game_peice|
-    #     it "ranks #{rank} for a favorable #{game_peice} game " do 
-    #       game_state.possible_game_states = [game_state]
-    #       game_state.rank.should == rank
-    #     end
-    #   end
     end
 
     context "boards with a tie" do
-      before :each do
-        @game_state1 = GameState.new('O', ['X', 'O', 'O', 
-                                          'O', 'X', 'X', 
-                                          'O', 'X', 'O'])
-
-        game_state.possible_game_states = [@game_state1]
-      end
-
       it "ranks a 1 for a favorable 'O' game state" do
+        game_state.board = tie
+        game_state.possible_game_states = [@game_state1]
+
         game_state.rank.should == 0
       end
 
       it "ranks a -1 for a favorable 'X' game state" do
+        game_state.board = tie
+        game_state.possible_game_states = [@game_state1]
+
         game_state.rank.should == 0
       end
     end
@@ -125,7 +112,7 @@ describe GameState do
     context "boards with winners" do
       before :each do
         game_state1 = GameState.new('X', ['X', 'O', 'O', 
-                                           'X', 'X', 'X', 
+                                          'X', 'X', 'X', 
                                            nil, 'O', 'O'])
 
         game_state2 = GameState.new('O', ['O', 'O', 'O',
@@ -146,30 +133,28 @@ describe GameState do
     end
   
     context "boards with no winners" do
-      before :each do 
-        @game_state = GameState.new('O', [])
-        @game_state1 = GameState.new('X', ['X', 'O', 'O', 
-                                           'X', 'X', 'X', 
-                                            nil, 'O', 'O',])
+      it "it returns a 1 for a potential win within the intermediate state rank" do
+        game_state1 = GameState.new('X', ['X', 'O', 'O', 
+                                          'X', 'X', 'X', 
+                                          nil, 'O', 'O',])
 
-        @game_state2 = GameState.new('O', ['O', 'O', 'O',
-                                           'X', 'X', 'O',
-                                           'X', 'O', 'X']) 
-        @game_state_in_progress1 = GameState.new('X', ['X', 'O',  'O', 
+        game_state2 = GameState.new('O', ['O', 'O', 'O',
+                                          'X', 'X', 'O',
+                                          'X', 'O', 'X']) 
+        game_state_in_progress1 = GameState.new('X', ['X', 'O',  'O', 
                                                        'X',  nil, 'X', 
                                                         nil, 'O', 'O'])
 
-        @game_state_in_progress2 = GameState.new('O', ['O',  'O', 'O', 
+        game_state_in_progress2 = GameState.new('O', ['O',  'O', 'O', 
                                                        'X',  'X', 'O',
                                                         nil, 'O', nil])
-        @game_state.possible_game_states = [@game_state_in_progress1, 
-                                            @game_state_in_progress2]
-        @game_state_in_progress1.possible_game_states = [@game_state1, @game_state2]
-        @game_state_in_progress2.possible_game_states = [@game_state1, @game_state2]
-      end
+        game_state.possible_game_states = [game_state_in_progress1, 
+                                            game_state_in_progress2]
+        game_state_in_progress1.possible_game_states = [game_state1, game_state2]
+        game_state_in_progress2.possible_game_states = [game_state1, game_state2]
+      
 
-      it "it returns a 1 for a potential win within the intermediate state rank" do
-        @game_state.intermediate_state_rank.should == 1
+        game_state.intermediate_state_rank.should == 1
       end
     end
   end
@@ -182,9 +167,7 @@ describe GameState do
     end
 
     it "has a final state rank of 0 in a tie" do
-      game_state.board = ['O', 'O', 'X', 
-                          'X', 'X', 'O', 
-                          'O', 'O', 'X']
+      game_state.board = tie
 
       game_state.final_state_rank.should == 0
     end
@@ -201,7 +184,6 @@ describe GameState do
       game_state.final_state_rank.should == nil
     end
   end 
-
 
   context "#ai_play_best_move" do
     it "plays the best move" do
@@ -281,30 +263,23 @@ describe GameState do
       end
 
       it "returs false for a tie" do
-        game_state = GameState.new('O', ['O', 'O', 'X', 
-                                         'X', 'X', 'O', 
-                                         'O', 'O', 'X'])
+        game_state.board = tie
+
         game_state.winner.should == false
       end
     end
   end
 
   context "#tie" do 
-    it "returns true in the case of a tie" do
-      game_state.board = ['O', 'O', 'X', 
-                          'X', 'X', 'O', 
-                          'O', 'O', 'X']
-      game_state.tie.should == true
+    [
+      [['O', 'O', 'X', 'X', 'X', 'O', 'O', 'O', 'X'], true],
+      [[nil, nil, nil, nil, nil, nil, nil, nil, nil], false]
+    ].each do |board, win|
+      it "returns #{win} for the #{board}" do 
+        game_state.board = board
+        game_state.game_over.should == win
+      end
     end
-
-    it "returns false in the case of a win" do
-      game_state.board = ['O', 'O', 'X', 
-                          'X', 'X', 'X', 
-                          'O', 'O', 'X']
-
-      game_state.tie.should == false
-    end
-
 
     it "returns false for a game with open spaces" do 
       (1..9).each do |number|
@@ -321,36 +296,16 @@ describe GameState do
   end
 
   context "#game_over" do
-    it "returns true in the case of a tie" do
-      game_state.board =  ['O', 'O', 'X', 
-                           'X', 'X', 'O', 
-                           'O', 'O', 'X']
-
-      game_state.game_over.should == true
-    end
-
-    it "returns 'O' in the case of an 'O' win" do
-      game_state.board = ['O', 'O', 'X', 
-                          'X', 'X', 'O', 
-                          'O', 'O', 'O']
-
-      game_state.game_over.should == 'O'
-    end
-
-    it "returns 'X' in the case of an 'X' win" do
-      game_state.board = ['X', 'O', 'O', 
-                          'X', 'X', 'O', 
-                          'O', 'O', 'X']
-
-      game_state.game_over.should == 'X'
-    end
-
-    it "returns false if there is no winner and no tie" do
-      game_state.board = ['X', 'O', 'O', 
-                          'X', nil, 'O', 
-                          'O', 'O', 'X']
-
-      game_state.game_over.should == false
+    [
+      [['O', 'O', 'X', 'X', 'X', 'O', 'O', 'O', 'X'], true],
+      [['O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O'], 'O'],
+      [['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'], 'X'],
+      [[nil, nil, nil, nil, nil, nil, nil, nil, nil], false]
+    ].each do |board, win|
+      it "returns #{win} for the #{board}" do 
+        game_state.board = board
+        game_state.game_over.should == win
+      end
     end
   end
 end

@@ -1,3 +1,6 @@
+require 'spec_helper'
+require 'ui'
+
 describe UI do 
   
   before(:each) do

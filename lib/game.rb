@@ -1,6 +1,3 @@
-require 'ui'
-require 'spec_helper'
-
 class Game
   attr_accessor :board, 
                 :game_state,

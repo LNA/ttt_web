@@ -1,5 +1,3 @@
-require 'game_state'
-
 class GameTree
   attr_accessor :board, 
                 :current_player, 
