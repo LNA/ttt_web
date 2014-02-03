@@ -12,8 +12,11 @@ class App < Sinatra::Application
     erb '/welcome'.to_sym
   end
 
-  post '/play' do
-    # game = Game.new
+  post '/' do 
+    erb '/board'.to_sym
+  end
+
+  get '/play' do
     erb '/board'.to_sym
   end
 end

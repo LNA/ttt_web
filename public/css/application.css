@@ -8,22 +8,44 @@
 .board {
   padding-top:150px;
   padding-bottom:25px;
-  padding-left:470px;
+  padding-left:270px;
 }
 
 .button {
   width: 80px;
   height: 80px;
-  padding: 10px;
   box-shadow:inset 0px 1px 0px 0px #97c4fe;
   background-color:#3d94f6;
-  color:#ffffff;
   font-family:Arial;
-  font-size:15px;
+  font-size:13px;
   font-weight:bold;
-  font-style:normal;
+  font-style: oblique;
+}
+
+.start_button{
+  text-align: middle;
+  bottom: 0;
+  position: absolute;
+  width: 100px;
+  height: 80px;
+  box-shadow:inset 0px 1px 0px 0px #97c4fe;
+  background-color:#3d94f6;
+  font-family:Arial;
+  font-size:13px;
+  font-weight:bold;
+  font-style: oblique;  
 }
 
 .text {
   text-align: center
+}
+
+.player_one {
+  float: left;
+  font-size:25px;
+}
+
+.player_two {
+  float: right;
+  font-size:25px;
 }
