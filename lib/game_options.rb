@@ -12,6 +12,15 @@ class GameOptions
     @player_two = params[:player_two] unless params[:player_two].nil?
   end
 
+  def set_player_one_type
+    player_one = @ui.gets_player_one_type
+    if player_one.upcase == "H"
+      self.update(:player_one => 'human')
+    else
+      self.update(:player_one => 'ai')
+    end
+  end
+
   def set_player_two_type
     player_two = @ui.gets_player_two_type
     if player_two.upcase == "H"

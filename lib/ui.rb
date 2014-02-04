@@ -10,6 +10,10 @@ class UI
     puts "Press H to play a human or A to play the AI."
   end
 
+  def gets_player_one_type
+    gets.chomp
+  end
+
   def gets_player_two_type
     gets.chomp
   end

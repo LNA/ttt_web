@@ -33,6 +33,15 @@ describe 'GameOptions' do
     end
   end
 
+  context '#set_player_one_type' do 
+    it 'sets the player_one type from ui' do 
+      game_options.ui.stub(:gets_player_one_type).and_return("H")
+      game_options.set_player_one_type
+
+      game_options.player_one.should == 'human'
+    end
+  end
+  
   context '#set_player_two_type' do
     it 'sets the player_two type from the ui' do
       game_options.ui.stub(:gets_player_two_type).and_return("H")

@@ -21,9 +21,7 @@ describe Game do
     it "updates game player_two type from game_options" do 
       game.game_options.update(:player_two => 'ai')
       game.set_game_options
-      require 'pry'
-      binding.pry
-
+     
       game.player_two = "ai"
     end
   end
