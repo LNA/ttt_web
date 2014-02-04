@@ -18,7 +18,8 @@ class Game
     @ui = UI.new
   end
 
-  def set_game_options
+  def set_player_types
+    @player_one = @game_options.player_one
     @player_two = @game_options.player_two
   end
 

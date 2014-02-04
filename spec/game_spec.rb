@@ -17,11 +17,14 @@ describe Game do
     @game.game_state = @mock_game_state
   end
 
-  context '#set_game_options' do 
-    it "updates game player_two type from game_options" do 
+  context '#set_player_types' do 
+
+    it "updates player_one and player_two from game_options" do 
+      game.game_options.update(:player_one => 'human')
       game.game_options.update(:player_two => 'ai')
-      game.set_game_options
+      game.set_player_types
      
+      game.player_one = "human"
       game.player_two = "ai"
     end
   end
