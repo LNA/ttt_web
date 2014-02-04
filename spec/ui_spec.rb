@@ -22,7 +22,7 @@ describe UI do
 
   describe '#gets_player_one_type' do 
     it "gets the player_one type" do 
-      ui.stub(:gets).and_return("H")
+      ui.stub(:gets_player_one_type).and_return("H")
 
       ui.gets_player_one_type.should == "H"
     end
@@ -30,7 +30,7 @@ describe UI do
 
   describe "#gets_player_two_type" do 
     it "gets the player_two type" do
-      ui.stub(:gets).and_return("H") 
+      ui.stub(:gets_player_two_type).and_return("H") 
 
       ui.gets_player_two_type.should == "H"
     end
