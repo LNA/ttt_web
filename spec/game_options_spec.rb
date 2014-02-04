@@ -1,6 +1,5 @@
 require 'spec_helper'
 require 'mock_ui'
-require 'mock_game_state'
 require 'game_options'
 
 describe 'GameOptions' do 
@@ -8,7 +7,8 @@ describe 'GameOptions' do
   let (:params) { {:player_one => '',
                    :player_two => ''      }}
 
-  let (:game_options) {GameOptions.new(params)}
+  let (:game_options) {GameOptions.new(params)}  
+  let (:mock_ui) {MockUI.new}
 
   context '#iniailize' do
     it 'can set params for each player' do
@@ -23,11 +23,22 @@ describe 'GameOptions' do
 
       game_options.player_one.should == 'human'
     end
+  end
 
+  context '#update_two_one' do
     it 'updates the player_two type' do
       game_options.update(:player_two => 'ai')
 
       game_options.player_two.should == 'ai'
+    end
+  end
+
+  context '#set_player_two_type' do
+    it 'sets the player_two type from the ui' do
+      game_options.ui.stub(:gets_player_two_type).and_return("H")
+      game_options.set_player_two_type
+      
+      game_options.player_two.should == 'human'
     end
   end
 end

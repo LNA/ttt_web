@@ -1,10 +1,11 @@
 require 'ui'
 require 'game_tree'
 require 'game_state'
+require 'game_options'
 
 class Game
-  attr_accessor :ai,
-                :board, 
+  attr_accessor :board, 
+                :game_options,
                 :game_state,
                 :move,
                 :player_one,
@@ -13,9 +14,12 @@ class Game
                 :ui
 
   def initialize 
+    @game_options = GameOptions.new
     @ui = UI.new
-    @player_one = player_one
-    @player_two = player_two
+  end
+
+  def set_game_options
+    @player_two = @game_options.player_two
   end
 
   def generate_tree
@@ -23,10 +27,8 @@ class Game
     @game_state = game_tree.generate_all_possible_moves 
   end
 
-
   def run
     @ui.welcome 
-    @ui.ask_for_opponent_type 
     @ui.display_grid(@game_state.board)
     game_loop
     @ui.display_grid(@game_state.board)

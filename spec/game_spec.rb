@@ -8,7 +8,7 @@ describe Game do
   let (:game) {Game.new}
   let (:mock_ui) {MockUI.new}
   let (:mock_game_state) {MockGameState.new}
-
+  
   before(:each) do
     @game = Game.new
     @mock_ui = MockUI.new
@@ -16,9 +16,19 @@ describe Game do
     @game.ui = @mock_ui
     @game.game_state = @mock_game_state
   end
+
+  context '#set_game_options' do 
+    it "updates game player_two type from game_options" do 
+      game.game_options.update(:player_two => 'ai')
+      game.set_game_options
+      require 'pry'
+      binding.pry
+
+      game.player_two = "ai"
+    end
+  end
   
   context "#player_game_loop" do
-
     it "triggers ui ask for move message" do
       @game.player_game_loop
       @mock_ui.asked_for_move.should == true

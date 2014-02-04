@@ -12,19 +12,19 @@ describe UI do
     end
   end
 
-  describe "#ask_for_opponent_type" do 
+  describe "#ask_for_player_two_type" do 
     it "asks if player 2 will be human or ai" do 
       STDOUT.should_receive(:puts).with("Press H to play a human or A to play the AI.")
 
-      ui.ask_for_opponent_type
+      ui.ask_for_player_two_type
     end
   end
 
-  describe "#gets_opponent_type" do 
-    it "gets the opponent type" do
+  describe "#gets_player_two_type" do 
+    it "gets the player_two type" do
       ui.stub(:gets).and_return("H") 
 
-      ui.gets_opponent_type.should == "H"
+      ui.gets_player_two_type.should == "H"
     end
   end
 
