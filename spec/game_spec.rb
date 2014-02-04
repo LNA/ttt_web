@@ -18,7 +18,6 @@ describe Game do
   end
 
   context '#set_player_types' do 
-
     it "updates player_one and player_two from game_options" do 
       game.game_options.update(:player_one => 'human')
       game.game_options.update(:player_two => 'ai')
@@ -26,6 +25,16 @@ describe Game do
      
       game.player_one = "human"
       game.player_two = "ai"
+    end
+  end
+
+  context '#human_versus_human' do
+    it 'sets the game type based on players' do
+      game.game_options.update(:player_one => 'human')
+      game.game_options.update(:player_two => 'human')
+      game.set_player_types
+      
+      game.human_versus_human.should == true
     end
   end
   

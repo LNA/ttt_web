@@ -7,6 +7,7 @@ class Game
   attr_accessor :board, 
                 :game_options,
                 :game_state,
+                :human_versus_human,
                 :move,
                 :player_one,
                 :player_two,
@@ -21,6 +22,12 @@ class Game
   def set_player_types
     @player_one = @game_options.player_one
     @player_two = @game_options.player_two
+  end
+
+  def human_versus_human
+    if @player_one && @player_two == 'human'
+      return true
+    end
   end
 
   def generate_tree
