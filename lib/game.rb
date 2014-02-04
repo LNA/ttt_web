@@ -1,12 +1,19 @@
+require 'ui'
+require 'game_tree'
+require 'game_state'
 class Game
   attr_accessor :board, 
                 :game_state,
                 :move,
-                :ui,
-                :player_game_loop
+                :player_one,
+                :player_two,
+                :player_game_loop,
+                :ui
 
   def initialize 
     @ui = UI.new
+    @player_one = player_one
+    @player_two = player_two
   end
 
   def generate_tree
@@ -15,7 +22,8 @@ class Game
   end
 
   def run
-    @ui.welcome  
+    @ui.welcome 
+    @ui.ask_for_opponent_type 
     @ui.display_grid(@game_state.board)
     game_loop
     @ui.display_grid(@game_state.board)

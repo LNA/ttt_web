@@ -6,6 +6,14 @@ class UI
     puts "Welcome to ttt. You are player X." 
   end
 
+  def ask_for_opponent_type
+    puts "Press H to play a human or A to play the AI."
+  end
+
+  def gets_opponent_type
+    gets.chomp
+  end
+
   def display_grid(board)
     output = []
     0.upto(8) do |position| 
