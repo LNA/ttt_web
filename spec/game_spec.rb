@@ -4,10 +4,10 @@ require 'mock_game_state'
 
 
 describe Game do 
-  # let (:game) {Game.new}
-  # # let (:game_ui) {MockUI.new}
-  # # let (:game_mock_game_state) {MockGameState.new}
-  # # let (:mock_ui) {MockUI}
+  let (:ui) {MockUI.new}
+  let (:game) {Game.new}
+  let (:mock_ui) {MockUI.new}
+  let (:mock_game_state) {MockGameState.new}
 
   before(:each) do
     @game = Game.new
@@ -16,7 +16,7 @@ describe Game do
     @game.ui = @mock_ui
     @game.game_state = @mock_game_state
   end
-
+  
   context "#player_game_loop" do
 
     it "triggers ui ask for move message" do

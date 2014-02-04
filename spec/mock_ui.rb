@@ -6,6 +6,7 @@ class MockUI
                 :invalid_message_sent,
                 :moves,
                 :provided_move,
+                :provided_opponent_type,
                 :showed_human_message, 
                 :stored_moves
                 
@@ -40,6 +41,10 @@ class MockUI
   def gets_move
     @provided_move = true
     @stored_moves.shift
+  end
+
+  def gets_opponent_type
+    @provided_opponent_type = true
   end
 
   def invalid_move_message

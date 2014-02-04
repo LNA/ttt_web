@@ -7,14 +7,24 @@ describe UI do
   describe "#welcome" do
     it "sends a welcome message" do 
       STDOUT.should_receive(:puts).with("Welcome to ttt. You are player X.")
+
       ui.welcome
     end
   end
 
-  describe "#ask_for_opponent" do 
+  describe "#ask_for_opponent_type" do 
     it "asks if player 2 will be human or ai" do 
-      STDOUT.should_receive(:puts).with("Would you like to play a human or the computer?")
-      ui.ask_for_opponent
+      STDOUT.should_receive(:puts).with("Press H to play a human or A to play the AI.")
+
+      ui.ask_for_opponent_type
+    end
+  end
+
+  describe "#gets_opponent_type" do 
+    it "gets the opponent type" do
+      ui.stub(:gets).and_return("H") 
+
+      ui.gets_opponent_type.should == "H"
     end
   end
 
@@ -34,6 +44,7 @@ describe UI do
   describe "#ask_for_move" do
     it "prompts players move" do
       STDOUT.should_receive(:puts).with("Enter your move:")
+
       ui.ask_for_move
     end
   end
@@ -41,6 +52,7 @@ describe UI do
   describe "#invalid_move_message" do
     it "displays an invalid move message" do
       STDOUT.should_receive(:puts).with("Sorry invalid move! Try again:")
+
       ui.invalid_move_message
     end
   end
@@ -48,17 +60,20 @@ describe UI do
   describe "#gets_move" do
     it "gets a move" do
     ui.stub(:gets).and_return("1") 
+
     ui.gets_move.should == "1"
   end
 
   describe "#winner_message" do
     it "displays the AI winning message" do
       STDOUT.should_receive(:puts).with("AI has won!")
+
       ui.winner_message('O')
     end
 
     it "displays a tie" do
       STDOUT.should_receive(:puts).with("Its a tie!")
+
       ui.winner_message(true)
     end
   end
@@ -66,6 +81,7 @@ describe UI do
   describe "#game_over"
     it "displays a game over message" do
       STDOUT.should_receive(:puts).with("Game Over!")
+
       ui.game_over
     end
   end
