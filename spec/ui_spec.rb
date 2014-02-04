@@ -2,15 +2,19 @@ require 'spec_helper'
 require 'ui'
 
 describe UI do 
-  
-  before(:each) do
-    @ui = UI.new
-  end
+  let (:ui) {UI.new}
 
   describe "#welcome" do
     it "sends a welcome message" do 
       STDOUT.should_receive(:puts).with("Welcome to ttt. You are player X.")
-      @ui.welcome
+      ui.welcome
+    end
+  end
+
+  describe "#ask_for_opponent" do 
+    it "asks if player 2 will be human or ai" do 
+      STDOUT.should_receive(:puts).with("Would you like to play a human or the computer?")
+      ui.ask_for_opponent
     end
   end
 
@@ -23,46 +27,46 @@ describe UI do
       STDOUT.should_receive(:puts).exactly(4).times.and_return(" X  O  X 
                                                                  3  4  5 
                                                                  6  7  8 ")
-      @ui.display_grid(board)
+      ui.display_grid(board)
     end
   end
 
   describe "#ask_for_move" do
     it "prompts players move" do
       STDOUT.should_receive(:puts).with("Enter your move:")
-      @ui.ask_for_move
+      ui.ask_for_move
     end
   end
 
   describe "#invalid_move_message" do
     it "displays an invalid move message" do
       STDOUT.should_receive(:puts).with("Sorry invalid move! Try again:")
-      @ui.invalid_move_message
+      ui.invalid_move_message
     end
   end
 
   describe "#gets_move" do
     it "gets a move" do
-    @ui.stub(:gets).and_return("1") 
-    @ui.gets_move.should == "1"
+    ui.stub(:gets).and_return("1") 
+    ui.gets_move.should == "1"
   end
 
   describe "#winner_message" do
     it "displays the AI winning message" do
       STDOUT.should_receive(:puts).with("AI has won!")
-      @ui.winner_message('O')
+      ui.winner_message('O')
     end
 
     it "displays a tie" do
       STDOUT.should_receive(:puts).with("Its a tie!")
-      @ui.winner_message(true)
+      ui.winner_message(true)
     end
   end
 
   describe "#game_over"
     it "displays a game over message" do
       STDOUT.should_receive(:puts).with("Game Over!")
-      @ui.game_over
+      ui.game_over
     end
   end
 end
