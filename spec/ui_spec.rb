@@ -12,6 +12,14 @@ describe UI do
     end
   end
 
+  describe "#ask_for_player_one_type" do 
+    it "asks if player 1 will be human or ai" do 
+      STDOUT.should_receive(:puts).with("Select Player one type.  H for human, A for ai.")
+
+      ui.ask_for_player_one_type
+    end
+  end
+
   describe "#ask_for_player_two_type" do 
     it "asks if player 2 will be human or ai" do 
       STDOUT.should_receive(:puts).with("Select Player two type.  H for human, A for ai.")
