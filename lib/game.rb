@@ -37,7 +37,7 @@ class Game
   def human_versus_human_game_loop
     player_one_game_loop
     if human_winner
-      @ui.winner_message(human_winner)
+      @ui.human_versus_human_winner_message(human_winner)
     else
       player_two_game_loop
       check_for_human_final_state
@@ -102,7 +102,7 @@ class Game
 
   def check_for_human_final_state
     if human_winner 
-      @ui.winner_message(human_winner)
+      @ui.human_versus_human_winner_message(human_winner)
     else
       human_versus_human_game_loop
     end

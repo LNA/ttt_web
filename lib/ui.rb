@@ -57,6 +57,14 @@ class UI
       puts "Its a tie!"
     end
   end
+
+  def human_versus_human_winner_message(human_winner)
+    if human_winner == 'X' || human_winner == 'O'
+      puts "#{human_winner} is the winner!"
+    else
+      puts "Its a tie!"
+    end
+  end
   
   def game_over
     puts "Game Over!"
