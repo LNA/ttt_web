@@ -93,10 +93,10 @@ class Game
   end
 
   def check_for_ai_final_state
-    if human_winner 
+    if winner 
       @ui.winner_message(winner)
     else
-      human_versus_human_game_loop
+      human_versus_ai_game_loop
     end
   end
 

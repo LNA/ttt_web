@@ -57,6 +57,23 @@ describe UI do
     end
   end
 
+  describe "#ask_player_one_for_move" do
+    it "prompts player one move" do
+      STDOUT.should_receive(:puts).with("Player One: Enter your move:")
+
+      ui.ask_player_one_for_move
+    end
+  end
+
+
+  describe "#ask_player_two_for_move" do
+    it "prompts player two move" do
+      STDOUT.should_receive(:puts).with("Player Two: Enter your move:")
+
+      ui.ask_player_two_for_move
+    end
+  end
+
   describe "#invalid_move_message" do
     it "displays an invalid move message" do
       STDOUT.should_receive(:puts).with("Sorry invalid move! Try again:")
