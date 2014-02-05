@@ -34,6 +34,41 @@ class Game
     end
   end
 
+  def human_versus_human_game_loop
+    player_one_game_loop
+    if human_winner
+      @ui.winner_message(human_winner)
+    else
+      player_two_game_loop
+      check_for_human_final_state
+    end
+  end
+
+  def player_one_game_loop
+    @ui.ask_for_move
+    @ui.display_grid(@human_game_state.board)
+    move = @ui.gets_move
+    if @human_game_state.valid(move)
+      @human_game_state.board[move.to_i] = "X"
+    else
+      @ui.invalid_move_message
+      player_one_game_loop
+    end
+  end
+
+  def player_two_game_loop
+    @ui.ask_for_move
+    @ui.display_grid(@human_game_state.board)
+
+    move = @ui.gets_move
+    if @human_game_state.valid(move)
+      @human_game_state.board[move.to_i] = "O"
+    else
+      @ui.invalid_move_message
+    end
+    player_one_game_loop
+  end
+
   def player_game_loop 
     @ui.ask_for_move 
     move = @ui.gets_move
@@ -54,16 +89,27 @@ class Game
     @game_state.game_over
   end
 
+  def human_winner
+    @human_game_state.game_over
+  end
+
   def check_for_ai_final_state
-    if winner 
+    if human_winner 
       @ui.winner_message(winner)
     else
-      human_versus_ai_game_loop
+      human_versus_human_game_loop
+    end
+  end
+
+  def check_for_human_final_state
+    if human_winner 
+      @ui.winner_message(human_winner)
+    else
+      human_versus_human_game_loop
     end
   end
 
 private
-
   def set_game_options
     set_player_one_options
     set_player_two_options
@@ -82,6 +128,7 @@ private
 
   def run_game_type
     if @game_options.game_type == 'human versus human'
+      @human_game_state = GameState.new('X', Array.new(9))
       human_versus_human_game_loop
     else
       run_ai_game
