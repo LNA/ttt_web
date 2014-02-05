@@ -19,14 +19,10 @@ class Game
     @ui = UI.new
   end
 
-  def generate_tree
-    game_tree = GameTree.new
-    @game_state = game_tree.generate_all_possible_moves 
-  end
-
   def run
-    set_options
-    select_game_type
+    @ui.welcome
+    set_game_options
+    run_game_type
   end
 
   def human_versus_ai_game_loop
@@ -68,16 +64,23 @@ class Game
 
 private
 
-  def set_options
-    @ui.welcome 
-    @ui.ask_for_player_one_type
-    @game_options.set_player_one_type
-    @ui.ask_for_player_two_type
-    @game_options.set_player_two_type
+  def set_game_options
+    set_player_one_options
+    set_player_two_options
     @game_options.set_game_type
   end
 
-  def select_game_type
+  def set_player_one_options
+    @ui.ask_for_player_one_type
+    @game_options.set_player_one_type
+  end
+
+  def set_player_two_options
+    @ui.ask_for_player_two_type
+    @game_options.set_player_two_type
+  end
+
+  def run_game_type
     if @game_options.game_type == 'human versus human'
       human_versus_human_game_loop
     else
@@ -89,5 +92,10 @@ private
     generate_tree
     @ui.display_grid(@game_state.board)
     human_versus_ai_game_loop
+  end
+
+  def generate_tree
+    game_tree = GameTree.new
+    @game_state = game_tree.generate_all_possible_moves 
   end
 end
