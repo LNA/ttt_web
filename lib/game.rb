@@ -6,12 +6,9 @@ require 'game_options'
 class Game
   attr_accessor :board, 
                 :game_options,
-                :game_type,
                 :game_state,
-                :move,
                 :player_one,
                 :player_two,
-                :player_game_loop,
                 :ui
 
   def initialize 

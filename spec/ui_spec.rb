@@ -111,7 +111,6 @@ describe UI do
     end
   end
 
-
   describe "#human_versus_human_winner_message" do
     it "displays the X winning message" do
       STDOUT.should_receive(:puts).with("X is the winner!")
