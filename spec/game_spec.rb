@@ -33,9 +33,8 @@ describe Game do
     it "gets a move from the ui" do
       game.game_state = mock_game_state
       game.ui = mock_ui
-
       game.human_game_loop
-
+     
       mock_ui.provided_move.should == true
     end
 

@@ -46,7 +46,7 @@ describe 'GameOptions' do
     it 'sets the player_two type from the ui' do
       game_options.ui.stub(:gets_player_two_type).and_return("H")
       game_options.set_player_two_type
-      
+
       game_options.player_two.should == 'human'
     end
   end
