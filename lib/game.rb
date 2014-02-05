@@ -6,6 +6,7 @@ require 'game_options'
 class Game
   attr_accessor :board, 
                 :game_options,
+                :game_type,
                 :game_state,
                 :move,
                 :player_one,
@@ -24,11 +25,11 @@ class Game
   end
 
   def run
-    set_options
-    puts "it got here"
     require 'pry'
     binding.pry
-    if human_versus_ai == true
+    set_options
+
+    if @game_options.game_type == 'human versus human'
       human_versus_ai_game_loop
     end
     @ui.display_grid(@game_state.board)

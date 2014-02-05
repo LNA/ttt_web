@@ -7,11 +7,11 @@ class UI
   end
 
   def ask_for_player_one_type
-    puts "Select Player one type.  h for human, a for ai."
+    puts "Select Player one type.  H for human, A for ai."
   end
 
   def ask_for_player_two_type
-    puts "Press H to play a human or A to play the AI."
+    puts "Select Player two type.  H for human, A for ai."
   end
 
   def gets_player_one_type
