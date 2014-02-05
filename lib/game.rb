@@ -66,7 +66,6 @@ class Game
     else
       @ui.invalid_move_message
     end
-    player_one_game_loop
   end
 
   def human_game_loop 
