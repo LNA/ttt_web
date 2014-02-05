@@ -4,6 +4,7 @@ class GameOptions
   def initialize(params = {})
     @player_one = params[:player_one]
     @player_two = params[:player_two]
+    @game_type = params[:game_type]
     @ui = UI.new
   end
 
@@ -27,6 +28,14 @@ class GameOptions
       self.update(:player_two => 'human')
     else
       self.update(:player_two => 'ai')
+    end
+  end
+
+  def set_game_type
+    if @player_one && @player_two == 'human'
+      @game_type = 'human versus human'
+    else
+      @game_type = 'human versus ai'
     end
   end
 end

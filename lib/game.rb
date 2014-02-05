@@ -19,13 +19,28 @@ class Game
     @ui = UI.new
   end
 
-  def set_player_types
-    @player_one = @game_options.player_one
-    @player_two = @game_options.player_two
+  def set_player_one_type
+    @player_one = @ui.gets_player_one_type
+    if @player_one == 'h'
+      @player_one = "human"
+    end
+  end
+
+  def set_player_two_type
+    @player_two = @ui.gets_player_two_type
+    if @player_two == 'h'
+      @player_two = "human"
+    end
   end
 
   def human_versus_human
     if @player_one && @player_two == 'human'
+      return true
+    end
+  end
+
+  def human_versus_ai
+    if @player_one != @player_two
       return true
     end
   end
@@ -37,12 +52,23 @@ class Game
 
   def run
     @ui.welcome 
+    @ui.ask_for_player_one_type
+    @game_options.set_player_one_type
+    @ui.ask_for_player_two_type
+    @game_options.set_player_two_type
+    puts "it got here"
+    require 'pry'
+    binding.pry
+    if human_versus_ai == true
+      human_versus_ai_game_loop
+    end
     @ui.display_grid(@game_state.board)
     game_loop
     @ui.display_grid(@game_state.board)
   end
 
-  def game_loop
+  def human_versus_ai_game_loop
+    generate_tree
     player_game_loop
     if winner
       @ui.winner_message(winner)

@@ -6,7 +6,7 @@ describe UI do
 
   describe "#welcome" do
     it "sends a welcome message" do 
-      STDOUT.should_receive(:puts).with("Welcome to ttt. You are player X.")
+      STDOUT.should_receive(:puts).with("Welcome to ttt.")
 
       ui.welcome
     end

@@ -8,6 +8,7 @@ describe Game do
   let (:game) {Game.new}
   let (:mock_ui) {MockUI.new}
   let (:mock_game_state) {MockGameState.new}
+  let (:all_human_game) {game_options.update(:player_one => 'human', :player_two => 'human')}
   
   before(:each) do
     @game = Game.new
@@ -21,20 +22,9 @@ describe Game do
     it "updates player_one and player_two from game_options" do 
       game.game_options.update(:player_one => 'human')
       game.game_options.update(:player_two => 'ai')
-      game.set_player_types
      
       game.player_one = "human"
       game.player_two = "ai"
-    end
-  end
-
-  context '#human_versus_human' do
-    it 'sets the game type based on players' do
-      game.game_options.update(:player_one => 'human')
-      game.game_options.update(:player_two => 'human')
-      game.set_player_types
-      
-      game.human_versus_human.should == true
     end
   end
   

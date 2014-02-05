@@ -3,7 +3,11 @@ class UI
                 :game
 
   def welcome
-    puts "Welcome to ttt. You are player X." 
+    puts "Welcome to ttt." 
+  end
+
+  def ask_for_player_one_type
+    puts "Select Player one type.  h for human, a for ai."
   end
 
   def ask_for_player_two_type
