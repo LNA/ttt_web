@@ -45,7 +45,7 @@ class Game
   end
 
   def player_one_game_loop
-    @ui.ask_for_move
+    @ui.ask_player_one_for_move
     @ui.display_grid(@human_game_state.board)
     move = @ui.gets_move
     if @human_game_state.valid(move)
@@ -57,7 +57,7 @@ class Game
   end
 
   def player_two_game_loop
-    @ui.ask_for_move
+    @ui.ask_player_two_for_move
     @ui.display_grid(@human_game_state.board)
 
     move = @ui.gets_move

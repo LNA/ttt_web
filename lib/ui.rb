@@ -30,6 +30,14 @@ class UI
     puts output.each_slice(3){|row| puts row.join}
   end 
 
+  def ask_player_one_for_move
+    puts "Player One: Enter your move:"
+  end
+
+  def ask_player_two_for_move
+    puts "Player Two: Enter your move:"
+  end
+
   def ask_for_move
     puts "Enter your move:"
   end
