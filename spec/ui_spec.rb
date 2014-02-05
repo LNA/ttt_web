@@ -103,6 +103,27 @@ describe UI do
     end
   end
 
+
+  describe "#human_versus_human_winner_message" do
+    it "displays the X winning message" do
+      STDOUT.should_receive(:puts).with("X is the winner!")
+
+      ui.human_versus_human_winner_message('X')
+    end
+
+    it "displays the O winning message" do
+      STDOUT.should_receive(:puts).with("O is the winner!")
+
+      ui.human_versus_human_winner_message('O')
+    end
+
+    it "displays a tie" do
+      STDOUT.should_receive(:puts).with("Its a tie!")
+
+      ui.human_versus_human_winner_message(true)
+    end
+  end
+
   describe "#game_over"
     it "displays a game over message" do
       STDOUT.should_receive(:puts).with("Game Over!")
