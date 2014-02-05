@@ -26,7 +26,7 @@ class Game
   end
 
   def human_versus_ai_game_loop
-    player_game_loop
+    human_game_loop
     if winner
       @ui.winner_message(winner)
     else ai_game_loop
@@ -69,7 +69,7 @@ class Game
     player_one_game_loop
   end
 
-  def player_game_loop 
+  def human_game_loop 
     @ui.ask_for_move 
     move = @ui.gets_move
     if @game_state.valid(move)

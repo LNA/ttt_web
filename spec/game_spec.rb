@@ -28,26 +28,26 @@ describe Game do
     end
   end
   
-  context "#player_game_loop" do
+  context "#human_game_loop" do
     it "triggers ui ask for move message" do
-      @game.player_game_loop
+      @game.human_game_loop
       @mock_ui.asked_for_move.should == true
     end
 
     it "gets a move from the ui" do
-      @game.player_game_loop
+      @game.human_game_loop
       @mock_ui.provided_move.should == true
     end
 
     it "checks game state to see if move is valid" do
       @mock_ui.stored_moves = [0]
       
-      @game.player_game_loop
+      @game.human_game_loop
       @mock_game_state.checked_move.should == true
     end
     
     it "finds the proper game state based of the players move" do
-      @game.player_game_loop
+      @game.human_game_loop
       @mock_game_state.found_game_state.should == true
     end
 
@@ -55,7 +55,7 @@ describe Game do
       @mock_ui.stored_moves = ["0", "1"]
       test_game_state = GameState.new('X', ['O', nil])
       @game.game_state = test_game_state
-      @game.player_game_loop
+      @game.human_game_loop
       @mock_ui.invalid_message_sent.should == true
     end
   end
