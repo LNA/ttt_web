@@ -10,13 +10,13 @@ describe Game do
   let (:mock_game_state) {MockGameState.new}
   let (:all_human_game) {game_options.update(:player_one => 'human', :player_two => 'human')}
   
-  before(:each) do
-    @game = Game.new
-    @mock_ui = MockUI.new
-    @mock_game_state = MockGameState.new
-    @game.ui = @mock_ui
-    @game.game_state = @mock_game_state
-  end
+  # before(:each) do
+  #   @game = Game.new
+  #   @mock_ui = MockUI.new
+  #   @mock_game_state = MockGameState.new
+  #   @game.ui = @mock_ui
+  #   @game.game_state = @mock_game_state
+  # end
 
   context '#set_player_types' do 
     it "updates player_one and player_two from game_options" do 
@@ -30,12 +30,17 @@ describe Game do
   
   context "#human_game_loop" do
     it "triggers ui ask for move message" do
-      @game.human_game_loop
-      @mock_ui.asked_for_move.should == true
+      game.game_state = mock_game_state
+      game.ui = mock_ui
+      game.human_game_loop
+
+
+      mock_ui.asked_for_move.should == true
     end
 
     it "gets a move from the ui" do
       @game.human_game_loop
+
       @mock_ui.provided_move.should == true
     end
 
@@ -48,6 +53,7 @@ describe Game do
     
     it "finds the proper game state based of the players move" do
       @game.human_game_loop
+
       @mock_game_state.found_game_state.should == true
     end
 
@@ -56,6 +62,7 @@ describe Game do
       test_game_state = GameState.new('X', ['O', nil])
       @game.game_state = test_game_state
       @game.human_game_loop
+
       @mock_ui.invalid_message_sent.should == true
     end
   end
@@ -63,6 +70,7 @@ describe Game do
   context "#winner" do
     it "asks the game_state for the final state" do
       @game.winner
+
       @mock_game_state.checked_final_state.should == true
     end
   end
@@ -70,11 +78,13 @@ describe Game do
   context "#ai_game_loop" do
     it "plays the best ai move" do
       @game.ai_game_loop
+
       @mock_game_state.played_move.should == true
     end
 
     it "displays grid after AI move" do
       @game.ai_game_loop
+
       @mock_ui.displayed_updated_board.should == true
     end
   end 
