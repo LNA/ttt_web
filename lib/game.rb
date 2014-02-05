@@ -7,6 +7,7 @@ class Game
   attr_accessor :board, 
                 :game_options,
                 :game_state,
+                :game_type,
                 :player_one,
                 :player_two,
                 :ui

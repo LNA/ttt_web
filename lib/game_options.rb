@@ -1,5 +1,5 @@
 class GameOptions
-  attr_accessor :game_type, :player_one, :player_two, :ui
+  attr_accessor  :game_type, :player_one, :player_two, :ui
 
   def initialize(params = {})
     @player_one = params[:player_one]
