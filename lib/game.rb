@@ -7,7 +7,6 @@ class Game
   attr_accessor :board, 
                 :game_options,
                 :game_state,
-                :human_versus_human,
                 :move,
                 :player_one,
                 :player_two,
@@ -19,43 +18,22 @@ class Game
     @ui = UI.new
   end
 
-  def set_player_one_type
-    @player_one = @ui.gets_player_one_type
-    if @player_one == 'h'
-      @player_one = "human"
-    end
-  end
-
-  def set_player_two_type
-    @player_two = @ui.gets_player_two_type
-    if @player_two == 'h'
-      @player_two = "human"
-    end
-  end
-
-  def human_versus_human
-    if @player_one && @player_two == 'human'
-      return true
-    end
-  end
-
-  def human_versus_ai
-    if @player_one != @player_two
-      return true
-    end
-  end
-
   def generate_tree
     game_tree = GameTree.new
     @game_state = game_tree.generate_all_possible_moves 
   end
 
-  def run
+  def set_options
     @ui.welcome 
     @ui.ask_for_player_one_type
     @game_options.set_player_one_type
     @ui.ask_for_player_two_type
     @game_options.set_player_two_type
+    @game_options.set_game_type
+  end
+
+  def run
+    set_options
     puts "it got here"
     require 'pry'
     binding.pry

@@ -55,8 +55,6 @@ describe 'GameOptions' do
     it 'sets the game type' do
       game_options.player_one = 'human'
       game_options.player_two = 'human'
-      require 'pry'
-      binding.pry
 
       game_options.set_game_type.should == 'human versus human'
     end
