@@ -1,7 +1,6 @@
 class GameState
   attr_accessor :board,
-                :current_player, 
-                :final_state_rank, 
+                :current_player,
                 :possible_game_states    
 
   def initialize(current_player, board)
