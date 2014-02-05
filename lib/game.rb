@@ -25,20 +25,11 @@ class Game
   end
 
   def run
-    require 'pry'
-    binding.pry
     set_options
-
-    if @game_options.game_type == 'human versus human'
-      human_versus_ai_game_loop
-    end
-    @ui.display_grid(@game_state.board)
-    game_loop
-    @ui.display_grid(@game_state.board)
+    select_game_type
   end
 
   def human_versus_ai_game_loop
-    generate_tree
     player_game_loop
     if winner
       @ui.winner_message(winner)
@@ -71,7 +62,7 @@ class Game
     if winner 
       @ui.winner_message(winner)
     else
-      game_loop
+      human_versus_ai_game_loop
     end
   end
 
@@ -86,4 +77,17 @@ private
     @game_options.set_game_type
   end
 
+  def select_game_type
+    if @game_options.game_type == 'human versus human'
+      human_versus_human_game_loop
+    else
+      run_ai_game
+    end
+  end
+
+  def run_ai_game
+    generate_tree
+    @ui.display_grid(@game_state.board)
+    human_versus_ai_game_loop
+  end
 end
