@@ -19,7 +19,8 @@ class Game
 
   def run
     @ui.welcome
-    set_game_options
+    set_player_options
+    @game_options.set_game_type
     run_game_type
   end
 
@@ -107,10 +108,9 @@ class Game
   end
 
 private
-  def set_game_options
+  def set_player_options
     set_player_one_options
     set_player_two_options
-    @game_options.set_game_type
   end
 
   def set_player_one_options
