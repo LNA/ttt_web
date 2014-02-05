@@ -23,15 +23,6 @@ class Game
     @game_state = game_tree.generate_all_possible_moves 
   end
 
-  def set_options
-    @ui.welcome 
-    @ui.ask_for_player_one_type
-    @game_options.set_player_one_type
-    @ui.ask_for_player_two_type
-    @game_options.set_player_two_type
-    @game_options.set_game_type
-  end
-
   def run
     set_options
     puts "it got here"
@@ -82,4 +73,16 @@ class Game
       game_loop
     end
   end
+
+private
+
+  def set_options
+    @ui.welcome 
+    @ui.ask_for_player_one_type
+    @game_options.set_player_one_type
+    @ui.ask_for_player_two_type
+    @game_options.set_player_two_type
+    @game_options.set_game_type
+  end
+
 end
