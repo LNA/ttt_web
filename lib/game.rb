@@ -124,14 +124,18 @@ private
 
   def run_game_type
     if @game_options.game_type == 'human versus human'
-      @human_game_state = GameState.new('X', Array.new(9))
-      human_versus_human_game_loop
+      run_all_human_game
     else
-      run_ai_game
+      run_human_versus_ai_game
     end
   end
 
-  def run_ai_game
+  def run_all_human_game
+    @human_game_state = GameState.new('X', Array.new(9))
+    human_versus_human_game_loop
+  end
+
+  def run_human_versus_ai_game
     generate_tree
     @ui.display_grid(@game_state.board)
     human_versus_ai_game_loop
