@@ -35,14 +35,18 @@ class Game
     if @game_state.valid(@human_move)
       @game_state = @game_state.game_state_for(@human_move)
     else
-      @ui.invalid_move_message
-      player_game_loop
+      end_human_game_loop
     end
   end
 
   def human_ui_interaction
     @ui.ask_for_move 
     @human_move = @ui.gets_move
+  end
+
+  def end_human_game_loop
+    @ui.invalid_move_message
+    player_game_loop
   end
 
   def ai_game_loop
@@ -58,8 +62,7 @@ class Game
     if human_winner
       @ui.human_versus_human_winner_message(human_winner)
     else
-      player_two_game_loop
-      check_for_human_final_state
+      end_player_one_game_loop
     end
   end
 
@@ -83,9 +86,20 @@ class Game
     end
   end
 
+  def end_player_one_game_loop
+    player_two_game_loop
+    check_for_human_final_state
+  end
+
   def player_two_game_loop
     player_two_ui_interaction
     check_player_two_move_and_continue_loop
+  end
+
+  def player_two_ui_interaction
+    @ui.ask_player_two_for_move
+    @ui.display_grid(@human_game_state.board)
+    @player_two_move = @ui.gets_move
   end
 
   def check_player_two_move_and_continue_loop
@@ -94,12 +108,6 @@ class Game
     else
       @ui.invalid_move_message
     end
-  end
-
-  def player_two_ui_interaction
-    @ui.ask_player_two_for_move
-    @ui.display_grid(@human_game_state.board)
-    @player_two_move = @ui.gets_move
   end
 
   def ai_move
