@@ -30,6 +30,17 @@ class Game
     ai_game_loop
   end
 
+  def human_game_loop 
+    @ui.ask_for_move 
+    move = @ui.gets_move
+    if @game_state.valid(move)
+      @game_state = @game_state.game_state_for(move)
+    else
+      @ui.invalid_move_message
+      player_game_loop
+    end
+  end
+
   def ai_game_loop
     if winner
       @ui.winner_message(winner)
@@ -70,10 +81,10 @@ class Game
 
   def player_two_game_loop
     player_two_ui_interaction
-    chesk_player_two_move_and_continue_loop
+    check_player_two_move_and_continue_loop
   end
 
-  def chesk_player_two_move_and_continue_loop
+  def check_player_two_move_and_continue_loop
     if @human_game_state.valid(@player_two_move)
       @human_game_state.board[@player_two_move.to_i] = "O"
     else
@@ -85,17 +96,6 @@ class Game
     @ui.ask_player_two_for_move
     @ui.display_grid(@human_game_state.board)
     @player_two_move = @ui.gets_move
-  end
-
-  def human_game_loop 
-    @ui.ask_for_move 
-    move = @ui.gets_move
-    if @game_state.valid(move)
-      @game_state = @game_state.game_state_for(move)
-    else
-      @ui.invalid_move_message
-      player_game_loop
-    end
   end
 
   def ai_move
