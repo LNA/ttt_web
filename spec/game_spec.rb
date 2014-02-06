@@ -10,8 +10,6 @@ describe Game do
   let (:game) {Game.new(ui, game_options, mock_game_state)}
   let (:mock_ui) {MockUI.new}
   let (:mock_game_state) {MockGameState.new}
-  let (:all_human_game) {game_options.update(:player_one => 'human', :player_two => 'human')}
-
   
   context "#human_game_loop" do
     it "triggers ui ask for move message" do
