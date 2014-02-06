@@ -2,6 +2,7 @@ class UI
   attr_accessor :board,
                 :game
 
+
   def welcome
     puts "Welcome to ttt." 
   end

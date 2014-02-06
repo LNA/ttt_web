@@ -10,8 +10,8 @@ class Game
                 :game_type,
                 :player_one,
                 :player_two,
+                :player_game_loop,
                 :ui
-
   def initialize 
     @game_options = GameOptions.new
     @ui = UI.new
@@ -26,9 +26,13 @@ class Game
 
   def human_versus_ai_game_loop
     human_game_loop
+    ai_game_loop
+  end
+
+  def ai_game_loop
     if winner
       @ui.winner_message(winner)
-    else ai_game_loop
+    else ai_move
       check_for_ai_final_state
     end
   end
@@ -78,7 +82,7 @@ class Game
     end
   end
 
-  def ai_game_loop
+  def ai_move
     @game_state = @game_state.ai_play_best_move
     @ui.display_grid(@game_state.board)
   end

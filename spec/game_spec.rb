@@ -1,6 +1,7 @@
 require 'spec_helper'
 require 'mock_ui'
 require 'mock_game_state'
+require 'ui'
 
 
 describe Game do 
@@ -34,7 +35,7 @@ describe Game do
       game.game_state = mock_game_state
       game.ui = mock_ui
       game.human_game_loop
-     
+
       mock_ui.provided_move.should == true
     end
 
@@ -81,7 +82,7 @@ describe Game do
     it "plays the best ai move" do
       game.game_state = mock_game_state
       game.ui = mock_ui
-      game.ai_game_loop
+      game.ai_move
 
       mock_game_state.played_move.should == true
     end
@@ -89,7 +90,7 @@ describe Game do
     it "displays grid after AI move" do
       game.game_state = mock_game_state
       game.ui = mock_ui
-      game.ai_game_loop
+      game.ai_move
 
       mock_ui.displayed_updated_board.should == true
     end
