@@ -13,7 +13,8 @@ player_two = ui.gets_player_two_type
 
 game_options = GameOptions.new(player_one, player_two)
 
-game_options.set_player_options
+game_options.set_player_type(player_one, player_two)
+game_options.set_game_type()
 
 game_state = GameState.new('X', Array.new(9))
 

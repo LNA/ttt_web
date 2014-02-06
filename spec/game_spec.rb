@@ -17,7 +17,6 @@ describe Game do
       game.ui = mock_ui
       game.human_game_loop
 
-
       mock_ui.asked_for_move.should == true
     end
 

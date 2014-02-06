@@ -5,9 +5,9 @@ class UI
   def retrieve_player_info
     welcome
     ask_for_player_one_type
-    gets_player_one_type
+    gets_player_type
     ask_for_player_two_type
-    gets_player_two_type
+    gets_player_type
   end
 
   def welcome
@@ -22,11 +22,7 @@ class UI
     puts "Select Player two type.  H for human, A for ai."
   end
 
-  def gets_player_one_type
-    gets.chomp
-  end
-
-  def gets_player_two_type
+  def gets_player_type
     gets.chomp
   end
 
