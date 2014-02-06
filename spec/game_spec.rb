@@ -6,20 +6,12 @@ require 'ui'
 
 describe Game do 
   let (:ui) {MockUI.new}
-  let (:game) {Game.new}
+  let (:game_options) {GameOptions.new('human', 'human')}
+  let (:game) {Game.new(ui, game_options, mock_game_state)}
   let (:mock_ui) {MockUI.new}
   let (:mock_game_state) {MockGameState.new}
   let (:all_human_game) {game_options.update(:player_one => 'human', :player_two => 'human')}
 
-  context '#set_player_types' do 
-    it "updates player_one and player_two from game_options" do 
-      game.game_options.update(:player_one => 'human')
-      game.game_options.update(:player_two => 'ai')
-     
-      game.player_one = "human"
-      game.player_two = "ai"
-    end
-  end
   
   context "#human_game_loop" do
     it "triggers ui ask for move message" do

@@ -13,16 +13,38 @@ class Game
                 :player_game_loop,
                 :ui
 
-  def initialize 
-    @game_options = GameOptions.new
-    @ui = UI.new
+  def initialize(ui, game_options, game_state) 
+    @ui = ui
+    @game_options = game_options
+    @game_state = game_state
   end
 
   def run
-    @ui.welcome
-    set_player_options
-    @game_options.set_game_type
     run_game_type
+  end
+
+  def run_game_type
+    if @game_options.game_type == 'human versus human'
+      run_all_human_game
+    else
+      run_human_versus_ai_game
+    end
+  end
+
+  def run_all_human_game
+    @human_game_state = GameState.new('X', Array.new(9))
+    human_versus_human_game_loop
+  end
+
+  def run_human_versus_ai_game
+    generate_tree
+    @ui.display_grid(@game_state.board)
+    human_versus_ai_game_loop
+  end
+
+  def generate_tree
+    game_tree = GameTree.new
+    @game_state = game_tree.generate_all_possible_moves 
   end
 
   def human_versus_ai_game_loop
@@ -81,9 +103,13 @@ class Game
     if @human_game_state.valid(@player_one_move)
       @human_game_state.board[@player_one_move.to_i] = "X"
     else
-      @ui.invalid_move_message
-      player_one_game_loop
+      response_to_player_one_invalid_move
     end
+  end
+
+  def response_to_player_one_invalid_move
+    @ui.invalid_move_message
+    player_one_game_loop
   end
 
   def end_player_one_game_loop
@@ -137,45 +163,5 @@ class Game
     else
       human_versus_human_game_loop
     end
-  end
-
-private
-  def set_player_options
-    set_player_one_options
-    set_player_two_options
-  end
-
-  def set_player_one_options
-    @ui.ask_for_player_one_type
-    @game_options.set_player_one_type
-  end
-
-  def set_player_two_options
-    @ui.ask_for_player_two_type
-    @game_options.set_player_two_type
-  end
-
-  def run_game_type
-    if @game_options.game_type == 'human versus human'
-      run_all_human_game
-    else
-      run_human_versus_ai_game
-    end
-  end
-
-  def run_all_human_game
-    @human_game_state = GameState.new('X', Array.new(9))
-    human_versus_human_game_loop
-  end
-
-  def run_human_versus_ai_game
-    generate_tree
-    @ui.display_grid(@game_state.board)
-    human_versus_ai_game_loop
-  end
-
-  def generate_tree
-    game_tree = GameTree.new
-    @game_state = game_tree.generate_all_possible_moves 
   end
 end

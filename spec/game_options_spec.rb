@@ -4,32 +4,16 @@ require 'game_options'
 
 describe 'GameOptions' do 
 
-  let (:params) { {:player_one => '',
-                   :player_two => ''      }}
+  let (:player_one) {'h'}
+  let (:player_two) {'h'}
 
-  let (:game_options) {GameOptions.new(params)}  
+  let (:game_options) {GameOptions.new(player_one, player_two)}  
   let (:mock_ui) {MockUI.new}
 
   context '#iniailize' do
-    it 'can set params for each player' do
-      game_options.player_one.should == ''
-      game_options.player_two.should == ''
-    end
-  end
-
-  context '#update_player_one' do
-    it 'updates the player_one type' do 
-      game_options.update(:player_one => 'human')
-
-      game_options.player_one.should == 'human'
-    end
-  end
-
-  context '#update_two_one' do
-    it 'updates the player_two type' do
-      game_options.update(:player_two => 'ai')
-
-      game_options.player_two.should == 'ai'
+    it 'initializes with dependencies for each player' do
+      game_options.player_one.should == 'h'
+      game_options.player_two.should == 'h'
     end
   end
 

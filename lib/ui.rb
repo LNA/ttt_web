@@ -2,6 +2,13 @@ class UI
   attr_accessor :board,
                 :game
 
+  def retrieve_player_info
+    welcome
+    ask_for_player_one_type
+    gets_player_one_type
+    ask_for_player_two_type
+    gets_player_two_type
+  end
 
   def welcome
     puts "Welcome to ttt." 
