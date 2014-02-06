@@ -31,14 +31,18 @@ class Game
   end
 
   def human_game_loop 
-    @ui.ask_for_move 
-    move = @ui.gets_move
-    if @game_state.valid(move)
-      @game_state = @game_state.game_state_for(move)
+    human_ui_interaction
+    if @game_state.valid(@human_move)
+      @game_state = @game_state.game_state_for(@human_move)
     else
       @ui.invalid_move_message
       player_game_loop
     end
+  end
+
+  def human_ui_interaction
+    @ui.ask_for_move 
+    @human_move = @ui.gets_move
   end
 
   def ai_game_loop
