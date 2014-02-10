@@ -7,6 +7,9 @@ describe App do
   let (:params) {{:player_one_piece => 'X', 
                   :player_two_piece => 'O'}}
 
+  let (:datastore) {WebGameRepository.new}
+  let (:game) {Game.new(params)}
+
   def app
     @app ||= App
   end
@@ -25,14 +28,17 @@ describe App do
     end
 
     it 'starts a new game' do 
-      require 'pry'
-    binding.pry
-
       Game.should_receive(:new)
-      post '/new_game/:player_one_piece/:player_two_piece' 
+      post "/new_game/#{player_one_piece}/#{player_two_piece}" 
     end
-
   end
+
+  context '#save' do
+    it 'saves a game in the records with the id' do
+      datastore.save(game)
+
+      datastore.game.should == true
+    end
 
   context 'move'
   it 'makes a move' do
@@ -40,4 +46,5 @@ describe App do
 
     last_response.should be_ok
     end
+  end
 end
