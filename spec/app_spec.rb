@@ -23,6 +23,15 @@ describe App do
       get '/play'
       last_response.should be_ok
     end
+
+    it 'starts a new game' do 
+      require 'pry'
+    binding.pry
+
+      Game.should_receive(:new)
+      post '/new_game/:player_one_piece/:player_two_piece' 
+    end
+
   end
 
   context 'move'
