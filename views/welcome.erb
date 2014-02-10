@@ -1,5 +1,4 @@
 <!DOCTYPE HTML>
-<form method="post" action="/new_game/#{player_one_piece}/#{player_two_piece}">
 <html>
   <head>
     <link href="css/application.css" rel="stylesheet" type="text/css">
@@ -18,6 +17,12 @@
           <option value="X">X</option>
           <option value="O">O</option>
         </select>
+
+        <form method="post" action="/new_game">
+          <input type="hidden" name="_method" value="put">
+          <input type="hidden" name="player_one_game_piece" value="player_game_piece">  
+          <input type="submit" value="Start">  
+        </form> 
       </div>
     </div>
 

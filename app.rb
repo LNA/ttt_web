@@ -22,12 +22,11 @@ class App < Sinatra::Application
     erb '/board'.to_sym
   end
 
-  post '/new_game/:player_one_piece/:player_two_piece' do
-    put "it gets here"
+  post '/new_game' do
+    player_one_piece = params[:player_one_piece]
+    player_two_piece = params[:player_two_piece]
 
-    @game = Game.new(params)
-    require 'pry'
-    binding.pry
+    @game = Game.new(player_one_piece, player_two_piece)
     
     redirect '/play'
   end

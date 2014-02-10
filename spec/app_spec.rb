@@ -28,19 +28,12 @@ describe App do
     end
 
     it 'starts a new game' do 
-      Game.should_receive(:new)
       post "/new_game/#{player_one_piece}/#{player_two_piece}" 
+      post "/new_game", params
     end
   end
 
-  context '#save' do
-    it 'saves a game in the records with the id' do
-      datastore.save(game)
-
-      datastore.game.should == true
-    end
-
-  context 'move'
+  context 'move' do
   it 'makes a move' do
     put '/move/:space/:piece' 
 
