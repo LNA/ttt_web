@@ -27,19 +27,19 @@ describe GameState do
     end
   end
 
-  context "#full_board returns true when full" do
+  context "#full_board? returns true when full" do
     it "returns true for a completed game" do
       game_state.board = ['X'] * 9
            
-      game_state.full_board.should == true
+      game_state.full_board?.should == true
     end
   end
 
-  context "#full_board returns false" do
+  context "#full_board? returns false" do
     it "returns false for an empty board" do
       game_state.board = [nil] * 9
 
-      game_state.full_board.should == false
+      game_state.full_board?.should == false
     end
 
     it "returns false for a game with taken spaces" do 
@@ -52,7 +52,7 @@ describe GameState do
         end
       end
     
-      game_state.full_board.should == false
+      game_state.full_board?.should == false
     end
   end
 

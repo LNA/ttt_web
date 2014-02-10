@@ -1,6 +1,12 @@
 require 'spec_helper'
 
 describe App do
+
+  let (:player_one_piece) {"X"}
+  let (:player_two_piece) {"O"}
+  let (:params) {{:player_one_piece => 'X', 
+                  :player_two_piece => 'O'}}
+
   def app
     @app ||= App
   end
@@ -10,11 +16,6 @@ describe App do
       get '/' 
       last_response.should be_ok
     end
-
-    it 'loads the play page after the start button is hit' do 
-      post '/'
-      last_response.should be_ok 
-    end
   end
 
   context 'play' do
@@ -23,4 +24,11 @@ describe App do
       last_response.should be_ok
     end
   end
+
+  context 'move'
+  it 'makes a move' do
+    put '/move/:space/:piece' 
+
+    last_response.should be_ok
+    end
 end

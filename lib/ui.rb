@@ -1,29 +1,17 @@
 class UI
-  attr_accessor :board,
-                :game
 
-  def retrieve_player_info
-    welcome
-    ask_for_player_one_type
-    gets_player_type
-    ask_for_player_two_type
-    gets_player_type
+  WELCOME_MESSAGE = "Welcome to ttt!"
+  INVALID_MOVE_MESSAGE = "Sorry invalid move! Try again:"
+  GAME_OVER_MESSAGE = "Game Over!"
+  
+  def welcome_user
+    puts WELCOME_MESSAGE 
   end
 
-  def welcome
-    puts "Welcome to ttt." 
-  end
-
-  def ask_for_player_one_type
-    puts "Select Player one type.  H for human, A for ai."
-  end
-
-  def ask_for_player_two_type
-    puts "Select Player two type.  H for human, A for ai."
-  end
-
-  def gets_player_type
-    gets.chomp
+  def get_player_type(player_number)
+    puts "Select Player #{player_number} type.  H for human, A for ai."
+    type = gets.chomp
+    type.upcase
   end
 
   def display_grid(board)
@@ -34,20 +22,12 @@ class UI
     puts output.each_slice(3){|row| puts row.join}
   end 
 
-  def ask_player_one_for_move
-    puts "Player One: Enter your move:"
-  end
-
-  def ask_player_two_for_move
-    puts "Player Two: Enter your move:"
-  end
-
-  def ask_for_move
-    puts "Enter your move:"
+  def ask_player_for_move(player_number)
+    puts "Player #{player_number}: Enter your move:"
   end
 
   def invalid_move_message
-    puts "Sorry invalid move! Try again:"
+    puts INVALID_MOVE_MESSAGE
   end
 
   def gets_move
@@ -61,16 +41,8 @@ class UI
       puts "Its a tie!"
     end
   end
-
-  def human_versus_human_winner_message(human_winner)
-    if human_winner == 'X' || human_winner == 'O'
-      puts "#{human_winner} is the winner!"
-    else
-      puts "Its a tie!"
-    end
-  end
   
   def game_over
-    puts "Game Over!"
+    puts GAME_OVER_MESSAGE
   end
 end

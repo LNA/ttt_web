@@ -1,9 +1,9 @@
 <!DOCTYPE HTML>
-<form method="post" action="/play">
+<form method="post" action="/new_game/#{player_one_piece}/#{player_two_piece}">
 <html>
   <head>
     <link href="css/application.css" rel="stylesheet" type="text/css">
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="game_piece_selection.js" type="text/javascript"></script>
   </head>
   <body>
@@ -14,7 +14,7 @@
         <option value="ai">AI</option>
       </select>
       <div>
-        <select id="player1_game_piece" class="button">
+        <select id="player_one_piece" class="button">
           <option value="X">X</option>
           <option value="O">O</option>
         </select>
@@ -28,7 +28,7 @@
         <option value="ai">AI</option>
       </select>
       <div>
-        <select id="player2_game_piece" class="button">
+        <select id="player_two_piece" class="button">
           <option value="O">O</option>
           <option value="X">X</option>
         </select>

@@ -4,8 +4,7 @@ require 'mock_game_state'
 require 'ui'
 require 'console_runner'
 
-
-describe Game do 
+describe ConsoleRunner do 
   let (:ui) {MockUI.new}
   let (:game_state) {MockGameState.new}
 
@@ -17,5 +16,6 @@ describe Game do
   let (:mock_game_state) {MockGameState.new}
 
   let (:console_runner) {ConsoleRunner.new(ui, game_state, game)}
-  
-end  
+
+end
+

@@ -17,7 +17,7 @@ class GameState
     end
   end
 
-  def full_board
+  def full_board?
     if (@board.include? nil ) == true
       false
     else
@@ -71,7 +71,7 @@ class GameState
   end
 
   def tie
-    full_board == true && winner == false
+    full_board? == true && winner == false
   end
 
   def game_over
