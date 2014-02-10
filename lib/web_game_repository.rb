@@ -16,7 +16,4 @@ class WebGameRepository
     @game
   end
 
-  def self.register_game_for(player_one, player_two)
-    @
-  end
 end
