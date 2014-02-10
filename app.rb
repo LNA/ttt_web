@@ -27,7 +27,8 @@ class App < Sinatra::Application
     player_two_piece = params[:player_two_piece]
 
     @game = Game.new(player_one_piece, player_two_piece)
-    
+    require 'pry'
+    binding.pry
     redirect '/play'
   end
 

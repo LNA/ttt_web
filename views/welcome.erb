@@ -1,5 +1,6 @@
 <!DOCTYPE HTML>
 <html>
+<form method="post" action="/new_game">
   <head>
     <link href="css/application.css" rel="stylesheet" type="text/css">
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
@@ -20,8 +21,8 @@
 
         <form method="post" action="/new_game">
           <input type="hidden" name="_method" value="put">
-          <input type="hidden" name="player_one_game_piece" value="player_game_piece">  
-          <input type="submit" value="Start">  
+          <input type="hidden" name="">  
+          <input type="submit" value="">  
         </form> 
       </div>
     </div>
@@ -39,11 +40,22 @@
         </select>
       </div>
     </div>
+    <form method="post" action="/new_game">
+        <input type="hidden" name="_method" value="put">
+        <input type="hidden" name="">  
+        <input type="submit" value="">  
+      </form> 
 
     <div>
       <center>
         <a href="/play"><button type=button class="start_button">Start</option>
       </center>
+
+      <form method="post" action="/new_game">
+        <input type="hidden" name="_method" value="put">
+        <input type="hidden" name="start_button">  
+        <input type="submit" value="Start">  
+      </form> 
     </div>
   </body>
 </html>

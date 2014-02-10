@@ -28,7 +28,6 @@ describe App do
     end
 
     it 'starts a new game' do 
-      post "/new_game/#{player_one_piece}/#{player_two_piece}" 
       post "/new_game", params
     end
   end
