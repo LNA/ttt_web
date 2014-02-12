@@ -1,10 +1,13 @@
 class Game
   attr_accessor :player_one, :player_two,
-                :player_one_piece, :player_two_piece
+                :player_one_piece, :player_two_piece,
+                :player_one_type, :player_two_type
 
   def initialize(params = {})
     @player_one_piece = params[:player_one_piece]
     @player_two_piece = params[:player_two_piece]
+    @player_one_type = params[:player_one_type]
+    @player_two_type = params[:player_two_type]
   end
 
   def update(params ={})

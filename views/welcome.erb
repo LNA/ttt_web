@@ -1,61 +1,46 @@
 <!DOCTYPE HTML>
 <html>
-<form method="post" action="/new_game">
   <head>
     <link href="css/application.css" rel="stylesheet" type="text/css">
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="game_piece_selection.js" type="text/javascript"></script>
   </head>
   <body>
-    <div class ="player_one">
-      <h2>Player 1:</h2>
-      <select class="button">
-        <option value="human">Human</option>
-        <option value="ai">AI</option>
-      </select>
-      <div>
-        <select id="player_one_piece" class="button">
-          <option value="X">X</option>
-          <option value="O">O</option>
-        </select>
-
-        <form method="post" action="/new_game">
-          <input type="hidden" name="_method" value="put">
-          <input type="hidden" name="">  
-          <input type="submit" value="">  
-        </form> 
-      </div>
-    </div>
-
-    <div class = "player_two">
-      <h2>Player 2:</h2>
-      <select class="button">
-        <option value="human">Human</option>
-        <option value="ai">AI</option>
-      </select>
-      <div>
-        <select id="player_two_piece" class="button">
-          <option value="O">O</option>
-          <option value="X">X</option>
-        </select>
-      </div>
-    </div>
     <form method="post" action="/new_game">
-        <input type="hidden" name="_method" value="put">
-        <input type="hidden" name="">  
-        <input type="submit" value="">  
-      </form> 
 
-    <div>
-      <center>
-        <a href="/play"><button type=button class="start_button">Start</option>
-      </center>
+      <div class ="player_one">
+        <h2>Player 1:</h2>
+        <select class="button" name="player_one_type">
+          <option value="Human">Human</option>
+          <option value="ai">AI</option>
+        </select>
+        <div>
+          <select id="player_one_piece" name="player_one_piece">
+            <option value="X">X</option>
+            <option value="O">O</option>
+          </select>
+        </div>
+      </div>
 
-      <form method="post" action="/new_game">
-        <input type="hidden" name="_method" value="put">
-        <input type="hidden" name="start_button">  
-        <input type="submit" value="Start">  
-      </form> 
-    </div>
+      <div class = "player_two">
+        <h2>Player 2:</h2>
+        <select class="button" name="player_two_type">
+          <option value="Human">Human</option>
+          <option value="ai">AI</option>
+        </select>
+        <div>
+          <select id="player_two_piece" name="player_two_piece">
+            <option value="O">O</option>
+            <option value="X">X</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <center>
+          <input type="submit" value="Start">
+        </center>
+      </div>
+    </form>
   </body>
 </html>
