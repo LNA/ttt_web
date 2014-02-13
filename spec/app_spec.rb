@@ -36,10 +36,8 @@ describe App do
   end
 
   context 'move' do
-  it 'makes a move' do
-    put '/move/:space/:piece' 
+    it 'makes a move' do
 
-    last_response.should be_ok
     end
   end
 end

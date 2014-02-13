@@ -6,10 +6,10 @@ require 'game'
 require 'game_state'
 require 'game_tree'
 require 'web_game'
-require 'web_game_repository'
+require 'web_game_store'
 require 'repository'
 
-Repository.register(:game, WebGameRepository)
+Repository.register(:game, WebGameStore)
 
 configure do 
   enable :sessions 
@@ -61,13 +61,13 @@ class App < Sinatra::Application
   private
 
   def web_game_set_up
-    @game = WebGameRepository.new_game(params)
+    @game = WebGameStore.new_game(params)
     Repository.for(:game).store(@game)
     session[:game] = Repository.for(:game).current_game
   end
 
   def web_game_state_set_up
-    @game_state = WebGameRepository.game_state
+    @game_state = WebGameStore.game_state
     Repository.for(:game).store(@game_state)
     session[:game_state] = Repository.for(:game).current_game_state
   end
