@@ -1,5 +1,5 @@
 .square {
-  background: red;
+  background-color: #DCF5F5;
   border: 2px solid #aaaaaa;
   float: left;
   height: 80px;
@@ -13,9 +13,6 @@
   margin: 0 auto;
   width: 327px;
   padding: 0;
-  /*padding-top:150px;
-  padding-bottom:25px;
-  padding-left:270px;*/
 }
 
 .button {
