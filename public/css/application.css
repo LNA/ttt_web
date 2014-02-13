@@ -1,14 +1,21 @@
 .square {
-  width: 80px;
-  height: 80px;
-  padding: 10px;
+  background: red;
   border: 2px solid #aaaaaa;
   float: left;
+  height: 80px;
+  margin: 5px 0 0 5px;
+  padding: 10px;
+  width: 80px;
 }
+
 .board {
-  padding-top:150px;
+  list-style: none;
+  margin: 0 auto;
+  width: 327px;
+  padding: 0;
+  /*padding-top:150px;
   padding-bottom:25px;
-  padding-left:270px;
+  padding-left:270px;*/
 }
 
 .button {
@@ -41,11 +48,22 @@
 }
 
 .player_one {
-  float: left;
+  float: left
   font-size:25px;
 }
 
 .player_two {
   float: right;
   font-size:25px;
+}
+
+/* Clearfix */
+.clearfix:before,
+.clearfix:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+}
+
+.clearfix:after {
+    clear: both;
 }

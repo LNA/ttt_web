@@ -30,8 +30,7 @@ describe App do
     end
 
     it 'starts a new game' do 
-      require 'pry'
-      binding.pry
+     
       post "/new_game", params
     end
   end

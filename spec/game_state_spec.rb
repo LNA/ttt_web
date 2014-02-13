@@ -12,6 +12,22 @@ describe GameState do
     end
   end
 
+  context "#next_player" do 
+    it "returns O if current_player is X" do
+      game_state.current_player = 'X'
+      game_state.next_player
+
+      game_state.current_player.should == 'O'
+    end
+
+    it "returns X if current_player is O" do 
+      game_state.next_player
+
+      game_state.current_player.should == 'X'
+    end
+  end
+
+
   context "#valid(move)" do
     it "checks it's board for an invalid move" do 
       game_state.board[1] = 'X'
