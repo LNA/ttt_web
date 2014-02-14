@@ -1,39 +1,29 @@
 <!DOCTYPE HTML>
-<form method="post" action="/new_game/:player_one_piece/:player_two_piece">
 <html>
   <head>
     <link href="css/application.css" rel="stylesheet" type="text/css">
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-
-    <script src="board.js" type="text/javascript"></script>
   </head>
   <body>
     <div class="player_one">
-      <p> Player 1: Human</p>
-     
+      <p> Player 1: </p> <%= session[:game].player_one_type %>
+      <%= session[:game].player_one_piece %>
     </div>
-
     <div class = "player_two">
-      <p> Player 2: Computer</p>
-      <p>O</p>
+      <p> Player 2: </p> <%= session[:game].player_two_type %>
+      <%= session[:game].player_two_piece %>
     </div>
-    
-    <table class="board">
-      <tr>
-        <td><div id="0" class="square" ></div></td>
-        <td><div id="1" class="square" ></div></td>
-        <td><div id="2" class="square" ></div></td>
-      </tr>
-      <tr>
-        <td><div id="3" class="square" ></div></td>
-        <td><div id="4" class="square" ></div></td>
-        <td><div id="5" class="square" ></div></td>
-      </tr>
-      <tr>
-        <td><div id="6" class="square" ></div></td>
-        <td><div id="7" class="square" ></div></td>
-        <td><div id="8" class="square" ></div></td>
-      </tr>
-    </table>
+    <form method="post" action="/move">
+      <ul class="board clearfix">
+        <% count = 0 %>
+        <% 9.times do %>
+          <li id="<%= count %>" class="square">
+            <input type="submit" name="square" value="<%= count %>">
+            <%= session[:game_state].board[count] %>
+          </li>
+          <% count += 1 %>
+        <% end %>
+      </ul>
+    </form>
   </body>
 </html>

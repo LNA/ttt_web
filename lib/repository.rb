@@ -1,4 +1,4 @@
-class WebGameRepository
+class Repository
 
   def self.register(type, repo)
     repositories[type] = repo
@@ -11,9 +11,4 @@ class WebGameRepository
   def self.for(type) 
     repositories[type]
   end
-
-  def self.current_game
-    @game
-  end
-
 end

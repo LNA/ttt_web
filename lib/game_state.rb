@@ -9,6 +9,15 @@ class GameState
     @possible_game_states = [] 
   end
 
+  def next_player
+    if @current_player == 'X'
+      @current_player = 'O'
+    else
+      @current_player = 'X'
+    end
+    @current_player
+  end
+
   def valid(move)
     if @board[move.to_i].is_a? String
       false
