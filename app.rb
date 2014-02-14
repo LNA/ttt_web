@@ -40,10 +40,13 @@ class App < Sinatra::Application
 
   post '/move' do 
     move = params.fetch("square")
-    session[:game_state].board[move.to_i] = session[:game_state].current_player
-    p session[:game_state].board
-    check_for_winner
-    session[:game_state].current_player = session[:game_state].next_player
+
+    if session[:game_state].valid(move) == true
+      session[:game_state].board[move.to_i] = session[:game_state].current_player
+      check_for_winner
+      session[:game_state].current_player = session[:game_state].next_player
+    end
+  
     erb '/board'.to_sym
   end
 

@@ -19,7 +19,7 @@
         <% 9.times do %>
           <li id="<%= count %>" class="square">
             <input type="submit" name="square" value="<%= count %>">
-            <%= session[:game_state].current_player%>
+            <%= session[:game_state].board[count] %>
           </li>
           <% count += 1 %>
         <% end %>
