@@ -30,23 +30,22 @@ class App < Sinatra::Application
     web_game_set_up
     web_game_state_set_up
 
-    erb '/board'.to_sym
     redirect to('/play')
   end
 
   get '/play' do
+    @board = session[:game_state].board
     erb '/board'.to_sym
   end
 
   post '/move' do 
     move = params.fetch("square")
 
-    if session[:game_state].valid(move) == true
-      session[:game_state].board[move.to_i] = session[:game_state].current_player
-      check_for_winner
-      session[:game_state].current_player = session[:game_state].next_player
-    end
-  
+    session[:game_state].board[move.to_i] = session[:game_state].current_player
+    check_for_winner
+    session[:game_state].current_player = session[:game_state].next_player    
+    @board = session[:game_state].board  
+    
     erb '/board'.to_sym
   end
 

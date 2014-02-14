@@ -15,13 +15,14 @@
     </div>
     <form method="post" action="/move">
       <ul class="board clearfix">
-        <% count = 0 %>
-        <% 9.times do %>
-          <li id="<%= count %>" class="square">
-            <input type="submit" name="square" value="<%= count %>">
-            <%= session[:game_state].board[count] %>
+        <% @board.each_with_index do |square_value, index| %>
+          <li id="<%= index %>" class="square">
+            <% if square_value.nil? %>
+              <input type="submit" name="square" value="<%= index %>">
+            <% else %>
+              <%= square_value %>
+            <% end %>
           </li>
-          <% count += 1 %>
         <% end %>
       </ul>
     </form>
