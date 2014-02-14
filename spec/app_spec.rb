@@ -12,6 +12,8 @@ describe App do
   let (:datastore) {WebGameRepository.new}
   let (:game) {Game.new(params)}
 
+
+
   def app
     @app ||= App
   end
@@ -25,19 +27,15 @@ describe App do
 
   context 'play' do
     it 'displays the ttt board' do
-      get '/play'
+      MockGame = Struct.new(:player_one_type, :player_two_type, :player_one_piece, :player_two_piece)
+      mock_game = MockGame.new("Human", "Human", "X", "O")
+
+      MockGameState = Struct.new(:board)
+      mock_state = MockGameState.new((1..9).to_a)
+
+      get '/play', {}, 'rack.session' => { :game => mock_game, :game_state => mock_state }
+
       last_response.should be_ok
-    end
-
-    it 'starts a new game' do 
-     
-      post "/new_game", params
-    end
-  end
-
-  context 'move' do
-    it 'makes a move' do
-
     end
   end
 end
