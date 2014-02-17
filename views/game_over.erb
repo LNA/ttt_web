@@ -1,3 +1,7 @@
 <!DOCTYPE HTML>
-<h1><%=session[:game_state].winner %> Has Won!</h1>
+<% if session[:game_state].winner == false %>
+  <h1> Its a Tie!</h1>
+<% else %>
+  <h1><%=session[:game_state].winner%> Has Won!</h1>
+<% end %>
 <a href="/play_again">Play Again</a>
