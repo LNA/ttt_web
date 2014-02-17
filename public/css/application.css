@@ -1,3 +1,9 @@
+.container {
+  margin: 0 auto;
+  max-width: 48rem;
+  width: 90%;
+}
+
 .square {
   background-color: #DCF5F5;
   border: 2px solid #aaaaaa;
@@ -33,7 +39,7 @@
   box-shadow:inset 0px 1px 0px 0px #97c4fe;
   background-color: #DCF5F5;
   height: 80px;
-  margin: 5px 0 0 5px;
+  margin: 5px 0 0 120px;
   padding: 10px;
   width: 80px;
 
@@ -62,14 +68,18 @@
   float: right;
   font-size:25px;
 }
-
-/* Clearfix */
+/*
+ Clearfix */
 .clearfix:before,
 .clearfix:after {
-    content: " "; /* 1 */
-    display: table; /* 2 */
+    content: " ";  1 
+    display: table; 
 }
 
 .clearfix:after {
     clear: both;
+}
+
+.clearfix {
+  *zoom: 1;
 }
