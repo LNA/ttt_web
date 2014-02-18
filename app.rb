@@ -29,6 +29,8 @@ class App < Sinatra::Application
   post '/new_game' do
     web_game_set_up
     web_game_state_set_up
+    
+    session[:game_state].current_player = session[:game].player_one_piece
 
     redirect to('/play')
   end
