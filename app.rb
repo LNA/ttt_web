@@ -9,7 +9,7 @@ require 'web_game'
 require 'web_game_store'
 require 'repository'
 
-Repository.register(:game, WebGameStore)
+# Repository.register(:game, WebGameStore)
 
 configure do 
   enable :sessions 
@@ -29,7 +29,6 @@ class App < Sinatra::Application
   post '/new_game' do
     web_game_set_up
     web_game_state_set_up
-    
     session[:game_state].current_player = session[:game].player_one_piece
 
     redirect to('/play')
@@ -65,15 +64,15 @@ class App < Sinatra::Application
   private
 
   def web_game_set_up
-    @game = WebGameStore.new_game(params)
-    Repository.for(:game).store(@game)
-    session[:game] = Repository.for(:game).current_game
+    session[:game] = WebGameStore.new_game(params)
+    # Repository.for(:game).store(@game)
+    # session[:game] = Repository.for(:game).current_game
   end
 
   def web_game_state_set_up
-    @game_state = WebGameStore.game_state
-    Repository.for(:game).store(@game_state)
-    session[:game_state] = Repository.for(:game).current_game_state
+    session[:game_state] = WebGameStore.game_state
+    # Repository.for(:game).store(@game_state)
+    # session[:game_state] = Repository.for(:game).current_game_state
   end
 
   def check_for_winner

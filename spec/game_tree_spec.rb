@@ -2,6 +2,8 @@ require 'spec_helper'
 
 describe GameTree do
   let (:game_tree) {GameTree.new}
+  let (:alpha) {-100}
+  let (:beta)  {100}
 
   describe "#generate_all_possible_moves" do
     it "passes an initial game state to build_branches_for" do
@@ -115,4 +117,24 @@ describe GameTree do
       end
     end
   end
+
+  describe "alpha beta pruning" do 
+    context '#set_alpha_beta' do 
+      it "sets alpha when max rank > alpha" do 
+        current_game_state = GameState.new('O', ['X', 'O', 'X',
+                                                 nil, 'O', 'O',
+                                                ' X', 'O', 'X'])
+
+        game_tree.set_alpha_beta(current_game_state, alpha, beta).should == 1
+      end
+    end
+  end
 end
+
+
+
+
+
+
+
+

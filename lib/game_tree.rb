@@ -24,4 +24,11 @@ class GameTree
       end
     end
   end
+
+  def set_alpha_beta(current_game_state, alpha, beta)
+    current_game_state_rank = current_game_state.rank
+    if current_game_state.current_player == "O" && alpha < current_game_state_rank
+      alpha = current_game_state_rank
+    end
+  end
 end
