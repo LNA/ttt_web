@@ -119,22 +119,24 @@ describe GameTree do
   end
 
   describe "alpha beta pruning" do 
-    context '#set_alpha_beta' do 
+    context '#set_alpha' do 
       it "sets alpha when max rank > alpha" do 
         current_game_state = GameState.new('O', ['X', 'O', 'X',
                                                  nil, 'O', 'O',
                                                  'X', 'O', 'X'])
-       
 
-        game_tree.set_alpha_beta(current_game_state, alpha, beta).should eq 1
+
+        game_tree.set_alpha(current_game_state, alpha, beta).should eq 1
       end
+    end
 
-      it " sets beta when min rank < beta" do 
+    context '#set_beat' do
+      it "sets beta when min rank < beta" do 
         current_game_state = GameState.new('X', ['X', 'O', 'X',
                                                  'X', nil, 'O',
                                                  'X', 'O', 'X'])
 
-        game_tree.set_alpha_beta(current_game_state, alpha, beta).should eq -1
+        game_tree.set_beta(current_game_state, alpha, beta).should eq -1
       end
     end
   end
