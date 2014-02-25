@@ -130,22 +130,24 @@ describe GameTree do
       end
     end
 
-    context '#set_beat' do
+    context '#set_beta' do
       it "sets beta when min rank < beta" do 
         current_game_state = GameState.new('X', ['X', 'O', 'X',
                                                  'X', nil, 'O',
                                                  'X', 'O', 'X'])
+       
 
         game_tree.set_beta(current_game_state, alpha, beta).should eq -1
       end
     end
+
+    context '#ai_first_move' do 
+      it "returns true for the ai first move" do 
+        current_game_state = GameState.new('O', [nil, nil, nil,
+                                                 nil, nil, nil,
+                                                 nil, nil, 'X'])
+        game_tree.ai_first_move(current_game_state).should == true
+      end
+    end
   end
 end
-
-
-
-
-
-
-
-

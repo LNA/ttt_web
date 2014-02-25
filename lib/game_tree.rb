@@ -27,7 +27,7 @@ class GameTree
 
   def set_alpha(current_game_state, alpha, beta)
     current_game_state_rank = current_game_state.rank
-    
+
     if current_game_state.current_player == "O" && alpha < current_game_state_rank
       alpha = current_game_state_rank
     end
@@ -38,6 +38,14 @@ class GameTree
 
     if current_game_state.current_player == "X" && beta > current_game_state_rank
       beta = current_game_state_rank
+    end
+  end
+
+  def ai_first_move(current_game_state)
+    if current_game_state.board.include?("O")
+      false
+    else
+      true
     end
   end
 end
