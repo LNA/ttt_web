@@ -4,7 +4,7 @@ describe GameState do
   let (:current_player) {'O'}
   let (:board) { [nil] * 9 }
   let (:game_state) {GameState.new(current_player, board)}
-  let (:tie) {['O', 'O', 'X', 'X', 'X', 'O', 'O', 'O', 'X']}
+  let (:tie?) {['O', 'O', 'X', 'X', 'X', 'O', 'O', 'O', 'X']}
  
   context "#possible_game_states" do
     it "has a possible_game_states array" do
@@ -107,16 +107,16 @@ describe GameState do
       end
     end
 
-    context "boards with a tie" do
+    context "boards with a tie?" do
       it "ranks a 1 for a favorable 'O' game state" do
-        game_state.board = tie
+        game_state.board = tie?
         game_state.possible_game_states = [@game_state1]
 
         game_state.rank.should == 0
       end
 
       it "ranks a -1 for a favorable 'X' game state" do
-        game_state.board = tie
+        game_state.board = tie?
         game_state.possible_game_states = [@game_state1]
 
         game_state.rank.should == 0
@@ -182,8 +182,8 @@ describe GameState do
       game_state.final_state_rank.should == 1
     end
 
-    it "has a final state rank of 0 in a tie" do
-      game_state.board = tie
+    it "has a final state rank of 0 in a tie?" do
+      game_state.board = tie?
 
       game_state.final_state_rank.should == 0
     end
@@ -278,22 +278,22 @@ describe GameState do
         game_state.winner.should == false
       end
 
-      it "returs false for a tie" do
-        game_state.board = tie
+      it "returs false for a tie?" do
+        game_state.board = tie?
 
         game_state.winner.should == false
       end
     end
   end
 
-  context "#tie" do 
+  context "#tie?" do 
     [
       [['O', 'O', 'X', 'X', 'X', 'O', 'O', 'O', 'X'], true],
       [[nil, nil, nil, nil, nil, nil, nil, nil, nil], false]
     ].each do |board, win|
       it "returns #{win} for the #{board}" do 
         game_state.board = board
-        game_state.game_over.should == win
+        game_state.game_over?.should == win
       end
     end
 
@@ -307,11 +307,11 @@ describe GameState do
         end
       end
     
-      game_state.tie.should == false
+      game_state.tie?.should == false
     end
   end
 
-  context "#game_over" do
+  context "#game_over?" do
     [
       [['O', 'O', 'X', 'X', 'X', 'O', 'O', 'O', 'X'], true],
       [['O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O'], 'O'],
@@ -320,7 +320,7 @@ describe GameState do
     ].each do |board, win|
       it "returns #{win} for the #{board}" do 
         game_state.board = board
-        game_state.game_over.should == win
+        game_state.game_over?.should == win
       end
     end
   end

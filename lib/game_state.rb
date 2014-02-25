@@ -52,8 +52,8 @@ class GameState
   end 
 
   def final_state_rank
-    if game_over
-      return 0 if tie
+    if game_over?
+      return 0 if tie?
       winner == 'O' ? 1 : -1
     end
   end
@@ -79,12 +79,12 @@ class GameState
     false
   end
 
-  def tie
+  def tie?
     full_board? == true && winner == false
   end
 
-  def game_over
-    winner || tie
+  def game_over?
+    winner || tie?
   end
 
 private
