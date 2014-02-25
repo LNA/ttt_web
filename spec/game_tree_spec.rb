@@ -156,5 +156,36 @@ describe GameTree do
         game_tree.ai_first_move(current_game_state).should == false 
       end
     end
+
+    context '#force_ai_first_move' do 
+      it "forces the ai frist move to board[4]" do 
+        current_game_state = GameState.new('O', [nil, nil, nil,
+                                                 nil, nil, nil,
+                                                 nil, nil, 'X'])
+
+        game_tree.force_ai_first_move(current_game_state)
+       
+        current_game_state.board[4].should eq 'O'
+      end
+
+      it "forces O move to board[0] if board[4] is taken" do 
+        current_game_state = GameState.new('O', [nil, nil, nil,
+                                                 nil, 'X', nil,
+                                                 nil, nil, nil])
+        game_tree.force_ai_first_move(current_game_state)
+
+        current_game_state.board[0].should eq 'O'
+      end
+    end
+
+
+    context '#prune_branches_if_alpha_is_greater_than_beta' do 
+      it "generates no game_child if alpha is greater than beta" do 
+        current_game_state = GameState.new('X', [nil] * 9 )
+        game_tree.prune_branches_if_alpha_is_greater_than_beta(current_game_state, 1, -1)
+
+        current_game_state.possible_game_states.should == []
+      end
+    end
   end
 end

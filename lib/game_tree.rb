@@ -48,4 +48,22 @@ class GameTree
       true
     end
   end
+
+  def force_ai_first_move(current_game_state)
+    if current_game_state.board[4] == nil
+      current_game_state.board[4] = 'O'
+    else
+      current_game_state.board[0] = 'O'
+    end
+  end
+
+  def prune_branches_if_alpha_is_greater_than_beta(current_game_state, alpha, beta)
+    if alpha >= beta
+      return
+    elsif ai_first_move == true
+      force_ai_first_move(current_game_state)
+    else
+      build_branches_for(current_game_state)
+    end
+  end
 end
