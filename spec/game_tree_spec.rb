@@ -123,9 +123,18 @@ describe GameTree do
       it "sets alpha when max rank > alpha" do 
         current_game_state = GameState.new('O', ['X', 'O', 'X',
                                                  nil, 'O', 'O',
-                                                ' X', 'O', 'X'])
+                                                 'X', 'O', 'X'])
+       
 
-        game_tree.set_alpha_beta(current_game_state, alpha, beta).should == 1
+        game_tree.set_alpha_beta(current_game_state, alpha, beta).should eq 1
+      end
+
+      it " sets beta when min rank < beta" do 
+        current_game_state = GameState.new('X', ['X', 'O', 'X',
+                                                 'X', nil, 'O',
+                                                 'X', 'O', 'X'])
+
+        game_tree.set_alpha_beta(current_game_state, alpha, beta).should eq -1
       end
     end
   end
