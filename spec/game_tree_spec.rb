@@ -148,6 +148,13 @@ describe GameTree do
                                                  nil, nil, 'X'])
         game_tree.ai_first_move(current_game_state).should == true
       end
+
+      it "returns false if its not the ai's first move" do 
+        current_game_state = GameState.new('O', [nil, nil, nil,
+                                                 nil, 'O', nil,
+                                                 nil, nil, 'X'])
+        game_tree.ai_first_move(current_game_state).should == false 
+      end
     end
   end
 end
