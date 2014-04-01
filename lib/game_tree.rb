@@ -21,9 +21,9 @@ class GameTree
         game_child = GameState.new(next_player, next_board)
         current_game_state.possible_game_states << game_child
 
-        
+        alpha = set_alpha(current_game_state, alpha) if current_game_state.game_over?
+        beta = set_beta(current_game_state, beta) if current_game_state.game_over?
 
-        set_alpha_beta(current_game_state, alpha, beta) if current_game_state.game_over?
         prune_branches_if_alpha_is_greater_than_beta(game_child, alpha, beta)
       end
     end
@@ -39,20 +39,22 @@ class GameTree
     end
   end
 
-  def set_alpha(current_game_state, alpha, beta)
+  def set_alpha(current_game_state, alpha)
     current_game_state_rank = current_game_state.rank
 
     if current_game_state.current_player == "O" && alpha < current_game_state_rank
       alpha = current_game_state_rank
     end
+    alpha
   end
 
-  def set_beta(current_game_state, alpha, beta)
+  def set_beta(current_game_state, beta)
     current_game_state_rank = current_game_state.rank
 
     if current_game_state.current_player == "X" && beta > current_game_state_rank
       beta = current_game_state_rank
     end
+    beta
   end
 
   def ai_first_move(current_game_state)
@@ -73,8 +75,8 @@ class GameTree
   end
 
   def prune_branches_if_alpha_is_greater_than_beta(current_game_state, alpha, beta)
-    if alpha >= beta
-      return
+    if alpha >= beta 
+      return 
     elsif ai_first_move(current_game_state) == true
       current_game_state.possible_game_states << force_ai_first_move(current_game_state)
       return

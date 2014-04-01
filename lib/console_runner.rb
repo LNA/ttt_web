@@ -1,14 +1,12 @@
 $: << File.expand_path(File.dirname(__FILE__))
-require 'game'
 require 'ui'
 require 'game_options'
 require 'game_state'
 
 class ConsoleRunner
-  def initialize(ui, game_state, game)
+  def initialize(ui, game_state)
     @ui = ui
     @game_state = game_state
-    @game = game
   end
 
   def start_game
@@ -16,7 +14,7 @@ class ConsoleRunner
     start_game_loop
     check_player_one_move
     @ui.display_grid(@game_state.board)
-    check_for_player_one_win
+    # check_for_player_one_win
   end
 
   def start_game_loop
@@ -43,7 +41,7 @@ class ConsoleRunner
   end
 
   def end_player_one_loop
-    if @game_state.game_over
+    if @game_state.game_over?
       @ui.winner_message(winner)
     else
       player_two_game_loop
@@ -53,11 +51,11 @@ class ConsoleRunner
   end
 
   def winner
-    @game_state.game_over
+    @game_state.game_over?
   end
 
   def check_final_state
-    if @game_state.game_over 
+    if @game_state.game_over?
       @ui.winner_message(winner)
     else
       start_game_loop

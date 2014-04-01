@@ -108,6 +108,7 @@ describe GameTree do
         current_game_state = GameState.new('X', [nil, nil, nil,
                                                  'X', 'X', 'O',
                                                  'X', 'O', 'X'])
+       
 
         game_tree.build_branches_for(current_game_state, alpha, beta)
         resulting_game_state = current_game_state.possible_game_states.last
@@ -129,7 +130,7 @@ describe GameTree do
                                                  'X', 'O', 'X'])
 
 
-        game_tree.set_alpha(current_game_state, alpha, beta).should eq 1
+        game_tree.set_alpha(current_game_state, alpha).should eq 1
       end
     end
 
@@ -140,7 +141,7 @@ describe GameTree do
                                                  'X', 'O', 'X'])
        
 
-        game_tree.set_beta(current_game_state, alpha, beta).should eq -1
+        game_tree.set_beta(current_game_state, beta).should eq -1
       end
     end
 
@@ -176,6 +177,7 @@ describe GameTree do
                                                  nil, 'X', nil,
                                                  nil, nil, nil])
         game_tree.force_ai_first_move(current_game_state)
+       
 
         current_game_state.board[0].should eq 'O'
       end

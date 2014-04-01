@@ -76,7 +76,7 @@ class App < Sinatra::Application
   end
 
   def check_for_winner
-    if session[:game_state].game_over
+    if session[:game_state].game_over?
       redirect '/winner'
     end
   end
