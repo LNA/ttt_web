@@ -1,20 +1,19 @@
 require 'ai'
 require 'board'
+require 'game_rules'
 
 describe AI do 
-  let (:ai)    {AI.new}
-  let (:board) {Board.new}
 
-  it "makes a move" do 
-    board.spaces = [nil, nil, nil, 
-                    nil, "X", "X", 
-                    nil, nil, nil]
+  let (:game_rules) {GameRules.new}
+  let (:ai)         {AI.new(game_rules)}
+  let (:board)      {Board.new}
 
-    space = ai.find_best_move(board.spaces)
-    baord.fill(space, 'O')
+  it "finds the best move" do 
+    ai.game_piece = "O"
+    board.spaces = [nil, "X", "O", 
+                    "X", nil, "X", 
+                    nil, "O", "O"]
 
-    baord.spaces.should == [nil, nil, nil, 
-                            nil, "X", "X", 
-                            nil, nil, nil]
+    ai.find_best_move(board.spaces).should == 4
   end
 end

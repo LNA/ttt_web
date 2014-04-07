@@ -32,15 +32,16 @@ class GameRules
     false
   end
 
-  def tie?
-    full_board? == true && winner == false
+  def tie?(spaces)
+    full_board?(spaces) == true && winner?(spaces) == false
   end
 
-  def game_over?
-    winner || tie?
+  def game_over?(spaces)
+    winner?(spaces) || tie?(spaces)
   end
 
 private
+
   def first_row(spaces)
     spaces[0..2]
   end

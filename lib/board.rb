@@ -8,4 +8,7 @@ class Board
   def fill(space, game_piece)
     @spaces[space] = game_piece
   end
+
+  def open_spaces
+  end
 end
