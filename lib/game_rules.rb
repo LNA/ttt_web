@@ -15,15 +15,15 @@ class GameRules
     end
   end
 
-  def winner
-    [first_row, 
-     second_row, 
-     third_row,
-     left_column, 
-     middle_column,    
-     right_column,
-     left_diag_winner,
-     right_diag_winner
+  def winner?(spaces)
+    [first_row(spaces), 
+     second_row(spaces), 
+     third_row(spaces),
+     left_column(spaces), 
+     middle_column(spaces),    
+     right_column(spaces),
+     left_diag_winner(spaces),
+     right_diag_winner(spaces)
     ].each do |line|
       if line.uniq.count == 1
         return line[0]
@@ -41,35 +41,35 @@ class GameRules
   end
 
 private
-  def first_row
-    @board[0..2]
+  def first_row(spaces)
+    spaces[0..2]
   end
 
-  def second_row
-    @board[3..5]
+  def second_row(spaces)
+    spaces[3..5]
   end
 
-  def third_row
-    @board[6..8]
+  def third_row(spaces)
+    spaces[6..8]
   end
 
-  def left_column
-    [@board[0], @board[3], @board[6]]
+  def left_column(spaces)
+    [spaces[0], spaces[3], spaces[6]]
   end
 
-  def middle_column
-    [@board[1], @board[4], @board[7]]
+  def middle_column(spaces)
+    [spaces[1], spaces[4], spaces[7]]
   end
 
-  def right_column
-    [@board[2], @board[5], @board[8]]
+  def right_column(spaces)
+    [spaces[2], spaces[5], spaces[8]]
   end
 
-  def left_diag_winner
-    [@board[0], @board[4], @board[8]]
+  def left_diag_winner(spaces)
+    [spaces[0], spaces[4], spaces[8]]
   end
   
-  def right_diag_winner
-    [@board[2], @board[4], @board[6]]
+  def right_diag_winner(spaces)
+    [spaces[2], spaces[4], spaces[6]]
   end
 end
