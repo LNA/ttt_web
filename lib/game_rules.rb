@@ -1,6 +1,6 @@
 class GameRules
   def valid(move, spaces)
-    if spaces[move.to_i].is_a? String
+    if (spaces[move.to_i].is_a? String) || move > 8
       false
     else
       true
