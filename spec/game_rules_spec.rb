@@ -21,4 +21,16 @@ describe GameRules do
       game_rules.valid(0, "O").should == false
     end
   end
+
+  context "#full_board?" do 
+    it "returns false for a board that is not full" do
+      game_rules.full_board?(spaces).should == false
+    end
+
+    it "returns true for a full board" do 
+      spaces = ["X"]*9
+
+      game_rules.full_board?(spaces).should == true
+    end
+  end 
 end

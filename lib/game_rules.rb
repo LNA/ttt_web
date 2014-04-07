@@ -7,8 +7,8 @@ class GameRules
     end
   end
 
-  def full_board?
-    if (@board.spaces.include? nil ) == true
+  def full_board?(spaces)
+    if (spaces.include? nil ) == true
       false
     else
       true
