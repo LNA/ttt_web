@@ -2,8 +2,9 @@ require 'board'
 require 'game_rules'
 
 describe GameRules do 
-  let (:spaces) {[nil]*9}
   let (:game_rules)  {GameRules.new}
+  let (:spaces) {[nil]*9}
+
 
   context "#valid_move" do
     it "returns true for a valid move" do 
