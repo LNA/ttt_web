@@ -10,11 +10,10 @@ class AI
       if player == nil 
         next_board = spaces.dup
         next_board[space] = @game_piece
-        depth += 1
-        find_best_move(next_board, depth)
-        rank = rank(next_board)
-        if rank == 1
-          #find board with depth of zero and update old board with that board      
+        if @game_rules.game_over?(next_board)
+          if rank(next_board) == 1
+            return space
+          end
         end
       end 
     end 
@@ -25,6 +24,8 @@ class AI
   end
 
   def intermediate_state_rank(spaces)
+    require 'pry'
+        binding.pry
     ranks = spaces.collect{ |game_state| game_state.rank }
     if @game.current_player == game_piece
       ranks.max
