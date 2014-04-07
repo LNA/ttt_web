@@ -15,5 +15,4 @@ class WebGame
   def current_game
     @game
   end
-
 end

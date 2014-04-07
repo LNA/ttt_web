@@ -5,6 +5,4 @@ describe 'WebGame' do
                   :player_two_piece => 'O'}}
   let (:web_game) {WebGame.new(params)}
   let (:game) {web_game.new_game}
-  
-
 end
