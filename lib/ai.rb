@@ -21,9 +21,11 @@ class AI
         make_duplicate_board(spaces)
         replace_current_empty_space_with_current_player_game_piece
         check_game_ranking
-        remove_first_open_space
-        @current_player = next_player
-        rank_next_empty_space(spaces)   
+        until @rank = 1 || @rank = -1
+          remove_first_open_space
+          @current_player = next_player
+          rank_next_empty_space(spaces)
+        end
       end
     end
     @rank
