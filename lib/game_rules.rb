@@ -36,7 +36,7 @@ class GameRules
     full_board?(spaces) == true && winner(spaces) == false
   end
 
-  def game_over?(spaces)
+  def game_over(spaces)
     winner(spaces) || tie?(spaces)
   end
 

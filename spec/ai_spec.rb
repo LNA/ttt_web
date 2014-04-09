@@ -47,15 +47,36 @@ describe AI do
     end
   end
 
-  context 'scoring spaces' do
-    it "returns the score for space zero of 1 for a max win " do
-      spaces = [nil, 'O', 'X'
+  context 'ranking the first branch' do
+    it 'returns the score for space zero of 1 for a max win for the first branch' do
+      spaces = [nil, 'O', 'X',
                 'O', 'X', nil,
                 'O', 'X', nil]
 
       open_spaces = [0, 5, 8]
 
-      @ai.find_best_move(open_spaces, spaces).should == [3]
+      @ai.find_best_move(open_spaces, spaces, @ai.max_player).should == 1
+    end
+
+    it 'returns the score for space zero of -1 for a min win for the first branch' do 
+      spaces = [nil, 'O', 'X',
+                'O', 'X', nil,
+                'O', 'X', nil]
+      open_spaces = [0, 5, 8]
+
+      @ai.find_best_move(open_spaces, spaces, @ai.min_player).should == -1
+    end
+  end
+
+  context 'ranking the second branch' do 
+    it 'returns the score of 1 for the second branch' do 
+      spaces = [nil, nil, 'O',
+                'X', 'O', 'X',
+                'X', 'O', nil]
+
+      open_spaces = [0, 1, 8]
+
+      @ai.find_best_move(open_spaces, spaces, @ai.max_player).should == 1
     end
   end
 end
