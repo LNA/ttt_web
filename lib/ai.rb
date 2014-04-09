@@ -19,22 +19,39 @@ class AI
     spaces.each_with_index do |taken, space|
       if taken == nil
         make_duplicate_board(spaces)
-        replace_empty_space_with_game_piece
-        check_for_game_ranking
+        replace_current_empty_space_with_current_player_game_piece
+        check_game_ranking
+        remove_first_open_space
+        @current_player = next_player
+        rank_next_empty_space(spaces)   
       end
     end
     @rank
   end
 
-  def replace_empty_space_with_game_piece
-    @duplicate_board[@open_spaces.first] = @current_player
+  def rank_next_empty_space(spaces)
+    until @open_spaces == []
+      if @game_rules.game_over(@duplicate_board) == false
+        find_best_move(@open_spaces, spaces, @current_player) 
+      end   
+    end 
   end
 
-  def check_for_game_ranking
+  def replace_current_empty_space_with_current_player_game_piece
+    if @open_spaces.count > 0
+      @duplicate_board[@open_spaces.first] = @current_player
+    end
+  end
+
+  def check_game_ranking
     if @game_rules.game_over(@duplicate_board) != false
       @rank = rank(@duplicate_board)
     end
     @rank
+  end
+
+  def remove_first_open_space
+    @open_spaces.shift
   end
 
   def next_player

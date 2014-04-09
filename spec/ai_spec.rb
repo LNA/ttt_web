@@ -26,29 +26,29 @@ describe AI do
     end
   end
 
-  context '#final_state_rank' do 
+  context '#rank' do 
     it 'returns 0 for a tie' do
       spaces = ['X', 'X', 'O', 
                 'X', 'O', 'E', 
                 'E', 'X', 'X']
-      @ai.final_state_rank(spaces).should == 0
+      @ai.rank(spaces).should == 0
     end
 
     it 'returns -1 for a min player win' do 
       spaces = ['X']*9
 
-      @ai.final_state_rank(spaces).should == -1
+      @ai.rank(spaces).should == -1
     end
 
     it 'returns 1 for a max player win' do 
       spaces = ['O']*9
 
-      @ai.final_state_rank(spaces).should == 1
+      @ai.rank(spaces).should == 1
     end
   end
 
-  context 'ranking the first branch' do
-    it 'returns the score for space zero of 1 for a max win for the first branch' do
+  context 'the first branch' do
+    it 'returns 1 as the rank for the space of index 0' do
       spaces = [nil, 'O', 'X',
                 'O', 'X', nil,
                 'O', 'X', nil]
@@ -58,7 +58,7 @@ describe AI do
       @ai.find_best_move(open_spaces, spaces, @ai.max_player).should == 1
     end
 
-    it 'returns the score for space zero of -1 for a min win for the first branch' do 
+    it 'returns -1 as the rank for the space of index 0' do 
       spaces = [nil, 'O', 'X',
                 'O', 'X', nil,
                 'O', 'X', nil]
@@ -68,8 +68,8 @@ describe AI do
     end
   end
 
-  context 'ranking the second branch' do 
-    it 'returns the score of 1 for the second branch' do 
+  context 'the second branch' do 
+    it 'returns a rank of 1' do 
       spaces = [nil, nil, 'O',
                 'X', 'O', 'X',
                 'X', 'O', nil]
