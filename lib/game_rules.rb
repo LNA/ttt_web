@@ -15,7 +15,7 @@ class GameRules
     end
   end
 
-  def winner?(spaces)
+  def winner(spaces)
     [first_row(spaces), 
      second_row(spaces), 
      third_row(spaces),
@@ -33,11 +33,11 @@ class GameRules
   end
 
   def tie?(spaces)
-    full_board?(spaces) == true && winner?(spaces) == false
+    full_board?(spaces) == true && winner(spaces) == false
   end
 
   def game_over?(spaces)
-    winner?(spaces) || tie?(spaces)
+    winner(spaces) || tie?(spaces)
   end
 
 private

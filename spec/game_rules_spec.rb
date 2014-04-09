@@ -38,7 +38,7 @@ describe GameRules do
     it "returns the winning game piece" do 
       spaces = ["X"]*9
 
-      game_rules.winner?(spaces).should == "X"
+      game_rules.winner(spaces).should == "X"
     end
 
     it "returns false in the case of a tie" do 
@@ -46,12 +46,12 @@ describe GameRules do
                 "O", "O", "X", 
                 "X", "X", "O"]
 
-      game_rules.winner?(spaces).should == false
+      game_rules.winner(spaces).should == false
 
     end
 
     it "returns nil if the game is not over" do       
-      game_rules.winner?(spaces).should == nil
+      game_rules.winner(spaces).should == nil
     end
   end
 end

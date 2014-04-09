@@ -2,57 +2,63 @@ require 'game_rules'
 require 'board'
 
 class AI
-  attr_accessor :game_piece, :game_over, :space
-  def initialize(game_rules, board, max_player)
+  attr_accessor :current_player, :game_piece, 
+                :game_over, :space
+
+  def initialize(game_rules, board, opponent_game_piece, ai_game_piece)
     @game_rules = game_rules 
     @board = board
-    @max_player = max_player
+    @min_player = opponent_game_piece
+    @max_player = ai_game_piece
   end
 
-  def find_best_move(spaces, depth=0)
+  def open_spaces(spaces)
     @open_spaces = []
-    spaces.each_with_index do |player, space|
+
+    spaces.each_with_index do |player, open_space|
       if player == nil 
-        @open_spaces << space
-        next_board = spaces.dup
-        next_board[space] = @game_piece
-        return_space_to_be_played(next_board, space, spaces)
-      end 
-    end 
-    @space
-  end
-  
-private
-
-  def return_space_to_be_played(next_board, space, spaces)
-    if @game_rules.game_over?(next_board)
-      if rank(next_board, @max_player) == 1
-        @space = space
+        @open_spaces << open_space 
       end
-    else
-      block_max_player_win(spaces, @max_player)
     end
+    @open_spaces
   end
 
-  def block_max_player_win(spaces, max_player)
+  def find_best_move(open_spaces, spaces)
+    @open_spaces = open_spaces
+
     @open_spaces.each do |space|
-      current_spaces = spaces.dup
-      current_spaces[space] = @max_player
-      if final_state_rank(current_spaces, @max_player) == -1
-        @space = space
+      next_board = spaces.dup
+      next_board[space] = @game_piece
+      next_player
+      @open_spaces.shift
+      find_best_move(@open_spaces, next_board)
+    end
+
+    @open_spaces.each do |space|
+      next_board = spaces.dup
+      next_board[space] = @max_player
+
+      if rank(next_board, @max_player) == -1
+        return space
+      else
+        @open_spaces.shift
+        find_best_move(@open_spaces, spaces)
       end
     end
   end
 
-  def rank(spaces, max_player)
-    @rank ||= final_state_rank(spaces, @max_player) 
+  def next_player
+    if @current_player == @min_player
+      @current_player = @max_player
+    else
+      @current_player = @min_player
+    end
+    @current_player
   end
 
-  def final_state_rank(spaces, max_player)
-    if @game_rules.game_over?(spaces).class == String
-      return 0 if @game_rules.tie?(spaces)
-      return 1  if @game_rules.winner?(spaces) == @game_piece
-      return  -1 if @game_rules.winner?(spaces) == @max_player
-    end
+  def rank(spaces)
+    return 0  if @game_rules.tie?(spaces)
+    return -1 if @game_rules.winner(spaces) == @min_player
+    return 1  if @game_rules.winner(spaces) == @max_player
   end
 end
