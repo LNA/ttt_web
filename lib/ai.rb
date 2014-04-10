@@ -35,13 +35,17 @@ class AI
     spaces.each_with_index do |taken, space|
       if taken == nil        
         make_duplicate_board(spaces)
-        @open_spaces.each do |open_space|
-          set_duplicate_board(open_space)
-          @rank = check_game_ranking
-          if @rank == 1
-            break
-          end
-        end
+        check_each_open_space
+      end
+    end
+  end
+
+  def check_each_open_space
+    @open_spaces.each do |open_space|
+      set_duplicate_board(open_space)
+      @rank = check_game_ranking
+      if @rank == 1
+        break
       end
     end
   end
