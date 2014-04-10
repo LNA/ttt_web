@@ -14,7 +14,9 @@ describe AI do
       spaces = [nil, "X", "O", 
                 "O", nil, nil, 
                 nil, "X", nil]
-      @ai.open_spaces(spaces).should == [0, 4, 5, 6, 8]
+      @ai.find_open_spaces(spaces)
+
+      @ai.open_spaces.should == [0, 4, 5, 6, 8]
     end
   end
 
@@ -70,12 +72,14 @@ describe AI do
     end
   end
 
-  # context 'finds the winning move on the fifth branch' do 
-  #   it 'returns 1 as the rank for a move' do 
-  #     spaces = []
-  #     open_spaces = []
+  context 'finds the winning move on the fifth branch' do 
+    it 'returns 1 as the rank for a move' do 
+      spaces = ['O', 'X', nil,
+                'X', 'X', 'O',
+                nil, nil , nil]
+      open_spaces = [2, 6, 7,8 ]
 
-  #     @ai.find_best_rank(open_spaces, spaces, @ai.max_player).should == 1
-  #   end
-  # end
+      @ai.find_best_rank(open_spaces, spaces, @ai.max_player).should == 1
+    end
+  end
 end

@@ -3,7 +3,7 @@ require 'board'
 
 class AI
   attr_accessor :current_player, :game_piece,
-                :game_over, :max_player, :min_player, :play_space, 
+                :game_over, :max_player, :min_player, :open_spaces, :play_space, 
                 :rank, :space
 
   def initialize(game_rules, board, opponent_game_piece, ai_game_piece)
@@ -11,21 +11,25 @@ class AI
     @board = board
     @min_player = opponent_game_piece
     @max_player = ai_game_piece
+    @open_spaces = []
   end
 
   def find_best_rank(open_spaces, spaces, current_player)
     @current_player = current_player
-    @open_spaces = open_spaces
+    find_open_spaces(spaces)
     build_branch_for_current_player(spaces)
+    build_tree_until_winning_rank_is_found(spaces)
+  end
 
-    if @rank != 1 || @rank != 0
+  #private
+
+  def build_tree_until_winning_rank_is_found(spaces)
+    unless @rank == 1
       @current_player = next_player
       build_branch_for_current_player(spaces)
     end
     @rank
   end
-
-  #private
 
   def build_branch_for_current_player(spaces)
     spaces.each_with_index do |taken, space|
@@ -34,7 +38,7 @@ class AI
         @open_spaces.each do |open_space|
           set_duplicate_board(open_space)
           @rank = check_game_ranking
-          if @rank = 1
+          if @rank == 1
             break
           end
         end
@@ -66,15 +70,12 @@ class AI
     return 1  if @game_rules.winner(spaces) == @max_player
   end
 
-  def open_spaces(spaces) # Belongs in a different class
-    @open_spaces = []
-
+  def find_open_spaces(spaces)
     spaces.each_with_index do |player, open_space|
       if player == nil
         @open_spaces << open_space
       end
     end
-    @open_spaces
   end
 
   def make_duplicate_board(spaces)
