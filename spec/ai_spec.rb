@@ -47,36 +47,35 @@ describe AI do
     end
   end
 
-  context 'the first branch' do
-    it 'returns 1 as the rank for the space of index 0' do
+  context 'finds the winning move on the first branch' do
+    it 'returns 1 as the rank for the next winning move' do
       spaces = [nil, 'O', 'X',
                 'O', 'X', nil,
                 'O', 'X', nil]
 
       open_spaces = [0, 5, 8]
 
-      @ai.find_best_move(open_spaces, spaces, @ai.max_player).should == 1
+      @ai.find_best_rank(open_spaces, spaces, @ai.max_player).should == 1
     end
+  end
 
-    it 'returns -1 as the rank for the space of index 0' do 
+  context 'finds the winning move on the second branch' do
+    it 'returns 1 as the rank if ai goes first' do 
       spaces = [nil, 'O', 'X',
                 'O', 'X', nil,
                 'O', 'X', nil]
       open_spaces = [0, 5, 8]
 
-      @ai.find_best_move(open_spaces, spaces, @ai.min_player).should == -1
+      @ai.find_best_rank(open_spaces, spaces, @ai.min_player).should == 1
     end
   end
 
-  context 'the second branch' do 
-    it 'returns a rank of 1' do 
-      spaces = [nil, nil, 'O',
-                'X', 'O', 'X',
-                'X', 'O', nil]
+  # context 'finds the winning move on the fifth branch' do 
+  #   it 'returns 1 as the rank for a move' do 
+  #     spaces = []
+  #     open_spaces = []
 
-      open_spaces = [0, 1, 8]
-
-      @ai.find_best_move(open_spaces, spaces, @ai.max_player).should == 1
-    end
-  end
+  #     @ai.find_best_rank(open_spaces, spaces, @ai.max_player).should == 1
+  #   end
+  # end
 end
