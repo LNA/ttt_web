@@ -45,7 +45,7 @@ class AI
       set_duplicate_board(open_space)
       @rank = check_game_ranking
       if @rank == 1
-        break
+        break # check with Mike
       end
     end
   end

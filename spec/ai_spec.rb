@@ -49,8 +49,8 @@ describe AI do
     end
   end
 
-  context 'finds the winning move on the first branch' do
-    it 'returns 1 as the rank for the next winning move' do
+  context 'rank of 1' do
+    it 'finds the winning move on the first branch' do
       spaces = [nil, 'O', 'X',
                 'O', 'X', nil,
                 'O', 'X', nil]
@@ -59,10 +59,8 @@ describe AI do
 
       @ai.find_best_rank(open_spaces, spaces, @ai.max_player).should == 1
     end
-  end
 
-  context 'finds the winning move on the second branch' do
-    it 'returns 1 as the rank if ai goes first' do 
+    it 'finds the winning move on the second branch' do
       spaces = [nil, 'O', 'X',
                 'O', 'X', nil,
                 'O', 'X', nil]
@@ -70,14 +68,12 @@ describe AI do
 
       @ai.find_best_rank(open_spaces, spaces, @ai.min_player).should == 1
     end
-  end
 
-  context 'finds the winning move on the fifth branch' do 
-    it 'returns 1 as the rank for a move' do 
+    it 'finds the winning move on the fifth branch' do 
       spaces = ['O', 'X', nil,
                 'X', 'X', 'O',
                 nil, nil , nil]
-      open_spaces = [2, 6, 7,8 ]
+      open_spaces = [2, 6, 7, 8 ]
 
       @ai.find_best_rank(open_spaces, spaces, @ai.max_player).should == 1
     end
