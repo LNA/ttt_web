@@ -78,10 +78,23 @@ describe AI do
       @ai.find_best_rank(open_spaces, spaces, @ai.max_player).should == 1
     end
 
-    it 'finds the winning rank on the sixth branch' do 
-      spaces = 
-      open_spaces = 
+    it 'finds the winning rank on the ninth branch' do 
+      spaces = [nil]*9
+                
+      open_spaces = [0, 1, 2, 3, 4, 5, 6, 7, 8]
+
       @ai.find_best_rank(open_spaces, spaces, @ai.max_player).should == 1
+    end
+  end
+
+  context 'rank of 0' do
+    it "returns the 0 for a tie" do
+      spaces = ['X', 'O', 'X',
+                'O', 'X', 'O',
+                'O', 'X', nil]
+      open_spaces = [9]
+
+      @ai.find_best_rank(open_spaces, spaces, @ai.max_player).should == 0
     end
   end
 end
