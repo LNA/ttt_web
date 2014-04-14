@@ -21,7 +21,8 @@ class AI
     @open_spaces = open_spaces
     @original_board = original_board
     @current_player = current_player
-    check_each_open_space_for_a_winning_rank
+    depth = 0
+    check_each_open_space_for_a_winning_rank(depth)
   end
 
   #private
@@ -30,45 +31,43 @@ class AI
     (@rank == WIN) || (@rank == TIE)
   end
 
-  def check_each_open_space_for_a_winning_rank 
+  def check_each_open_space_for_a_winning_rank(depth) 
     @open_spaces.each do |open_space|
       duplicate_board = @original_board.clone
       duplicate_board[open_space] = @current_player
       @rank = rank(duplicate_board)
+      depth += 1
       if unbeatable_rank
         return @rank
       else
-        check_rankings(duplicate_board, test_space=0)
-        fill_next_space_on_branch_with_next_player(duplicate_board)
+        check_rankings(duplicate_board, depth)
       end
     end
     @current_player = next_player
     check_each_open_space_for_a_winning_rank 
   end
 
+  def check_rankings(duplicate_board, depth)
+    @rank = rank(duplicate_board)
+    if unbeatable_rank
+      return @rank
+    elsif @rank == LOSS
+      puts "it got here"
+    else
+      @current_player = next_player
+      fill_next_space_on_branch_with_next_player(duplicate_board, depth)
+    end
+  end
+
   def number_of_test_spaces(duplicate_board)
     duplicate_board.count(nil)
   end
 
-  def fill_next_space_on_branch_with_next_player(duplicate_board)
-    count = 0
-    while count < number_of_test_spaces(duplicate_board)
-      @current_player = next_player
-      test_space = next_open_space(duplicate_board)
-      duplicate_board[test_space] = @current_player
-      check_rankings(duplicate_board, test_space)
-      count += 1
-    end
-  end
-
-  def check_rankings(duplicate_board, test_space)
-    if unbeatable_rank
-      return @rank
-    elsif @rank == LOSS
-      return_space_to_block_opponent_win(test_space)
-    else
-      fill_next_space_on_branch_with_next_player(duplicate_board)
-    end
+  def fill_next_space_on_branch_with_next_player(duplicate_board, depth)
+    test_space = next_open_space(duplicate_board)
+    duplicate_board[test_space] = @current_player
+    depth += 1
+    check_rankings(duplicate_board, depth)
   end
 
   def return_space_to_block_opponent_win(test_space)
