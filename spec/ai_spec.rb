@@ -2,21 +2,18 @@ require 'ai'
 require 'game_rules'
 
 describe AI do 
-  let (:board)      {Board.new}
   let (:game_rules) {GameRules.new}
 
   before :each do
-    @ai = AI.new(game_rules, board, 'X', 'O')
+    @ai = AI.new(game_rules, 'X', 'O')
   end
 
-  context '#open_spaces' do 
-    it 'returns the open spaces for a board' do 
-      spaces = [nil, "X", "O", 
-                "O", nil, nil, 
-                nil, "X", nil]
-      @ai.find_open_spaces(spaces)
-
-      @ai.open_spaces.should == [0, 4, 5, 6, 8]
+  context '#next_open_space' do 
+    it 'finds the next open space' do 
+      test_board = ['X', 'O', 'X',
+                    'O', 'X', nil,
+                    'O', 'X', nil]
+      @ai.next_open_space(test_board).should == 5 
     end
   end
 
@@ -73,7 +70,7 @@ describe AI do
       spaces = ['O', 'X', nil,
                 'X', 'X', 'O',
                 nil, nil , nil]
-      open_spaces = [2, 6, 7, 8 ]
+      open_spaces = [2, 6, 7, 8]
 
       @ai.find_best_rank(open_spaces, spaces, @ai.max_player).should == 1
     end
@@ -92,7 +89,7 @@ describe AI do
       spaces = ['X', 'O', 'X',
                 'O', 'X', 'O',
                 'O', 'X', nil]
-      open_spaces = [9]
+      open_spaces = [8]
 
       @ai.find_best_rank(open_spaces, spaces, @ai.max_player).should == 0
     end

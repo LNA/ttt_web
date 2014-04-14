@@ -6,70 +6,85 @@ class AI
                 :game_over, :max_player, :min_player, :open_spaces, :play_space, 
                 :rank, :space
 
-  def initialize(game_rules, board, opponent_game_piece, ai_game_piece)
+  def initialize(game_rules, opponent_game_piece, ai_game_piece)
     @game_rules = game_rules
-    @board = board
     @min_player = opponent_game_piece
     @max_player = ai_game_piece
     @open_spaces = []
   end
 
-  def find_best_rank(open_spaces, spaces, current_player)
+  WIN = 1
+  TIE = 0
+  LOSS = -1
+
+  def find_best_rank(open_spaces, original_board, current_player)
+    @open_spaces = open_spaces
+    @original_board = original_board
     @current_player = current_player
-    find_open_spaces(spaces)
-    build_branch_for_current_player(spaces)
-    build_tree_until_winning_rank_is_found(@duplicate_board) 
+    check_each_open_space_for_a_winning_rank
   end
 
   #private
 
-  def build_branch_for_current_player(spaces)
-    spaces.each_with_index do |taken, space|
-      if taken == nil      
-        make_duplicate_board(spaces)
-        check_each_open_space(@duplicate_board)
-      end
-    end
-  end
-
-  def build_tree_until_winning_rank_is_found(spaces)
-    until unbeatable_rank
-      build_branch_for_current_player(@duplicate_board)
-    end
-    @rank
-  end
-
   def unbeatable_rank
-    (@rank == 1) || (@rank == 0)
+    (@rank == WIN) || (@rank == TIE)
   end
 
-  def check_each_open_space(spaces)
-    until unbeatable_rank
-      @open_spaces.each do |open_space|
-        # spaces variable is right
-        require 'pry'
-        binding.pry
-        set_duplicate_board(open_space)
-        #spaces variable is wrong
-        @rank = check_game_ranking
-        reset_duplicate_board(spaces)
+  def check_each_open_space_for_a_winning_rank 
+    @open_spaces.each do |open_space|
+      duplicate_board = @original_board.clone
+      duplicate_board[open_space] = @current_player
+      @rank = rank(duplicate_board)
+      if unbeatable_rank
+        return @rank
+      else
+        check_rankings(duplicate_board, test_space=0)
+        fill_next_space_on_branch_with_next_player(duplicate_board)
       end
+    end
+    @current_player = next_player
+    check_each_open_space_for_a_winning_rank 
+  end
+
+  def number_of_test_spaces(duplicate_board)
+    duplicate_board.count(nil)
+  end
+
+  def fill_next_space_on_branch_with_next_player(duplicate_board)
+    count = 0
+    while count < number_of_test_spaces(duplicate_board)
       @current_player = next_player
+      test_space = next_open_space(duplicate_board)
+      duplicate_board[test_space] = @current_player
+      check_rankings(duplicate_board, test_space)
+      count += 1
     end
   end
 
-  def set_duplicate_board(open_space)
-    # somehow is resetting spaces variable to equal @duplicate_board.
-    # Why are they this connected ???
-    @duplicate_board[open_space] = @current_player 
+  def check_rankings(duplicate_board, test_space)
+    if unbeatable_rank
+      return @rank
+    elsif @rank == LOSS
+      return_space_to_block_opponent_win(test_space)
+    else
+      fill_next_space_on_branch_with_next_player(duplicate_board)
+    end
   end
 
-  def reset_duplicate_board(spaces)
-    @duplicate_board = spaces
+  def return_space_to_block_opponent_win(test_space)
+    return test_space
   end
 
-  def check_game_ranking
-    rank(@duplicate_board)
+  def next_open_space(duplicate_board)
+    duplicate_board.each_with_index do |player, space|
+      if player == nil
+        return space 
+      end
+    end
+  end
+
+  def fill_next_open_space_with_current_player_game_piece
+    duplicate_board[test_space] = current_player
   end
 
   def next_player
@@ -80,17 +95,5 @@ class AI
     return 0  if @game_rules.tie?(current_board)
     return -1 if @game_rules.winner(current_board) == @min_player
     return 1  if @game_rules.winner(current_board) == @max_player
-  end
-
-  def find_open_spaces(spaces)
-    spaces.each_with_index do |player, open_space|
-      if player == nil
-        @open_spaces << open_space
-      end
-    end
-  end
-
-  def make_duplicate_board(spaces)
-    @duplicate_board = spaces.dup
   end
 end
