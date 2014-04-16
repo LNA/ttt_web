@@ -46,7 +46,7 @@ describe AI do
                 'O', 'X', nil]
       open_spaces = [0, 3, 5, 8]
 
-      @ai.find_best_move(open_spaces, spaces).should == 3
+      @ai.find_best_move(open_spaces, spaces).should == 0
     end
 
     it 'finds the best move at depth 4' do 
@@ -54,6 +54,15 @@ describe AI do
                 'X', 'X', 'O',
                 nil, nil , nil]
       open_spaces = [2, 6, 7, 8]
+
+      @ai.find_best_move(open_spaces, spaces).should == 2
+    end
+
+    it 'chooses a win over a block' do 
+      spaces = ['O', 'X', 'O',
+                'X', 'X', 'O',
+                nil, nil , nil]
+      open_spaces = [6, 7, 8]
 
       @ai.find_best_move(open_spaces, spaces).should == 8
     end
