@@ -2,97 +2,87 @@ require 'game_rules'
 require 'board'
 
 class AI
-  attr_accessor :current_player, :duplicate_board, :game_piece,
-                :game_over, :max_player, :min_player, :open_spaces, :play_space, 
+  attr_accessor :current_player, :game_piece,
+                :game_over, :max_player, :min_player, :open_spaces,  
                 :rank, :space
 
   def initialize(game_rules, opponent_game_piece, ai_game_piece)
     @game_rules = game_rules
     @min_player = opponent_game_piece
     @max_player = ai_game_piece
-    @open_spaces = []
   end
 
-  WIN = 1
+  WIN = 100
   TIE = 0
-  LOSS = -1
+  LOSS = -100 # will need to take absolute value of
 
-  def find_best_rank(open_spaces, original_board, current_player)
-    @open_spaces = open_spaces
-    @original_board = original_board
-    @current_player = current_player
+  def find_best_move(open_spaces, board)
     depth = 0
-    check_each_open_space_for_a_winning_rank(depth)
+    best_score = 5
+
+    board.each_with_index do |player, space|
+      if player == nil
+        make_move(board, space, @max_player)
+        score = minimax(board, depth, open_spaces, @max_player, best_score)
+        reset(board, space)
+        if score > best_score
+          best_score = score 
+          best_move = space 
+          return best_move
+        end
+      end
+    end
   end
 
   #private
 
-  def unbeatable_rank
-    (@rank == WIN) || (@rank == TIE)
-  end
-
-  def check_each_open_space_for_a_winning_rank(depth) 
-    @open_spaces.each do |open_space|
-      duplicate_board = @original_board.clone
-      duplicate_board[open_space] = @current_player
-      @rank = rank(duplicate_board)
-      depth += 1
-      if unbeatable_rank
-        return @rank
-      else
-        check_rankings(duplicate_board, depth)
-      end
-    end
-    @current_player = next_player
-    check_each_open_space_for_a_winning_rank 
-  end
-
-  def check_rankings(duplicate_board, depth)
-    @rank = rank(duplicate_board)
-    if unbeatable_rank
-      return @rank
-    elsif @rank == LOSS
-      puts "it got here"
-    else
-      @current_player = next_player
-      fill_next_space_on_branch_with_next_player(duplicate_board, depth)
-    end
-  end
-
-  def number_of_test_spaces(duplicate_board)
-    duplicate_board.count(nil)
-  end
-
-  def fill_next_space_on_branch_with_next_player(duplicate_board, depth)
-    test_space = next_open_space(duplicate_board)
-    duplicate_board[test_space] = @current_player
+  def minimax(board, depth, open_spaces, current_player, best_score)
     depth += 1
-    check_rankings(duplicate_board, depth)
-  end
-
-  def return_space_to_block_opponent_win(test_space)
-    return test_space
-  end
-
-  def next_open_space(duplicate_board)
-    duplicate_board.each_with_index do |player, space|
-      if player == nil
-        return space 
+    open_spaces.each do |move|
+      make_move(board, move, current_player)
+      score = rank(board)
+      if score > best_score
+        best_score = score - depth
+      end    
+      if score == TIE
+        list(move, score) 
+      end       
+      reset(board, move)
+      unless next_move_for(depth, open_spaces) == nil
+        move = next_move_for(depth, open_spaces)
+        make_move(board, move, @max_player)
+        score = minimax(board, depth, open_spaces, @min_player, best_score)
       end
     end
+    best_score
   end
 
-  def fill_next_open_space_with_current_player_game_piece
-    duplicate_board[test_space] = current_player
+  def list(move, score)
+    possible_moves = Hash.new
+    possible_moves[move] = score
   end
 
-  def next_player
-    @current_player == @min_player ? @max_player : @min_player
+  def reset(board, space)
+    board[space] = nil
+    board
   end
 
-  def rank(current_board)
-    return 0  if @game_rules.tie?(current_board)
-    return -1 if @game_rules.winner(current_board) == @min_player
-    return 1  if @game_rules.winner(current_board) == @max_player
+  def next_move_for(depth, open_spaces)
+    open_spaces[depth]
+  end
+
+  def make_move(board, move, current_player)
+    board[move] = current_player
+    board
+  end
+
+  def rank(board)
+    if @game_rules.tie?(board)
+      return TIE
+    elsif @game_rules.winner(board) == @max_player
+      return WIN
+    else
+      return LOSS
+    end
   end
 end
