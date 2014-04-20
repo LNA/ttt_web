@@ -13,5 +13,14 @@ describe Board do
     test_board.spaces.should == [nil, nil, nil, 
                                  nil, "X", nil, 
                                  nil, nil, nil]
-   end
+  end
+
+  it "returns its open spaces" do 
+    test_board.spaces = [nil]*9
+    test_board.spaces[0] = 'X'
+    test_board.spaces[1] = 'X'
+    test_board.spaces[2] = 'X'
+    
+    test_board.open_spaces.should == [3, 4, 5, 6, 7, 8]
+  end
 end

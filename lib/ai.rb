@@ -2,7 +2,7 @@ require 'game_rules'
 require 'board'
 
 class AI
-  attr_accessor :current_player, :game_piece,
+  attr_accessor :board, :current_player, :game_piece,
                 :game_over, :max_player, :min_player, :open_spaces, :possible_moves, 
                 :rank, :space
 
@@ -14,50 +14,41 @@ class AI
 
   WIN = 100
   TIE = 0
-  LOSS = -100 # will need to take absolute value of
+  LOSS = -100 
 
-  def find_best_move(open_spaces, board)
+   def find_best_move(board)
     depth = 0
     best_score = 5
+    @possible_moves = {}
 
-    board.each_with_index do |player, space|
-      if player == nil
-        make_move(board, space, @max_player)
-        score = minimax(board, depth, open_spaces, @max_player, best_score)
-        reset(board, space)
+    board.open_spaces.each do |move|
+      make_move(board, move, @max_player)
+      score = rank(board) - depth
+      @possible_moves[score] = move
 
-        if score > best_score && depth == 0
-          return space 
-        end
-       
-        if score > best_score
-          return space
-        elsif score <= best_score 
-          return space 
-        end
-      end
+      minimax(board, depth, @max_player)
+      @possible_moves[score] = move
     end
+  
+    best_score = @possible_moves.keys.max
+    best_move = @possible_moves[best_score]
+    #fix depth
   end
 
-  def minimax(board, depth, open_spaces, current_player, best_score)
-    depth += 1
-    open_spaces.each do |move|
-      make_move(board, move, current_player)
-      score = rank(board)
-      if score > best_score
-        best_score = score - depth
-      else 
+  def minimax(board, depth, current_player)
+    board.open_spaces.each do |move|
+      depth += 1
+  
+      if next_move_for(depth, open_spaces, move, board) != nil
+        move = next_move_for(depth, open_spaces, move, board)
+        board = make_move(board, move, @max_player)
+        score = rank(board) - depth
+        @possible_moves[score] = move
         reset(board, move)
-        if next_move_for(depth, open_spaces) != nil
-          move = next_move_for(depth, open_spaces)
-          make_move(board, move, @max_player)
-          score = minimax(board, depth, open_spaces, @min_player, best_score)
-        else
-          best_score
-        end
+
+        minimax(board, depth, @min_player)
       end
     end
-    best_score
   end
 
   def reset(board, space)
@@ -65,12 +56,12 @@ class AI
     board
   end
 
-  def next_move_for(depth, open_spaces)
+  def next_move_for(depth, open_spaces, move, board)
     open_spaces[depth]
   end
 
   def make_move(board, move, current_player)
-    board[move] = current_player
+    board.spaces[move] = current_player
     board
   end
 

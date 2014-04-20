@@ -1,29 +1,29 @@
 class GameRules
-  def valid(move, spaces)
-    if (spaces[move.to_i].is_a? String) || move > 8
+  def valid(move, board)
+    if (board[move.to_i].is_a? String) || move > 8
       false
     else
       true
     end
   end
 
-  def full_board?(spaces)
-    if (spaces.include? nil )
+  def full?(board)
+    if (board.include? nil )
       false
     else
       true
     end
   end
 
-  def winner(spaces)
-    [first_row(spaces), 
-     second_row(spaces), 
-     third_row(spaces),
-     left_column(spaces), 
-     middle_column(spaces),    
-     right_column(spaces),
-     left_diag_winner(spaces),
-     right_diag_winner(spaces)
+  def winner(board)
+    [first_row(board), 
+     second_row(board), 
+     third_row(board),
+     left_column(board), 
+     middle_column(board),    
+     right_column(board),
+     left_diag_winner(board),
+     right_diag_winner(board)
     ].each do |line|
       if line.uniq.count == 1
         return line[0]
@@ -32,45 +32,45 @@ class GameRules
     false
   end
 
-  def tie?(spaces)
-    full_board?(spaces) == true && winner(spaces) == false
+  def tie?(board)
+    full_board?(board) == true && winner(board) == false
   end
 
-  def game_over(spaces)
-    winner(spaces) || tie?(spaces)
+  def game_over(board)
+    winner(board) || tie?(board)
   end
 
 private
 
-  def first_row(spaces)
-    spaces[0..2]
+  def first_row(board)
+    board[0..2]
   end
 
-  def second_row(spaces)
-    spaces[3..5]
+  def second_row(board)
+    board[3..5]
   end
 
-  def third_row(spaces)
-    spaces[6..8]
+  def third_row(board)
+    board[6..8]
   end
 
-  def left_column(spaces)
-    [spaces[0], spaces[3], spaces[6]]
+  def left_column(board)
+    [board[0], board[3], board[6]]
   end
 
-  def middle_column(spaces)
-    [spaces[1], spaces[4], spaces[7]]
+  def middle_column(board)
+    [board[1], board[4], board[7]]
   end
 
-  def right_column(spaces)
-    [spaces[2], spaces[5], spaces[8]]
+  def right_column(board)
+    [board[2], board[5], board[8]]
   end
 
-  def left_diag_winner(spaces)
-    [spaces[0], spaces[4], spaces[8]]
+  def left_diag_winner(board)
+    [board[0], board[4], board[8]]
   end
   
-  def right_diag_winner(spaces)
-    [spaces[2], spaces[4], spaces[6]]
+  def right_diag_winner(board)
+    [board[2], board[4], board[6]]
   end
 end

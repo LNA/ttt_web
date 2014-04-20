@@ -1,5 +1,5 @@
 class Board
-  attr_accessor :spaces
+  attr_accessor :spaces, :open_spaces
 
   def initialize
     @spaces = [nil]*9
@@ -10,5 +10,12 @@ class Board
   end
 
   def open_spaces
+    open_spaces = []
+    @spaces.each_with_index do |player, space|
+      if player == nil
+        open_spaces << space 
+      end
+    end
+    open_spaces
   end
 end
