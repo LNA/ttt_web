@@ -21,43 +21,41 @@ class AI
     best_score = 5
     @possible_moves = {}
 
+
     board.open_spaces.each do |move|
       make_move(board, move, @max_player)
-      score = rank(board) - depth
+      score = rank(board.spaces) - depth
+      reset(board, move)
       @possible_moves[score] = move
 
       minimax(board, depth, @max_player)
       @possible_moves[score] = move
     end
-  
-    best_score = @possible_moves.keys.max
-    best_move = @possible_moves[best_score]
-    #fix depth
+    return_best_move_by_rank
   end
 
   def minimax(board, depth, current_player)
+    depth += 1
     board.open_spaces.each do |move|
-      depth += 1
-  
-      if next_move_for(depth, open_spaces, move, board) != nil
-        move = next_move_for(depth, open_spaces, move, board)
-        board = make_move(board, move, @max_player)
-        score = rank(board) - depth
-        @possible_moves[score] = move
-        reset(board, move)
-
-        minimax(board, depth, @min_player)
+      board = make_move(board, move, @max_player)
+      score = rank(board.spaces) - depth
+      if score < -101
+        score = score.abs
       end
+
+      @possible_moves[score] = move
+      minimax(board, depth, @min_player) 
+      reset(board, move)
     end
   end
 
   def reset(board, space)
-    board[space] = nil
+    board.spaces[space] = nil
     board
   end
 
-  def next_move_for(depth, open_spaces, move, board)
-    open_spaces[depth]
+  def next_move_for(depth, move, board)
+    board.spaces[depth]
   end
 
   def make_move(board, move, current_player)
@@ -73,5 +71,15 @@ class AI
     else
       return LOSS
     end
+  end
+
+  def return_best_move_by_rank
+    if @possible_moves.keys.include?(99)
+      best_move = @possible_moves[99]
+    else
+      best_score = @possible_moves.keys.max
+      best_move = @possible_moves[best_score]
+    end
+    best_move
   end
 end

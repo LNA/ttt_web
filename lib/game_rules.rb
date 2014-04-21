@@ -33,7 +33,7 @@ class GameRules
   end
 
   def tie?(board)
-    full_board?(board) == true && winner(board) == false
+    full?(board) == true && winner(board) == false
   end
 
   def game_over(board)

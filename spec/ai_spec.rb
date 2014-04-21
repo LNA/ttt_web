@@ -41,75 +41,76 @@ describe AI do
     end
 
     it 'finds best move at depth 2' do
-      board = [nil, 'O', 'X',
-               nil, 'X', nil,
-               'O', 'X', nil]
-      open_spaces = [0, 3, 5, 8]
+      board.spaces = [nil, 'O', 'X',
+                      nil, 'X', nil,
+                      'O', 'X', nil]
 
-      @ai.find_best_move(open_spaces, board).should == 0
+      @ai.find_best_move(board).should == 3
     end
 
     it 'finds the best move at depth 4' do 
-      board = ['O', 'X', nil,
-               'X', 'X', 'O',
-               nil, nil , nil]
-      open_spaces = [2, 6, 7, 8]
+      board.spaces = ['O', 'X', nil,
+                      'X', 'X', 'O',
+                      nil, nil , nil]
 
-      @ai.find_best_move(open_spaces, board).should == 2
+      @ai.find_best_move(board).should == 2
     end
 
     it 'chooses a win over a block' do 
-      board = ['O', 'X', 'O',
-               'X', 'X', 'O',
-               nil, nil , nil]
-      open_spaces = [6, 7, 8]
+      board.spaces = ['O', 'X', 'O',
+                      'X', 'X', 'O',
+                      nil, nil , nil]
 
-      @ai.find_best_move(open_spaces, board).should == 8
+      @ai.find_best_move(board).should == 8
     end
   end
 
   context 'tie' do
     it "returns the move for a tie at depth 1" do
-      board = ['X', 'O', 'X',
-               'O', 'X', 'O',
-               'O', 'X', nil]
-      open_spaces = [8]
+      board.spaces = ['X', 'O', 'X',
+                      'O', 'X', 'O',
+                      'O', 'X', nil]
 
-      @ai.find_best_move(open_spaces, board).should == 8
+      @ai.find_best_move(board).should == 8
     end
 
     it "return the move for a tie at depth 2" do 
-      board = ['X', nil, 'X',
-               'O', 'X', 'O',
-               'O', nil, 'X']
-      open_spaces = [1, 7]
+      board.spaces = ['X', nil, 'O',
+                      'O', 'X', 'X',
+                      'X', nil, 'O']
 
-      @ai.find_best_move(open_spaces, board).should == 1
+      @ai.find_best_move(board).should == 1
+    end
+
+    it "return the move for a tie at depth 3" do 
+      board.spaces = ['X', nil, 'O',
+                      nil, 'X', 'X',
+                      'X', nil, 'O']
+
+      @ai.find_best_move(board).should == 3
     end
   end
 
   context 'minimax' do
     it "returns 100 for a win at depth 0" do
-      board = [nil, 'O', 'X',
-               'O', 'X', nil,
-               'O', 'X', nil]
+      board.spaces = [nil, 'O', 'X',
+                      'O', 'X', nil,
+                      'O', 'X', nil]
 
-      open_spaces = [0, 5, 8]
       current_player = "O"
       depth = 0
 
-      @ai.minimax(board, depth, open_spaces, current_player, 0).should == 100
+      @ai.minimax(board, depth, current_player).should == 100
     end
 
     it "returns 99 for a depth of 1" do 
-      board = ['O', nil, nil,
-               nil, nil, nil,
-               nil, 'X', 'X']
-      open_spaces = [1, 2, 3, 4, 5, 6]
+      board.spaces = ['O', nil, nil,
+                     nil, nil, nil,
+                     nil, 'X', 'X']
       depth = 0
       current_player = "O"
 
-      @ai.minimax(board, depth, open_spaces, current_player, 0).should == 99
+      @ai.minimax(board, depth, current_player).should == 99
     end
   end
 end
