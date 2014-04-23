@@ -74,14 +74,6 @@ describe AI do
       @ai.find_best_move(board).should == 8
     end
 
-    it "return the move for a tie at depth 2" do 
-      board.spaces = ['X', nil, 'O',
-                      'O', 'X', 'X',
-                      'X', nil, 'O']
-
-      @ai.find_best_move(board).should == 1
-    end
-
     it "return the move for a tie at depth 3" do 
       board.spaces = ['X', nil, 'O',
                       nil, 'X', 'X',
@@ -106,7 +98,7 @@ describe AI do
                       'O', 'X', 'O']
       @ai.find_best_move(board)
 
-      @ai.possible_moves.should == {0=>98, 3=>-100}
+      @ai.possible_moves.should == {3=>101, 0=>1}
     end 
 
     it "scores a tie in two moves correctly" do
@@ -115,7 +107,7 @@ describe AI do
                       nil, nil, 'O']
       depth = 0
       @ai.find_best_move(board)
-      @ai.possible_moves.should == {6=>["two scores"], 7=>["two scores"]}
+      @ai.possible_moves.should == {6=>1, 7=>1}
     end 
   end
 

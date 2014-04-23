@@ -28,26 +28,29 @@ class AI
         return move 
       else
         best_move = minimax(board, depth, @max_player, move) 
+        board = reset(board, move)
       end
     end
-    best_move
+    best_score = @possible_moves.values.max
+    best_move = @possible_moves.key(best_score)
   end
 
   def minimax(board, depth, current_player, move)
     score = (rank(board.spaces) - depth).abs
     if @game_rules.game_over(board.spaces) != false
       @possible_moves[move] = score
-    end
-    depth += 1
-    board.open_spaces.each do |move|
-      board = make_move(board, move, current_player)
-      current_player = next_player(current_player)
-      score = - minimax(board, depth, current_player, move)
-      board = reset(board, move)
+      return move
+    else
+      depth += 1
+      board.open_spaces.each do |move|
+        current_player = next_player(current_player)
+        board = make_move(board, move, current_player)
+        score = - minimax(board, depth, current_player, move)
+        board = reset(board, move)
+      end
     end
     best_score = @possible_moves.values.max
-    best_move = @possible_moves.index(best_score)
-    return best_move
+    best_move = @possible_moves.key(best_score)
   end
 
   def next_player(current_player)
