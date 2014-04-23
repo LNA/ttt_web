@@ -19,41 +19,35 @@ class AI
    def find_best_move(board)
     depth = 0
     best_score = 5
-    @possible_moves = []
-
+    @possible_moves = {}
 
     board.open_spaces.each do |move|
       make_move(board, move, @max_player) 
       score = rank(board.spaces) - depth 
-      best_move = move
       if score == 100
         return move 
       else
-        best_move = minimax(board, depth, @max_player, score, best_move) 
-      end
-      if score > best_score
-        best_score = score
-        return move
-      end
-    end
-  end
-
-  def minimax(board, depth, current_player, best_score, best_move)
-    score = rank(board.spaces) - depth
-    depth += 1
-   
-    board.open_spaces.each do |move|
-      board = make_move(board, move, current_player)
-      current_player = next_player(current_player)
-      score = - minimax(board, depth, current_player, best_score, best_move)
-      board = reset(board, move)
-     
-      if score > best_score
-        best_score = score
-        best_move = move
+        best_move = minimax(board, depth, @max_player, move) 
       end
     end
     best_move
+  end
+
+  def minimax(board, depth, current_player, move)
+    score = (rank(board.spaces) - depth).abs
+    if @game_rules.game_over(board.spaces) != false
+      @possible_moves[move] = score
+    end
+    depth += 1
+    board.open_spaces.each do |move|
+      board = make_move(board, move, current_player)
+      current_player = next_player(current_player)
+      score = - minimax(board, depth, current_player, move)
+      board = reset(board, move)
+    end
+    best_score = @possible_moves.values.max
+    best_move = @possible_moves.index(best_score)
+    return best_move
   end
 
   def next_player(current_player)
