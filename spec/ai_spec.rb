@@ -53,7 +53,7 @@ describe AI do
                       'X', 'X', 'O',
                       nil, nil , nil]
 
-      @ai.find_best_move(board).should == 2
+      @ai.find_best_move(board).should == 7
     end
 
     it 'chooses a win over a block' do 
@@ -91,26 +91,36 @@ describe AI do
     end
   end
 
-  context 'minimax' do
-    it "returns 100 for a win at depth 0" do
+  context 'minimax score for possible moves' do 
+    it "returns the move if only one move left" do
       board.spaces = [nil, 'O', 'X',
-                      'O', 'X', nil,
-                      'O', 'X', nil]
+                      'O', 'X', 'X',
+                      'O', 'X', 'O']
 
-      current_player = "O"
+      @ai.find_best_move(board).should == 0
+    end 
+
+    it "scores a loss when there is only two moves left correctly" do
+      board.spaces = [nil, 'O', 'X',
+                      nil, 'X', 'X',
+                      'O', 'X', 'O']
+      @ai.find_best_move(board)
+
+      @ai.possible_moves.should == {0=>98, 3=>-100}
+    end 
+
+    it "scores a tie in two moves correctly" do
+      board.spaces = ['X', 'O', 'O',
+                      'O', 'X', 'X',
+                      nil, nil, 'O']
       depth = 0
+      @ai.find_best_move(board)
+      @ai.possible_moves.should == {6=>["two scores"], 7=>["two scores"]}
+    end 
+  end
 
-      @ai.minimax(board, depth, current_player).should == 100
-    end
-
-    it "returns 99 for a depth of 1" do 
-      board.spaces = ['O', nil, nil,
-                     nil, nil, nil,
-                     nil, 'X', 'X']
-      depth = 0
-      current_player = "O"
-
-      @ai.minimax(board, depth, current_player).should == 99
+  context 'forking' do # look up strategies
+    it 'blocks the knight set up' do 
     end
   end
 end

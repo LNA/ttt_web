@@ -19,38 +19,54 @@ class AI
    def find_best_move(board)
     depth = 0
     best_score = 5
-    @possible_moves = {}
+    @possible_moves = []
 
 
     board.open_spaces.each do |move|
-      make_move(board, move, @max_player)
-      score = rank(board.spaces) - depth
-      reset(board, move)
-      @possible_moves[score] = move
-
-      minimax(board, depth, @max_player)
-      @possible_moves[score] = move
-    end
-    return_best_move_by_rank
-  end
-
-  def minimax(board, depth, current_player)
-    depth += 1
-    board.open_spaces.each do |move|
-      board = make_move(board, move, @max_player)
-      score = rank(board.spaces) - depth
-      if score < -101
-        score = score.abs
+      make_move(board, move, @max_player) 
+      score = rank(board.spaces) - depth 
+      best_move = move
+      if score == 100
+        return move 
+      else
+        best_move = minimax(board, depth, @max_player, score, best_move) 
       end
-
-      @possible_moves[score] = move
-      minimax(board, depth, @min_player) 
-      reset(board, move)
+      if score > best_score
+        best_score = score
+        return move
+      end
     end
   end
 
-  def reset(board, space)
-    board.spaces[space] = nil
+  def minimax(board, depth, current_player, best_score, best_move)
+    score = rank(board.spaces) - depth
+    depth += 1
+   
+    board.open_spaces.each do |move|
+      board = make_move(board, move, current_player)
+      current_player = next_player(current_player)
+      score = - minimax(board, depth, current_player, best_score, best_move)
+      board = reset(board, move)
+     
+      if score > best_score
+        best_score = score
+        best_move = move
+      end
+    end
+    best_move
+  end
+
+  def next_player(current_player)
+    if current_player == 'X'
+      current_player = 'O'
+    else
+      current_player = 'X'
+    end
+    current_player
+  end
+
+  def reset(board, move)
+    board.spaces[move] = nil
     board
   end
 
@@ -71,15 +87,5 @@ class AI
     else
       return LOSS
     end
-  end
-
-  def return_best_move_by_rank
-    if @possible_moves.keys.include?(99)
-      best_move = @possible_moves[99]
-    else
-      best_score = @possible_moves.keys.max
-      best_move = @possible_moves[best_score]
-    end
-    best_move
   end
 end
