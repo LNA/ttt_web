@@ -19,25 +19,14 @@ class AI
     best_score = TIE
     @possible_moves = {}
 
-    if board.open_spaces.count == 6 
-      if @game_rules.top_left_corner_set_up(board.spaces)
-        return 0 
-      end
-
-      if @game_rules.bottom_right_corner_set_up(board.spaces)
-        return 8
-      end
-    end
+    return 0 if opponent_played_top_left_coner_set_up(board)
+    return 8 if opponent_played_bottom_right_coner_set_up(board)
 
     board.open_spaces.each do |move|
       make_move(board, move, @max_player)
       score = rank(board.spaces) - depth  
-      if score == 99
-        return move
-      else
-        score_available_moves(board, depth, next_player(current_player), move)
-        board = reset(board, move)
-      end
+      return move if score == 99
+      return_best_move_for(board, depth, current_player, move, score)
     end
     best_score = @possible_moves.values.max
     best_move = @possible_moves.key(best_score)
@@ -58,6 +47,19 @@ class AI
         board = reset(cloned_board, move)
       end
     end
+  end
+
+  def opponent_played_top_left_coner_set_up(board)
+    board.open_spaces.count == 6 && @game_rules.top_left_corner_set_up(board.spaces)
+  end
+
+  def opponent_played_bottom_right_coner_set_up(board)
+    board.open_spaces.count == 6 && @game_rules.bottom_right_corner_set_up(board.spaces)
+  end
+
+  def return_best_move_for(board, depth, current_player, move, score)
+    score_available_moves(board, depth, next_player(current_player), move)
+    board = reset(board, move)
   end
 
   def next_player(current_player)
