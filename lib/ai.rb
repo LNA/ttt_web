@@ -15,13 +15,9 @@ class AI
   WIN, TIE, LOSS = 100, 0, -100
  
    def find_best_move(board)
-    depth = 1
-    best_score = TIE
-    @possible_moves = {}
-
+    depth, best_score, @possible_moves = 1, TIE, {}
     return 0 if opponent_played_top_left_coner_set_up(board)
     return 8 if opponent_played_bottom_right_coner_set_up(board)
-
     board.open_spaces.each do |move|
       make_move(board, move, @max_player)
       score = rank(board.spaces) - depth  
@@ -67,11 +63,7 @@ class AI
   end
 
   def next_player(current_player)
-    if current_player == 'X'
-      'O'
-    else
-      'X'
-    end
+    current_player == "X" ? "O" : "X"
   end
 
   def reset(board, move)
