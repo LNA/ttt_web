@@ -19,6 +19,16 @@ class AI
     best_score = TIE
     @possible_moves = {}
 
+    if board.open_spaces.count == 6 
+      if @game_rules.top_left_corner_set_up(board.spaces)
+        return 0 
+      end
+
+      if @game_rules.bottom_right_corner_set_up(board.spaces)
+        return 8
+      end
+    end
+
     board.open_spaces.each do |move|
       make_move(board, move, @max_player)
       score = rank(board.spaces) - depth  
@@ -44,12 +54,6 @@ class AI
       board.open_spaces.each do |move|
         cloned_board = board.clone
         make_move(cloned_board, move, current_player)
-        puts "depth = #{depth}"
-        puts "move = #{move}"
-        puts "player = #{current_player}"
-        puts "#{board.spaces}"
-        puts "#{rank(board.spaces)}"
-        puts "#" * 50
         score_available_moves(cloned_board, depth, next_player(current_player), move)
         board = reset(cloned_board, move)
       end
@@ -67,10 +71,6 @@ class AI
   def reset(board, move)
     board.spaces[move] = nil
     board
-  end
-
-  def next_move_for(depth, move, board)
-    board.spaces[depth]
   end
 
   def make_move(board, move, current_player)

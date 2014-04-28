@@ -136,7 +136,7 @@ describe AI do
       @ai.find_best_move(board).should == 2
     end
 
-    it 'blocks the bottom right edge set up' do
+    it 'blocks the bottom left edge set up' do
       board.spaces = [nil, nil, nil,
                       'X', 'O', nil,
                       nil, 'X', nil]
@@ -144,12 +144,20 @@ describe AI do
       @ai.find_best_move(board).should == 6
     end
 
-    it 'blocks the bottom left edge set up' do
+    it 'blocks the bottom right edge set up' do
       board.spaces = [nil, nil, nil,
                       nil, 'O', 'X',
                       nil, 'X', nil]
 
       @ai.find_best_move(board).should == 8
+    end
+
+    it 'blocks an L set up' do 
+      board.spaces = ['X', nil, nil,
+                      nil, 'O', nil,
+                      nil, 'X', nil]
+
+      @ai.find_best_move(board).should == 3
     end
   end
 end
