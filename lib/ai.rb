@@ -42,10 +42,9 @@ class AI
   end
 
   def track_possible_moves(board, depth, move)
-     score = (rank(board.spaces)).abs - depth if @game_rules.winner(board.spaces) == 'X'
-     score = rank(board.spaces) - depth if @game_rules.winner(board.spaces) == 'O'
-     score = rank(board.spaces) if @game_rules.winner(board.spaces) == false
-     @possible_moves[move] = score
+    score = (rank(board.spaces)).abs - depth unless @game_rules.winner(board.spaces) == false
+    score = rank(board.spaces) if @game_rules.winner(board.spaces) == false
+    @possible_moves[move] = score
   end
 
   def opponent_played_top_left_coner_set_up(board)
