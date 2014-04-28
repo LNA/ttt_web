@@ -16,8 +16,8 @@ class AI
  
    def find_best_move(board)
     depth, best_score, @possible_moves = 1, TIE, {}
-    return 0 if opponent_played_top_left_coner_set_up(board)
-    return 8 if opponent_played_bottom_right_coner_set_up(board)
+    return 0 if opponent_played_top_left_coner_set_up_on(board)
+    return 8 if opponent_played_bottom_right_coner_set_up_on(board)
     board.open_spaces.each do |move|
       make_move(board, move, @max_player)
       score = rank(board.spaces) - depth  
@@ -47,11 +47,11 @@ class AI
     @possible_moves[move] = score
   end
 
-  def opponent_played_top_left_coner_set_up(board)
+  def opponent_played_top_left_coner_set_up_on(board)
     board.open_spaces.count == 6 && @game_rules.top_left_corner_set_up(board.spaces)
   end
 
-  def opponent_played_bottom_right_coner_set_up(board)
+  def opponent_played_bottom_right_coner_set_up_on(board)
     board.open_spaces.count == 6 && @game_rules.bottom_right_corner_set_up(board.spaces)
   end
 
