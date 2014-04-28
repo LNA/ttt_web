@@ -2,10 +2,9 @@ require 'game_rules'
 require 'board'
 
 class AI
-  attr_accessor  :current_player, :possible_moves
-               
+  attr_accessor  :current_player, :possible_moves   
 
-  def initialize(game_rules, opponent_game_piece, ai_game_piece)
+  def initialize(game_rules)
     @game_rules = game_rules
   end
 
