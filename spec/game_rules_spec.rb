@@ -34,11 +34,11 @@ describe GameRules do
     end
   end 
 
-  context "#game_over" do 
-    it "returns the winning game piece" do 
+  context "#game_over?" do 
+    it "returns true for a full board" do 
       board = ["X"]*9
 
-      game_rules.winner(board).should == "X"
+      game_rules.game_over?(board).should == true
     end
 
     it "returns false in the case of a tie" do 
@@ -47,11 +47,46 @@ describe GameRules do
                       "X", "X", "O"]
 
       game_rules.winner(board.spaces).should == false
-
     end
 
     it "returns nil if the game is not over" do       
       game_rules.winner(board.spaces).should == nil
     end
   end
+
+  context "top_corner_set_up" do 
+    it "returns true for a 1-3 set up" do 
+      board.spaces = [nil]*9
+      board.spaces[1] = 'X'
+      board.spaces[3] = 'X'
+
+      game_rules.top_corner_set_up(board.spaces).should == true
+    end
+
+    it "returns true for a 1-5 set up" do 
+      board.spaces = [nil]*9
+      board.spaces[1] = 'X'
+      board.spaces[5] = 'X'
+
+      game_rules.top_corner_set_up(board.spaces).should == true
+    end
+  end
+
+  context "bottom_corner_set_up" do
+    it "returns true for a 7-3 set up" do 
+      board.spaces = [nil]*9
+      board.spaces[7] = 'X'
+      board.spaces[3] = 'X'
+
+      game_rules.bottom_corner_set_up(board.spaces).should == true
+    end
+
+    it "returns true for a 7-5 set up" do 
+      board.spaces = [nil]*9
+      board.spaces[7] = 'X'
+      board.spaces[5] = 'X'
+
+      game_rules.bottom_corner_set_up(board.spaces).should == true
+    end
+  end 
 end

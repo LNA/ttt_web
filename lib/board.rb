@@ -13,7 +13,7 @@ class Board
     open_spaces = []
     @spaces.each_with_index do |player, space|
       if player == nil
-        open_spaces << space 
+        open_spaces << space
       end
     end
     open_spaces

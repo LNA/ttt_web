@@ -8,7 +8,7 @@ class Repository
     @repositories ||= {}
   end
 
-  def self.for(type) 
+  def self.for(type)
     repositories[type]
   end
 end

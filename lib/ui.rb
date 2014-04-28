@@ -3,9 +3,9 @@ class UI
   WELCOME_MESSAGE = "Welcome to ttt!"
   INVALID_MOVE_MESSAGE = "Sorry invalid move! Try again:"
   GAME_OVER_MESSAGE = "Game Over!"
-  
+
   def welcome_user
-    puts WELCOME_MESSAGE 
+    puts WELCOME_MESSAGE
   end
 
   def get_player_type(player_number)
@@ -16,7 +16,7 @@ class UI
 
   def display_grid(board)
     output = []
-    0.upto(8) do |position| 
+    0.upto(8) do |position|
       output << " #{board[position] || position} "
     end
     puts output.each_slice(3){|row| puts row.join}

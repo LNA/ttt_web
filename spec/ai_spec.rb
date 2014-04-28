@@ -2,7 +2,7 @@ require 'ai'
 require 'board'
 require 'game_rules'
 
-describe AI do 
+describe AI do
   let (:game_rules) {GameRules.new}
   let (:board)      {Board.new}
 
@@ -10,21 +10,21 @@ describe AI do
     @ai = AI.new(game_rules, 'X', 'O')
   end
 
-  context 'score' do 
+  context 'score' do
     it 'returns 0 for a tie' do
-      board.spaces = ['X', 'X', 'O', 
-                      'X', 'O', 'E', 
+      board.spaces = ['X', 'X', 'O',
+                      'X', 'O', 'E',
                       'E', 'X', 'X']
       @ai.rank(board.spaces).should == 0
     end
 
-    it 'returns -100 for a min player win' do 
+    it 'returns -100 for a min player win' do
       board.spaces = ['X']*9
 
       @ai.rank(board.spaces).should == -100
     end
 
-    it 'returns 100 for a max player win' do 
+    it 'returns 100 for a max player win' do
       board.spaces = ['O']*9
 
       @ai.rank(board.spaces).should == 100
@@ -45,10 +45,10 @@ describe AI do
                       nil, 'X', nil,
                       'O', 'X', nil]
 
-      @ai.find_best_move(board).should == 3
+      @ai.find_best_move(board).should == 5
     end
 
-    it 'finds the best move at depth 4' do 
+    it 'finds the best move at depth 4' do
       board.spaces = ['O', 'X', nil,
                       'X', 'X', 'O',
                       nil, nil , nil]
@@ -56,7 +56,7 @@ describe AI do
       @ai.find_best_move(board).should == 7
     end
 
-    it 'chooses a win over a block' do 
+    it 'chooses a win over a block' do
       board.spaces = ['O', 'X', 'O',
                       'X', 'X', 'O',
                       nil, nil , nil]
@@ -66,7 +66,7 @@ describe AI do
   end
 
   context 'tie' do
-    it "returns the move for a tie at depth 1" do
+    it 'returns the move for a tie at depth 1' do
       board.spaces = ['X', 'O', 'X',
                       'O', 'X', 'O',
                       'O', 'X', nil]
@@ -74,7 +74,7 @@ describe AI do
       @ai.find_best_move(board).should == 8
     end
 
-    it "return the move for a tie at depth 3" do 
+    it 'return the move for a tie at depth 3' do
       board.spaces = ['X', nil, 'O',
                       nil, 'X', 'X',
                       'X', nil, 'O']
@@ -83,7 +83,7 @@ describe AI do
     end
   end
 
-  context 'minimax score for possible moves' do 
+  context 'minimax score for possible moves' do
     it "returns the move if only one move left" do
       board.spaces = [nil, 'O', 'X',
                       'O', 'X', 'X',
@@ -92,27 +92,64 @@ describe AI do
       @ai.find_best_move(board).should == 0
     end 
 
-    it "scores a loss when there is only two moves left correctly" do
+    it 'scores a loss when there are only two moves left correctly' do
       board.spaces = [nil, 'O', 'X',
                       nil, 'X', 'X',
                       'O', 'X', 'O']
       @ai.find_best_move(board)
 
-      @ai.possible_moves.should == {3=>101, 0=>1}
+      @ai.possible_moves.should == {3=>98, 0=>0}
     end 
 
-    it "scores a tie in two moves correctly" do
+    it 'scores a tie in two moves correctly' do
       board.spaces = ['X', 'O', 'O',
                       'O', 'X', 'X',
                       nil, nil, 'O']
       depth = 0
       @ai.find_best_move(board)
-      @ai.possible_moves.should == {6=>1, 7=>1}
+      @ai.possible_moves.should == {7=>0, 6=>0}
     end 
   end
 
-  context 'forking' do # look up strategies
-    it 'blocks the knight set up' do 
+  context 'chess moves' do
+    it 'blocks the two corner set up' do
+      board.spaces = ['X', nil, nil,
+                      nil, 'O', nil,
+                      nil, nil, 'X']
+
+      @ai.find_best_move(board).should == 3
+    end
+
+    it 'blocks the top left edge set up' do
+      board.spaces = [nil, 'X', nil,
+                      'X', 'O', nil,
+                      nil, nil, nil]
+
+      @ai.find_best_move(board).should == 0
+    end
+
+    it 'blocks the top right edge set up' do
+      board.spaces = [nil, 'X', nil,
+                      nil, 'O', 'X',
+                      nil, nil, nil]
+
+      @ai.find_best_move(board).should == 2
+    end
+
+    it 'blocks the bottom right edge set up' do
+      board.spaces = [nil, nil, nil,
+                      'X', 'O', nil,
+                      nil, 'X', nil]
+
+      @ai.find_best_move(board).should == 6
+    end
+
+    it 'blocks the bottom left edge set up' do
+      board.spaces = [nil, nil, nil,
+                      nil, 'O', 'X',
+                      nil, 'X', nil]
+
+      @ai.find_best_move(board).should == 8
     end
   end
 end

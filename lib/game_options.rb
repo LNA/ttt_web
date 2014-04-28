@@ -9,11 +9,11 @@ class GameOptions
   def set_player_type(player_one, player_two)
     @player_one = player_one.upcase
     @player_two = player_two.upcase
-    players = [] 
+    players = []
     players << @player_one
     players << @player_two
-   
-    players.each do |player| 
+
+    players.each do |player|
       if player == "H"
         player = 'human'
       else

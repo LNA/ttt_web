@@ -12,22 +12,20 @@ class AI
     @max_player = ai_game_piece
   end
 
-  WIN = 100
-  TIE = 0
-  LOSS = -100 
-
+  WIN, TIE, LOSS = 100, 0, -100
+ 
    def find_best_move(board)
-    depth = 0
-    best_score = 5
+    depth = 1
+    best_score = TIE
     @possible_moves = {}
 
     board.open_spaces.each do |move|
-      make_move(board, move, @max_player) 
-      score = rank(board.spaces) - depth 
-      if score == 100
-        return move 
+      make_move(board, move, @max_player)
+      score = rank(board.spaces) - depth  
+      if score == 99
+        return move
       else
-        best_move = minimax(board, depth, @max_player, move) 
+        score_available_moves(board, depth, next_player(current_player), move)
         board = reset(board, move)
       end
     end
@@ -35,31 +33,35 @@ class AI
     best_move = @possible_moves.key(best_score)
   end
 
-  def minimax(board, depth, current_player, move)
-    score = (rank(board.spaces) - depth).abs
-    if @game_rules.game_over(board.spaces) != false
-      @possible_moves[move] = score
-      return move
+  def score_available_moves(board, depth, current_player, move)
+    if @game_rules.game_over?(board.spaces) 
+       score = (rank(board.spaces)).abs - depth if @game_rules.winner(board.spaces) == 'X'
+       score = rank(board.spaces) - depth if @game_rules.winner(board.spaces) == 'O'
+       score = rank(board.spaces) if @game_rules.winner(board.spaces) == false
+       @possible_moves[move] = score
     else
       depth += 1
       board.open_spaces.each do |move|
-        current_player = next_player(current_player)
-        board = make_move(board, move, current_player)
-        score = - minimax(board, depth, current_player, move)
-        board = reset(board, move)
+        cloned_board = board.clone
+        make_move(cloned_board, move, current_player)
+        puts "depth = #{depth}"
+        puts "move = #{move}"
+        puts "player = #{current_player}"
+        puts "#{board.spaces}"
+        puts "#{rank(board.spaces)}"
+        puts "#" * 50
+        score_available_moves(cloned_board, depth, next_player(current_player), move)
+        board = reset(cloned_board, move)
       end
     end
-    best_score = @possible_moves.values.max
-    best_move = @possible_moves.key(best_score)
   end
 
   def next_player(current_player)
     if current_player == 'X'
-      current_player = 'O'
+      'O'
     else
-      current_player = 'X'
+      'X'
     end
-    current_player
   end
 
   def reset(board, move)

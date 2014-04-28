@@ -16,11 +16,11 @@ class GameRules
   end
 
   def winner(board)
-    [first_row(board), 
-     second_row(board), 
+    [first_row(board),
+     second_row(board),
      third_row(board),
-     left_column(board), 
-     middle_column(board),    
+     left_column(board),
+     middle_column(board),
      right_column(board),
      left_diag_winner(board),
      right_diag_winner(board)
@@ -36,8 +36,40 @@ class GameRules
     full?(board) == true && winner(board) == false
   end
 
-  def game_over(board)
-    winner(board) || tie?(board)
+  def game_over?(board)
+    if full?(board) || winner(board)
+      true
+    else
+      false
+    end
+  end
+
+  def corner_set_up(board)
+    top_corner_set_up || bottom_corner_set_up 
+  end
+  
+  def top_corner_set_up(board)
+    top_left_corner_set_up(board) || top_right_corner_set_up(board)
+  end
+
+  def bottom_corner_set_up(board)
+    bottom_left_corner_set_up(board) || bottom_right_corner_set_up(board)
+  end
+
+  def top_left_corner_set_up(board)
+    board[1] && board[3] == 'X' 
+  end
+
+  def top_right_corner_set_up(board)
+    board[1] && board[5] == 'X' 
+  end
+
+  def bottom_left_corner_set_up(board)
+    board[7] && board[3] == 'X' 
+  end
+
+  def bottom_right_corner_set_up(board)
+    board[7] && board[5] == 'X' 
   end
 
 private
@@ -69,7 +101,7 @@ private
   def left_diag_winner(board)
     [board[0], board[4], board[8]]
   end
-  
+
   def right_diag_winner(board)
     [board[2], board[4], board[6]]
   end
