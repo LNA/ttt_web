@@ -2,14 +2,11 @@ require 'game_rules'
 require 'board'
 
 class AI
-  attr_accessor :board, :current_player, :game_piece,
-                :game_over, :max_player, :min_player, :open_spaces, :possible_moves, 
-                :rank, :space
+  attr_accessor  :current_player, :possible_moves
+               
 
   def initialize(game_rules, opponent_game_piece, ai_game_piece)
     @game_rules = game_rules
-    @min_player = opponent_game_piece
-    @max_player = ai_game_piece
   end
 
   WIN, TIE, LOSS = 100, 0, -100
@@ -19,7 +16,7 @@ class AI
     return 0 if opponent_played_top_left_coner_set_up_on(board)
     return 8 if opponent_played_bottom_right_coner_set_up_on(board)
     board.open_spaces.each do |move|
-      make_move(board, move, @max_player)
+      make_move(board, move, "O")
       score = rank(board.spaces) - depth  
       return move if score == 99
       return_best_move_for(board, depth, current_player, move, score)
@@ -77,7 +74,7 @@ class AI
   def rank(board)
     if @game_rules.tie?(board)
       return TIE
-    elsif @game_rules.winner(board) == @max_player
+    elsif @game_rules.winner(board) == "O"
       return WIN
     else
       return LOSS

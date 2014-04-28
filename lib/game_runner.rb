@@ -1,12 +1,14 @@
 $: << File.expand_path(File.dirname(__FILE__))
-require 'game'
+require 'ai'
+require 'board'
+require 'console_runner'
 require 'ui'
 require 'game_options'
-require 'game_state'
-require 'console_runner'
+require 'game_rules'
 
+ai = AI.new
+board = Board.new
+game_rules = GameRules.new
 ui = UI.new
-game_state = GameState.new('X', Array.new(9))
-console_runner = ConsoleRunner.new(ui, game_state)
+console_runner = ConsoleRunner.new(board, game_rules, ui)
 console_runner.start_game
-
