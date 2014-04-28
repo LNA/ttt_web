@@ -24,8 +24,7 @@ class AI
       return move if score == 99
       return_best_move_for(board, depth, current_player, move, score)
     end
-    best_score = @possible_moves.values.max
-    best_move = @possible_moves.key(best_score)
+    best_move = @possible_moves.key(@possible_moves.values.max)
   end
 
   def score_available_moves(board, depth, current_player, move)
