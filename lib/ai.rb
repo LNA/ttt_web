@@ -34,10 +34,7 @@ class AI
 
   def score_available_moves(board, depth, current_player, move)
     if @game_rules.game_over?(board.spaces) 
-       score = (rank(board.spaces)).abs - depth if @game_rules.winner(board.spaces) == 'X'
-       score = rank(board.spaces) - depth if @game_rules.winner(board.spaces) == 'O'
-       score = rank(board.spaces) if @game_rules.winner(board.spaces) == false
-       @possible_moves[move] = score
+       track_possible_moves(board, depth, move)
     else
       depth += 1
       board.open_spaces.each do |move|
@@ -47,6 +44,13 @@ class AI
         board = reset(cloned_board, move)
       end
     end
+  end
+
+  def track_possible_moves(board, depth, move)
+     score = (rank(board.spaces)).abs - depth if @game_rules.winner(board.spaces) == 'X'
+     score = rank(board.spaces) - depth if @game_rules.winner(board.spaces) == 'O'
+     score = rank(board.spaces) if @game_rules.winner(board.spaces) == false
+     @possible_moves[move] = score
   end
 
   def opponent_played_top_left_coner_set_up(board)
