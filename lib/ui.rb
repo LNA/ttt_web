@@ -22,8 +22,8 @@ class UI
     puts output.each_slice(3){|row| puts row.join}
   end 
 
-  def ask_player_for_move(player_number)
-    puts "Player #{player_number}: Enter your move:"
+  def ask_player_for_move
+    puts "Enter your move:"
   end
 
   def invalid_move_message
@@ -36,7 +36,9 @@ class UI
 
   def winner_message(winner)
     if winner == 'O'
-      puts "AI has won!"
+      puts "O has won!"
+    elsif winner == 'X'
+      puts "X has won!"
     else
       puts "Its a tie!"
     end

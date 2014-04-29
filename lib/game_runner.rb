@@ -6,9 +6,9 @@ require 'ui'
 require 'game_options'
 require 'game_rules'
 
-ai = AI.new
 board = Board.new
 game_rules = GameRules.new
+ai = AI.new(game_rules)
 ui = UI.new
-console_runner = ConsoleRunner.new(board, game_rules, ui)
+console_runner = ConsoleRunner.new(ai, board, game_rules, ui)
 console_runner.start_game

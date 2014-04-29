@@ -6,19 +6,19 @@ describe GameRules do
   let (:board)       {Board.new}
 
 
-  context "#valid_move" do
+  context "#valid_move?" do
     it "returns true for a valid move" do 
-      game_rules.valid(0, board.spaces).should == true
+      game_rules.valid?(0, board.spaces).should == true
     end
 
     it "returns false for a move of 100" do 
-      game_rules.valid(100, board.spaces).should == false
+      game_rules.valid?(100, board.spaces).should == false
     end
 
     it "returns false for a taken space" do 
       board.spaces[0] = 'X'
 
-      game_rules.valid(0, "O").should == false
+      game_rules.valid?(0, "O").should == false
     end
   end
 

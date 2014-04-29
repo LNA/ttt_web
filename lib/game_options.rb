@@ -21,13 +21,4 @@ class GameOptions
       end
     end
   end
-
-  def set_game_type
-    if @player_one && @player_two == "H"
-      @game_type ='human versus human'
-    else
-      @game_type = 'human versus ai'
-    end
-    @game_type
-  end
 end

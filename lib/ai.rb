@@ -3,24 +3,27 @@ require 'board'
 
 class AI
   attr_accessor  :current_player, :possible_moves   
-
   def initialize(game_rules)
     @game_rules = game_rules
   end
 
-  WIN, TIE, LOSS = 100, 0, -100
+ WIN, TIE, LOSS = 100, 0, -100
  
    def find_best_move(board)
-    depth, best_score, @possible_moves = 1, TIE, {}
-    return 0 if opponent_played_top_left_coner_set_up_on(board)
-    return 8 if opponent_played_bottom_right_coner_set_up_on(board)
+    best_score, @possible_moves = TIE, {}
+    current_player = 'X'
+  
     board.open_spaces.each do |move|
-      make_move(board, move, "O")
-      score = rank(board.spaces) - depth  
-      return move if score == 99
-      return_best_move_for(board, depth, current_player, move, score)
+      depth = 1
+      make_move(board, move, next_player(current_player))
+      score = rank(board.spaces) - depth 
+      track_possible_moves(board, depth, move)
+      return move if score == 99 
+      score_available_moves(board, depth, next_player(current_player), move)
+      board = reset(board, move)
     end
-    best_move = @possible_moves.key(@possible_moves.values.max)
+    best_score = @possible_moves.values.max
+    best_move = @possible_moves.key(best_score)
   end
 
   def score_available_moves(board, depth, current_player, move)
@@ -38,22 +41,10 @@ class AI
   end
 
   def track_possible_moves(board, depth, move)
-    score = (rank(board.spaces)).abs - depth unless @game_rules.winner(board.spaces) == false
-    score = rank(board.spaces) if @game_rules.winner(board.spaces) == false
-    @possible_moves[move] = score
-  end
-
-  def opponent_played_top_left_coner_set_up_on(board)
-    board.open_spaces.count == 6 && @game_rules.top_left_corner_set_up(board.spaces)
-  end
-
-  def opponent_played_bottom_right_coner_set_up_on(board)
-    board.open_spaces.count == 6 && @game_rules.bottom_right_corner_set_up(board.spaces)
-  end
-
-  def return_best_move_for(board, depth, current_player, move, score)
-    score_available_moves(board, depth, next_player(current_player), move)
-    board = reset(board, move)
+    score = (rank(board.spaces)).abs - depth if @game_rules.winner(board.spaces) == 'X'
+    score = rank(board.spaces) - depth if @game_rules.winner(board.spaces) == 'O'
+    score = rank(board.spaces) if @game_rules.winner(board.spaces) == false 
+    @possible_moves[move] = score #only replace if its another score
   end
 
   def next_player(current_player)

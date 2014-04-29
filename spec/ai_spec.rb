@@ -7,7 +7,7 @@ describe AI do
   let (:board)      {Board.new}
 
   before :each do
-    @ai = AI.new(game_rules, 'X', 'O')
+    @ai = AI.new(game_rules)
   end
 
   context 'score' do
@@ -56,6 +56,14 @@ describe AI do
       @ai.find_best_move(board).should == 7
     end
 
+    it 'finds the best move at depth 5' do 
+      board.spaces = ['X', 'X', nil,
+                      nil, nil, nil,
+                      'O', nil, nil]
+
+      @ai.find_best_move(board).should == 2
+    end
+
     it 'chooses a win over a block' do
       board.spaces = ['O', 'X', 'O',
                       'X', 'X', 'O',
@@ -98,7 +106,7 @@ describe AI do
                       'O', 'X', 'O']
       @ai.find_best_move(board)
 
-      @ai.possible_moves.should == {3=>98, 0=>0}
+      @ai.possible_moves.should == {0=>0, 3=>100}
     end 
 
     it 'scores a tie in two moves correctly' do
@@ -117,7 +125,7 @@ describe AI do
                       nil, 'O', nil,
                       nil, nil, 'X']
 
-      @ai.find_best_move(board).should == 3
+      @ai.find_best_move(board).should == 6
     end
 
     it 'blocks the top left edge set up' do
@@ -156,6 +164,16 @@ describe AI do
       board.spaces = ['X', nil, nil,
                       nil, 'O', nil,
                       nil, 'X', nil]
+
+      @ai.find_best_move(board).should == 3
+    end
+  end
+
+  context 'fails in play' do 
+    it 'works' do
+      board.spaces = [nil, nil, nil,
+                      nil, 'X', 'X',
+                      'O', nil, nil]
 
       @ai.find_best_move(board).should == 3
     end

@@ -1,6 +1,6 @@
 class GameRules
-  def valid(move, board)
-    if (board[move.to_i].is_a? String) || move > 8
+  def valid?(move, board)
+    if (board.spaces[move.to_i].is_a? String) || move.to_i > 8
       false
     else
       true
@@ -25,8 +25,10 @@ class GameRules
      left_diag_winner(board),
      right_diag_winner(board)
     ].each do |line|
-      if line.uniq.count == 1
-        return line[0]
+      if line.uniq.count == 1 
+        if line[0] != nil
+          return line[0]
+        end
       end
     end
     false
