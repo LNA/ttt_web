@@ -22,6 +22,13 @@ class AI
       @possible_moves[move] = score 
       reset(board, move)
     end
+    best_move 
+   end
+
+   def best_move
+    @possible_moves.each { |k, v| @possible_moves[k] = v.abs }
+    best_score = @possible_moves.values.max
+    @possible_moves.key(best_score)
    end
 
   # def score_available_moves(board, depth, current_player, move)
@@ -37,10 +44,6 @@ class AI
   #     reset(cloned_board, move)                     # reset board 
   #   end
   # end
-
-  def track_possible_moves(board, depth, move)
-    @possible_moves[move] = score #only replace if its another score
-  end
 
   def next_player(current_player)
     current_player == "X" ? "O" : "X"

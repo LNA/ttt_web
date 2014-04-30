@@ -9,6 +9,7 @@ describe AI do
   before :each do
     @ai = AI.new(game_rules, 'O', 'X')
   end
+
   context 'score #possible_moves' do 
     it 'stores scores for possible moves' do
       board.spaces = [nil]*9
@@ -38,7 +39,19 @@ describe AI do
                       nil, nil, nil,
                       nil, nil, nil]
       @ai.find_best_move(board)
-      @ai.possible_moves[3].should == AI::LOSS + 1
+      @ai.possible_moves[3].should == (AI::LOSS + 1).abs
+    end
+  end
+
+  context 'best move' do 
+    it 'finds the best move when the best score is 500' do 
+      @ai.possible_moves = {1=>500, 2=>0, 3=>-500, 4=> 100}
+      @ai.best_move.should == 1
+    end
+
+    it 'finds the best move when the best score is a loss' do 
+      @ai.possible_moves = {1=>-97, 2=>0}
+      @ai.best_move.should == 1
     end
   end
 
