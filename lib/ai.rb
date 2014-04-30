@@ -33,7 +33,7 @@ class AI
       cloned_board = board.clone                   
       make_move(cloned_board, move, current_player) 
       score = rank(cloned_board.spaces, depth)
-      @possible_moves[move] = score
+      track_best(move, score)
       score_available_moves(cloned_board, depth, next_player(current_player), move, score) 
     end
   end

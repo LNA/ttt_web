@@ -31,7 +31,7 @@ describe AI do
                       nil, nil, nil]
 
       @ai.find_best_move(board)
-      @ai.possible_moves[2].should == AI::WIN - 2
+      @ai.possible_moves[2].should == AI::WIN - 1
     end
 
     it 'stores the score for a possible loss' do 
@@ -50,19 +50,6 @@ describe AI do
     it 'finds the best move when the best score is a loss' do 
       @ai.possible_moves = {1=>-497, 2=>494}
       @ai.best_move.should == 1
-    end
-  end
-
-  context '#find_best_move' do 
-    it 'returns the best possible move on a board with 9 open spaces' do 
-      board.spaces = [nil, nil, nil,
-                      nil, nil, nil,
-                      nil, nil, nil]
-
-      acceptable_moves = [0, 2, 6, 8]
-      move = @ai.find_best_move(board)
-
-      acceptable_moves.should include(move)
     end
   end
 
@@ -113,6 +100,32 @@ describe AI do
 
       depth = 1
       @ai.rank(board.spaces, depth).should == AI::LOSS + 1
+    end
+  end
+
+  context '#find_best_move' do 
+    it 'returns the best possible move on a board with 1 open space' do 
+      board.spaces = ['X', 'O', 'O',
+                      'X', 'O', 'X',
+                      'O', nil, 'O']
+
+      @ai.find_best_move(board).should == 7
+    end
+
+    it 'returns the best possible move on a board with 2 open spaces for an ai win' do 
+      board.spaces = ['X', 'O', nil,
+                      'X', 'O', 'X',
+                      'O', nil, 'O']
+
+      @ai.find_best_move(board).should == 7
+    end
+
+    it 'returns the best possible move on a board with 2 open spaces to block an opponent win' do 
+      board.spaces = ['X', 'O', 'X',
+                      'X', 'X', 'X',
+                      'O', nil, nil]
+
+      @ai.find_best_move(board).should == 8
     end
   end
 end
