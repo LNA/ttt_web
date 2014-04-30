@@ -7,14 +7,79 @@ describe AI do
   let (:board)      {Board.new}
 
   before :each do
-    @ai = AI.new(game_rules)
+    @ai = AI.new(game_rules, 'O', 'X')
+  end
+  context 'score #possible_moves' do 
+    it 'stores scores for possible moves' do
+      board.spaces = [nil]*9
+      @ai.find_best_move(board)
+      @ai.possible_moves.should == {0 => AI::IN_PROGRESS_SCORE,
+                                    1 => AI::IN_PROGRESS_SCORE,
+                                    2 => AI::IN_PROGRESS_SCORE,
+                                    3 => AI::IN_PROGRESS_SCORE,
+                                    4 => AI::IN_PROGRESS_SCORE,
+                                    5 => AI::IN_PROGRESS_SCORE,
+                                    6 => AI::IN_PROGRESS_SCORE,
+                                    7 => AI::IN_PROGRESS_SCORE,
+                                    8 => AI::IN_PROGRESS_SCORE}
+    end
+
+    it 'stores the score for a possible win' do
+      board.spaces = ['O', 'O', nil,
+                      nil, nil, nil,
+                      nil, nil, nil]
+
+      @ai.find_best_move(board)
+      @ai.possible_moves[2].should == AI::WIN - 1
+    end
+
+    it 'stores the score for a possible loss' do 
+      board.spaces = ['X', 'X', 'X',
+                      nil, nil, nil,
+                      nil, nil, nil]
+      @ai.find_best_move(board)
+      @ai.possible_moves[3].should == AI::LOSS + 1
+    end
   end
 
-  context 'minimax score for possible moves' do
-    it 'scores a loss when there are only two moves left correctly' do
-    end 
+  context '#rank' do
+    it 'scores an in progress game' do
+      board.spaces = [nil] * 9
+      depth = 1
+      @ai.rank(board.spaces, depth).should == AI::IN_PROGRESS_SCORE
+    end
 
-    it 'scores a tie in two moves correctly' do
+    it 'scores a win in one move for the ai' do
+      board.spaces = [nil] * 9
+      board.spaces[0] = 'O'
+      board.spaces[1] = 'O'
+      board.spaces[2] = 'O'
+
+      depth = 1
+      @ai.rank(board.spaces, depth).should == AI::WIN - 1
+    end
+
+    it 'scores a win in one move for the ai if the piece is X' do
+      @ai.game_piece = 'X'
+      board.spaces = [nil] * 9
+      board.spaces[0] = 'X'
+      board.spaces[1] = 'X'
+      board.spaces[2] = 'X'
+
+      depth = 1
+      @ai.rank(board.spaces, depth).should == AI::WIN - 1
+    end
+
+    it 'scores a win in one move for the opponent' do
+      @ai.game_piece = 'X'
+      @ai.opponent_piece = 'O'
+      board.spaces = [nil] * 9
+      board.spaces[0] = 'O'
+      board.spaces[1] = 'O'
+      board.spaces[2] = 'O'
+
+      depth = 1
+      @ai.rank(board.spaces, depth).should == AI::LOSS + 1
     end
   end
 end

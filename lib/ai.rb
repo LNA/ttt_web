@@ -2,18 +2,41 @@ require 'game_rules'
 require 'board'
 
 class AI
-  attr_accessor  :current_player, :possible_moves   
-  def initialize(game_rules)
+  attr_accessor  :current_player, :game_piece, :possible_moves, :opponent_piece
+  def initialize(game_rules, game_piece, opponent_piece)
     @game_rules = game_rules
+    @possible_moves = {}  
+    @game_piece = game_piece
+    @opponent_piece = opponent_piece
   end
 
-  WIN, TIE, LOSS = 100, 0, -100
+  WIN, TIE, LOSS, IN_PROGRESS_SCORE = 500, 0, -500, 100
  
    def find_best_move(board)
-  end
+    current_player = @game_piece
+    board.open_spaces.each do |move|
+      depth = 1                                     
+      cloned_board = board.clone                  
+      make_move(cloned_board, move, current_player) 
+      score = rank(cloned_board.spaces, depth)             
+      @possible_moves[move] = score 
+      reset(board, move)
+    end
+   end
 
-  def score_available_moves(board, depth, current_player, move)
-  end
+  # def score_available_moves(board, depth, current_player, move)
+  #   #Note: a -97 is better than a 94.
+  #   # add score to @possible_moves if game is over and score is highest for that move
+  #   board.open_spaces.each do |move|
+  #     depth = 1                                     # set depth to one
+  #     cloned_board = board.clone                    # clone board
+  #     make_move(cloned_board, move, current_player) # make move on cloned board
+  #     score = rank(cloned_board.spaces, depth)
+  #     @possible_moves[move] = score
+  #     score_available_moves(cloned_board, depth, next_player(current_player), move) # call minimax on cloned board
+  #     reset(cloned_board, move)                     # reset board 
+  #   end
+  # end
 
   def track_possible_moves(board, depth, move)
     @possible_moves[move] = score #only replace if its another score
@@ -33,13 +56,15 @@ class AI
     board
   end
 
-  def rank(board)
+  def rank(board, depth)
     if @game_rules.tie?(board)
       return TIE
-    elsif @game_rules.winner(board) == "O"
-      return WIN
+    elsif @game_rules.winner(board) == @game_piece
+      return WIN - depth
+    elsif @game_rules.winner(board) == @opponent_piece
+      return LOSS + depth
     else
-      return LOSS
+      return IN_PROGRESS_SCORE
     end
   end
 end
