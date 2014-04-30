@@ -45,14 +45,21 @@ describe AI do
 
   context 'best move' do 
     it 'finds the best move when the best score is 500' do 
-      @ai.possible_moves = {1=>500, 2=>0, 3=>-500, 4=> 100}
+      @ai.possible_moves = {1=>500, 2=>0, 3=>-500, 4=>100}
       @ai.best_move.should == 1
     end
 
     it 'finds the best move when the best score is a loss' do 
-      @ai.possible_moves = {1=>-97, 2=>0}
+      @ai.possible_moves = {1=>-497, 2=>494}
       @ai.best_move.should == 1
     end
+
+    it 'replaces a score for a move if the current score is less than the previous score' do
+     @ai.possible_moves = {1=>500, 2=>0, 3=>-500, 4=> 100}
+     score = 0
+     move = 1
+     @ai.track_best_possible(move, score).should == {1=>500, 2=>0, 3=>-500, 4=> 100}
+   end
   end
 
   context '#rank' do

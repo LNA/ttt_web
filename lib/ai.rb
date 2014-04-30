@@ -18,8 +18,12 @@ class AI
       depth = 1                                     
       cloned_board = board.clone                  
       make_move(cloned_board, move, current_player) 
-      score = rank(cloned_board.spaces, depth)             
-      @possible_moves[move] = score 
+      score = rank(cloned_board.spaces, depth) 
+      if @possible_moves.count > 0
+        track_best_possible(move, score)
+      else
+        @possible_moves[move] = score 
+      end
       reset(board, move)
     end
     best_move 
@@ -31,19 +35,25 @@ class AI
     @possible_moves.key(best_score)
    end
 
-  # def score_available_moves(board, depth, current_player, move)
-  #   #Note: a -97 is better than a 94.
-  #   # add score to @possible_moves if game is over and score is highest for that move
-  #   board.open_spaces.each do |move|
-  #     depth = 1                                     # set depth to one
-  #     cloned_board = board.clone                    # clone board
-  #     make_move(cloned_board, move, current_player) # make move on cloned board
-  #     score = rank(cloned_board.spaces, depth)
-  #     @possible_moves[move] = score
-  #     score_available_moves(cloned_board, depth, next_player(current_player), move) # call minimax on cloned board
-  #     reset(cloned_board, move)                     # reset board 
-  #   end
-  # end
+   def track_best_possible(move, score)
+    if @possible_moves[move] == nil || @possible_moves[move] < score
+      @possible_moves[move] = score
+    end
+    @possible_moves
+   end
+
+  def score_available_moves(board, depth, current_player, move)
+    # add score to @possible_moves if game is over and score is highest for that move
+    board.open_spaces.each do |move|
+      depth += 1                                     # set depth to one
+      cloned_board = board.clone                    # clone board
+      make_move(cloned_board, move, current_player) # make move on cloned board
+      score = rank(cloned_board.spaces, depth)
+      @possible_moves[move] = score
+      score_available_moves(cloned_board, depth, next_player(current_player), move) # call minimax on cloned board
+      reset(cloned_board, move)                     # reset board 
+    end
+  end
 
   def next_player(current_player)
     current_player == "X" ? "O" : "X"
