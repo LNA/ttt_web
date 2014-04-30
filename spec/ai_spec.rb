@@ -53,12 +53,14 @@ describe AI do
       @ai.possible_moves = {1=>-497, 2=>494}
       @ai.best_move.should == 1
     end
+  end
 
+  context '#add_best_possible_move' do 
     it 'replaces a score for a move if the current score is less than the previous score' do
      @ai.possible_moves = {1=>500, 2=>0, 3=>-500, 4=> 100}
      score = 0
      move = 1
-     @ai.track_best_possible(move, score).should == {1=>500, 2=>0, 3=>-500, 4=> 100}
+     @ai.track_best(move, score).should == {1=>500, 2=>0, 3=>-500, 4=> 100}
    end
   end
 

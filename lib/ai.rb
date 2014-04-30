@@ -12,35 +12,18 @@ class AI
 
   WIN, TIE, LOSS, IN_PROGRESS_SCORE = 500, 0, -500, 100
  
-   def find_best_move(board)
+  def find_best_move(board)
     current_player = @game_piece
     board.open_spaces.each do |move|
       depth = 1                                     
       cloned_board = board.clone                  
       make_move(cloned_board, move, current_player) 
       score = rank(cloned_board.spaces, depth) 
-      if @possible_moves.count > 0
-        track_best_possible(move, score)
-      else
-        @possible_moves[move] = score 
-      end
+      track_best(move, score)
       reset(board, move)
     end
     best_move 
-   end
-
-   def best_move
-    @possible_moves.each { |k, v| @possible_moves[k] = v.abs }
-    best_score = @possible_moves.values.max
-    @possible_moves.key(best_score)
-   end
-
-   def track_best_possible(move, score)
-    if @possible_moves[move] == nil || @possible_moves[move] < score
-      @possible_moves[move] = score
-    end
-    @possible_moves
-   end
+  end
 
   def score_available_moves(board, depth, current_player, move)
     # add score to @possible_moves if game is over and score is highest for that move
@@ -53,6 +36,27 @@ class AI
       score_available_moves(cloned_board, depth, next_player(current_player), move) # call minimax on cloned board
       reset(cloned_board, move)                     # reset board 
     end
+  end
+
+  def track_best(move, score) 
+    if @possible_moves.count > 0
+      add_new_possible(move, score)
+    else
+      @possible_moves[move] = score 
+    end
+  end
+
+  def best_move
+    @possible_moves.each { |k, v| @possible_moves[k] = v.abs }
+    best_score = @possible_moves.values.max
+    @possible_moves.key(best_score)
+  end
+
+  def add_new_possible(move, score)
+    if @possible_moves[move] == nil || @possible_moves[move] < score
+      @possible_moves[move] = score
+    end
+    @possible_moves
   end
 
   def next_player(current_player)
