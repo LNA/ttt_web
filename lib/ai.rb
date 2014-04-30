@@ -57,12 +57,10 @@ class AI
   end
 
   def rank(board, depth)
-    if @game_rules.tie?(board)
-      return TIE
-    elsif @game_rules.winner(board) == @game_piece
-      return WIN - depth
-    elsif @game_rules.winner(board) == @opponent_piece
-      return LOSS + depth
+    if @game_rules.game_over?(board)
+      return TIE if @game_rules.tie?(board)
+      return WIN - depth if @game_rules.winner(board) == @game_piece
+      return LOSS + depth if @game_rules.winner(board) == @opponent_piece
     else
       return IN_PROGRESS_SCORE
     end
