@@ -10,21 +10,7 @@ describe AI do
     @ai = AI.new(game_rules, 'O', 'X')
   end
 
-  context 'score #possible_moves' do 
-    # it 'stores scores for possible moves' do
-    #   board.spaces = [nil]*9
-    #   @ai.find_best_move(board)
-    #   @ai.possible_moves.should == {0 => AI::IN_PROGRESS_SCORE,
-    #                                 1 => AI::IN_PROGRESS_SCORE,
-    #                                 2 => AI::IN_PROGRESS_SCORE,
-    #                                 3 => AI::IN_PROGRESS_SCORE,
-    #                                 4 => AI::IN_PROGRESS_SCORE,
-    #                                 5 => AI::IN_PROGRESS_SCORE,
-    #                                 6 => AI::IN_PROGRESS_SCORE,
-    #                                 7 => AI::IN_PROGRESS_SCORE,
-    #                                 8 => AI::IN_PROGRESS_SCORE}
-    # end
-
+  context 'score #possible_moves' do
     it 'stores the score for a possible win' do
       board.spaces = ['O', 'O', nil,
                       nil, nil, nil,
@@ -34,26 +20,35 @@ describe AI do
       @ai.possible_moves[2].should == AI::WIN - 1
     end
 
-    it 'stores the score for a possible loss' do 
-      board.spaces = ['X', 'X', 'X',
-                      nil, nil, nil,
-                      nil, nil, nil]
+    it 'stores the score for a possible tie' do
+      board.spaces = ['X', 'O', 'X',
+                      'X', 'X', 'O',
+                      'O', 'X', nil]
       @ai.find_best_move(board)
-      @ai.possible_moves[3].should == (AI::LOSS + 2).abs
+      @ai.possible_moves[8].should == (AI::TIE - 1).abs
     end
 
-    it 'finds the best move when the best score is 500' do 
+    it 'stores the score of a possible loss at depth 2' do
+      board.spaces = ['O', 'O', 'X',
+                      'X', nil, 'O',
+                      nil, 'X', 'X']
+
+      @ai.find_best_move(board)
+      @ai.possible_moves[4].should == (AI::LOSS + 2).abs
+    end
+
+    it 'finds the best move when the best score is 500' do
       @ai.possible_moves = {1=>500, 2=>0, 3=>-500, 4=>100}
       @ai.best_move.should == 1
     end
 
-    it 'finds the best move when the best score is a loss' do 
+    it 'finds the best move when the best score is a loss' do
       @ai.possible_moves = {1=>-497, 2=>494}
       @ai.best_move.should == 1
     end
   end
 
-  context '#add_best_possible_move' do 
+  context '#add_best_possible_move' do
     it 'replaces a score for a move if the current score is less than the previous score' do
      @ai.possible_moves = {1=>500, 2=>0, 3=>-500, 4=> 100}
      score = 0
@@ -103,29 +98,24 @@ describe AI do
     end
   end
 
-  context '#find_best_move' do 
-    it 'returns the best possible move on a board with 1 open space' do 
+  context '#find_best_move' do
+    it 'returns the best possible move on a board with 1 open space' do
       board.spaces = ['X', 'O', 'O',
                       'X', 'O', 'X',
                       'O', nil, 'O']
 
       @ai.find_best_move(board).should == 7
     end
+  end
 
-    it 'returns the best possible move on a board with 2 open spaces for an ai win' do 
-      board.spaces = ['X', 'O', nil,
-                      'X', 'O', 'X',
-                      'O', nil, 'O']
+  context 'corner moves' do
+    it "blocks the top left corner set up" do
+      board.spaces = [nil] * 9
+      board.spaces[1] = 'X'
+      board.spaces[3] = 'X'
+      board.spaces[4] = 'O'
 
-      @ai.find_best_move(board).should == 7
-    end
-
-    it 'returns the best possible move on a board with 2 open spaces to block an opponent win' do 
-      board.spaces = ['X', 'O', 'X',
-                      'X', 'X', 'X',
-                      'O', nil, nil]
-
-      @ai.find_best_move(board).should == 8
+      @ai.find_best_move(board).should == 0
     end
   end
 end

@@ -1,48 +1,53 @@
 require 'game_rules'
 require 'board'
+require 'pry'
 
 class AI
   attr_accessor  :current_player, :game_piece, :possible_moves, :opponent_piece
   def initialize(game_rules, game_piece, opponent_piece)
     @game_rules = game_rules
-    @possible_moves = {}  
+    @possible_moves = {}
     @game_piece = game_piece
     @opponent_piece = opponent_piece
   end
 
   WIN, TIE, LOSS, IN_PROGRESS_SCORE = 500, 0, -500, 100
- 
+
   def find_best_move(board)
     current_player = @game_piece
+    depth = 1
     board.open_spaces.each do |move|
-      depth = 1                                     
-      cloned_board = board.clone                  
-      make_move(cloned_board, move, current_player) 
-      score = rank(cloned_board.spaces, depth) 
-      track_best(move, score)
-      score_available_moves(board, depth, current_player, move, score)
-      reset(board, move)
+      cloned_board = board.clone
+      make_move(cloned_board, move, current_player)
+      score = rank(cloned_board.spaces, depth)
+      track_best(move, score) if @game_rules.game_over?(board.spaces)
+      score = score_available_moves(board, depth + 1, next_player(current_player), move, score)
+      track_best(move, score) 
+      board = reset(board, move)
     end
-    best_move 
+    best_move
   end
 
   def score_available_moves(board, depth, current_player, move, score)
-    track_best(move, score) if @game_rules.game_over?(board.spaces)
+    return score if @game_rules.game_over?(board.spaces)
     board.open_spaces.each do |move|
-      depth += 1                                     
-      cloned_board = board.clone                   
-      make_move(cloned_board, move, current_player) 
-      score = rank(cloned_board.spaces, depth)
-      track_best(move, score)
-      score_available_moves(cloned_board, depth, next_player(current_player), move, score) 
+      cloned_board = board.clone
+      make_move(cloned_board, move, current_player)
+      score = rank(cloned_board.spaces, depth) if @game_rules.game_over?(board.spaces)
+      new_score = score_available_moves(cloned_board, depth + 1, next_player(current_player), move, score)
+      if new_score > score
+        score = new_score
+      end
+      board = reset(board, move)
     end
+    return score
   end
 
-  def track_best(move, score) 
+  def track_best(move, score)
     if @possible_moves.count > 0
       add_new_possible(move, score)
     else
-      @possible_moves[move] = score 
+      @possible_moves[move] = score
     end
   end
 
@@ -53,7 +58,7 @@ class AI
   end
 
   def add_new_possible(move, score)
-    if @possible_moves[move] == nil || @possible_moves[move] < score
+    if @possible_moves[move] == nil || @possible_moves[move] < score.abs
       @possible_moves[move] = score
     end
     @possible_moves
@@ -75,7 +80,7 @@ class AI
 
   def rank(board, depth)
     if @game_rules.game_over?(board)
-      return TIE if @game_rules.tie?(board)
+      return TIE - depth if @game_rules.tie?(board)
       return WIN - depth if @game_rules.winner(board) == @game_piece
       return LOSS + depth if @game_rules.winner(board) == @opponent_piece
     else
