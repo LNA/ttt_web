@@ -13,7 +13,7 @@ class ConsoleRunner
 
   def start_game
     ui_set_up
-    unless @game_rules.game_over?(@board.spaces)
+    until @game_rules.game_over?(@board.spaces)
       play_game 
     end
     @ui.display_grid(@board.spaces)
@@ -22,7 +22,6 @@ class ConsoleRunner
   def play_game
     turn(@player_one_type)
     check_for_winner 
-    @ui.display_grid(@board.spaces)
     turn(@player_two_type)
     @ui.display_grid(@board.spaces)
     if @game_rules.game_over?(@board.spaces) 
@@ -40,17 +39,21 @@ class ConsoleRunner
 
   def turn(current_player_type)
     if current_player_type == "H"
-      @ui.ask_player_for_move
-      @move = @ui.gets_move
-      if @game_rules.valid?(@move, @board) == false
-        @ui.invalid_move_message
-        turn(@player_one_type)
-      else
-        @board.fill(@move, 'X')
-      end
+      make_human_move
     else
       @move = @ai.find_best_move(@board) 
       @board.fill(@move, 'O')
+    end
+  end
+
+  def make_human_move
+    @ui.ask_player_for_move
+    @move = @ui.gets_move
+    if @game_rules.valid?(@move, @board) == false
+      @ui.invalid_move_message
+      turn(@player_one_type)
+    else
+      @board.fill(@move, 'X')
     end
   end
 
