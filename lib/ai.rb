@@ -12,10 +12,6 @@ class AI
 
   def find_best_move(board, opponent_piece, game_piece)
     possible_moves = {}
-    return 6 if upper_right_l_set_up?(board, opponent_piece) && ai_second_turn?(board, game_piece)
-    return 6 if lower_right_l_set_up?(board, opponent_piece) && ai_second_turn?(board, game_piece)
-    return 6 if upper_left_l_set_up?(board, opponent_piece)  && ai_second_turn?(board, game_piece)
-    return 6 if lower_left_l_set_up?(board, opponent_piece)  && ai_second_turn?(board, game_piece)
     current_player = game_piece
     depth = 1
     board.open_spaces.each do |move|
@@ -39,7 +35,6 @@ class AI
     board.open_spaces.each do |move|
       cloned_board = board.clone
       make_move(cloned_board, move, current_player)
-      score = rank(cloned_board.spaces, depth, opponent_piece, game_piece) if @game_rules.game_over?(board.spaces)
       new_score = score_available_moves(cloned_board, depth + 1, next_player(current_player, opponent_piece, game_piece), move, score, opponent_piece, game_piece)
       if new_score > score
         score = new_score
@@ -47,22 +42,6 @@ class AI
       board = reset(board, move)
     end
     return score
-  end
-
-  def upper_right_l_set_up?(board, opponent_piece)
-    board.spaces[2] == opponent_piece && board.spaces[7] == opponent_piece
-  end
-
-  def lower_left_l_set_up?(board, opponent_piece)
-    board.spaces[1] == opponent_piece && board.spaces[6] == opponent_piece
-  end
-
-  def lower_right_l_set_up?(board, opponent_piece)
-    board.spaces[1] == opponent_piece && board.spaces[8] == opponent_piece
-  end
-
-  def upper_left_l_set_up?(board, opponent_piece)
-    board.spaces[0] == opponent_piece && board.spaces[7] == opponent_piece
   end
 
   def ai_second_turn?(board, game_piece)
