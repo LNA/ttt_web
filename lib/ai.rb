@@ -44,10 +44,6 @@ class AI
     return score
   end
 
-  def ai_second_turn?(board, game_piece)
-    board.spaces.count(game_piece) == 1
-  end
-
   def track_best(move, score, possible_moves)
     possible_moves[move] = score
   end
