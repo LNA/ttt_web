@@ -7,54 +7,7 @@ describe AI do
   let (:board)      {Board.new}
 
   before :each do
-    @ai = AI.new(game_rules, 'O', 'X')
-  end
-
-  context 'score #possible_moves' do
-    it 'stores the score for a possible win' do
-      board.spaces = ['O', 'O', nil,
-                      nil, nil, nil,
-                      nil, nil, nil]
-
-      @ai.find_best_move(board)
-      @ai.possible_moves[2].should == AI::WIN - 1
-    end
-
-    it 'stores the score for a possible tie' do
-      board.spaces = ['X', 'O', 'X',
-                      'X', 'X', 'O',
-                      'O', 'X', nil]
-      @ai.find_best_move(board)
-      @ai.possible_moves[8].should == (AI::TIE - 1).abs
-    end
-
-    it 'stores the score of a possible loss at depth 2' do
-      board.spaces = ['O', 'O', 'X',
-                      'X', nil, 'O',
-                      nil, 'X', 'X']
-
-      @ai.find_best_move(board)
-      @ai.possible_moves[4].should == (AI::LOSS + 2).abs
-    end
-
-    it 'finds the best move when the best score is 500' do
-      @ai.possible_moves = {1=>500, 2=>0, 3=>-500, 4=>100}
-      @ai.best_move.should == 1
-    end
-
-    it 'finds the best move when the best score is a loss' do
-      @ai.possible_moves = {1=>-497, 2=>494}
-      @ai.best_move.should == 1
-    end
-  end
-
-  context '#add_best_possible_move' do
-    it 'replaces a score for a move if the current score is less than the previous score' do
-     @ai.possible_moves = {1=>500, 2=>0, 3=>-500, 4=> 100}
-     score = 0
-     move = 1
-     @ai.track_best(move, score).should == {1=>500, 2=>0, 3=>-500, 4=> 100}
-   end
+    @ai = AI.new(game_rules)
   end
 
   context '#rank' do
@@ -175,11 +128,21 @@ describe AI do
       acceptable_moves.should include(move)
     end
 
-    it 'chooses a corner or center as opening move' do 
+    it 'played move' do 
       board.spaces = [nil] * 9
-      move = @ai.find_best_move(board)
+      board.spaces[1] = 'X'
+      board.spaces[4] = 'X'
+      board.spaces[0] = 'O'
 
-      move.should be_even
+      @ai.find_best_move(board, 'X', 'O').should == 7
     end
+
+
+    # it 'chooses a corner or center as opening move' do 
+    #   board.spaces = [nil] * 9
+    #   move = @ai.find_best_move(board)
+
+    #   move.should be_even
+    # end
   end
 end

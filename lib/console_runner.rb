@@ -12,22 +12,25 @@ class ConsoleRunner
   end
 
   def start_game
-    ui_set_up
+    @ui.welcome_user
+    player_one_type = @ui.get_player_type("one")
+    player_two_type = @ui.get_player_type("two")
+    @ui.display_grid(@board.spaces)
     until @game_rules.game_over?(@board.spaces)
-      play_game 
+      play_game(player_one_type, player_two_type) 
     end
     @ui.display_grid(@board.spaces)
   end
 
-  def play_game
-    turn(@player_one_type)
-    check_for_winner 
-    turn(@player_two_type)
-    @ui.display_grid(@board.spaces)
-    if @game_rules.game_over?(@board.spaces) 
-      @ui.winner_message(@game_rules.winner(@board.spaces))
-    else
-      play_game
+private
+  
+  def play_game(player_one, player_two)
+    until @game_rules.game_over?(@board.spaces)
+      turn(player_one)
+      check_for_winner 
+      turn(player_two)
+      check_for_winner 
+      @ui.display_grid(@board.spaces)
     end
   end
 
@@ -38,12 +41,8 @@ class ConsoleRunner
   end
 
   def turn(current_player_type)
-    if current_player_type == "H"
-      make_human_move
-    else
-      @move = @ai.find_best_move(@board) 
-      @board.fill(@move, 'O')
-    end
+    make_human_move if current_player_type == "H"
+    make_ai_move if current_player_type == "A"
   end
 
   def make_human_move
@@ -57,15 +56,13 @@ class ConsoleRunner
     end
   end
 
-  def respond_to_invalid_move
-    @ui.invalid_move_message
-    start_game_loop
+  def make_ai_move
+    @move = @ai.find_best_move(@board) 
+    @board.fill(@move, 'O')
   end
 
-  def ui_set_up
-    @ui.welcome_user
-    @player_one_type = @ui.get_player_type("one")
-    @player_two_type = @ui.get_player_type("two")
-    @ui.display_grid(@board.spaces)
+  def respond_to_invalid_move
+    @ui.invalid_move_message
+    play_game
   end
 end

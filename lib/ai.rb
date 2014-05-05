@@ -3,63 +3,61 @@ require 'board'
 require 'pry'
 
 class AI
-  attr_accessor  :current_player, :game_piece, :possible_moves, :opponent_piece
-  def initialize(game_rules, game_piece, opponent_piece)
+  attr_accessor  :current_player
+  def initialize(game_rules)
     @game_rules = game_rules
-    @possible_moves = {}
-    @game_piece = game_piece
-    @opponent_piece = opponent_piece
   end
 
   WIN, TIE, LOSS, IN_PROGRESS_SCORE = 500, 0, -500, 100
 
-  def find_best_move(board)
-    return 6 if upper_right_l_set_up?(board) && ai_second_turn?(board)
-    return 6 if lower_right_l_set_up?(board) && ai_second_turn?(board)
-    return 6 if upper_left_l_set_up?(board)  && ai_second_turn?(board)
-    return 6 if lower_left_l_set_up?(board)  && ai_second_turn?(board)
-    current_player = @game_piece
+  def find_best_move(board, opponent_piece, game_piece)
+    possible_moves = {}
+    return 6 if upper_right_l_set_up?(board, opponent_piece) && ai_second_turn?(board, game_piece)
+    return 6 if lower_right_l_set_up?(board, opponent_piece) && ai_second_turn?(board, game_piece)
+    return 6 if upper_left_l_set_up?(board, opponent_piece)  && ai_second_turn?(board, game_piece)
+    return 6 if lower_left_l_set_up?(board, opponent_piece)  && ai_second_turn?(board, game_piece)
+    current_player = game_piece
     depth = 1
     board.open_spaces.each do |move|
       cloned_board = board.clone
       make_move(cloned_board, move, current_player)
-      score = rank(cloned_board.spaces, depth)
-      track_best(move, score) if @game_rules.game_over?(board.spaces)
-      score = score_available_moves(board, depth + 1, next_player(current_player), move, score)
-      track_best(move, score) 
+      score = rank(cloned_board.spaces, depth, opponent_piece, game_piece)
+      track_best(move, score, possible_moves) if @game_rules.game_over?(board.spaces)
+      score = score_available_moves(board, depth + 1, next_player(current_player, opponent_piece, game_piece), move, score, opponent_piece, game_piece)
+      track_best(move, score, possible_moves) 
       board = reset(board, move)
     end
-    best_move
+    best_move(possible_moves)
   end
 
-  def upper_right_l_set_up?(board) #thinks is true
-    board.spaces[2] == @opponent_piece && board.spaces[7] == @opponent_piece
+  def upper_right_l_set_up?(board, opponent_piece)
+    board.spaces[2] == opponent_piece && board.spaces[7] == opponent_piece
   end
 
-  def lower_left_l_set_up?(board)
-    board.spaces[1] == @opponent_piece && board.spaces[6] == @opponent_piece
+  def lower_left_l_set_up?(board, opponent_piece)
+    board.spaces[1] == opponent_piece && board.spaces[6] == opponent_piece
   end
 
-  def lower_right_l_set_up?(board)
-    board.spaces[1] == @opponent_piece && board.spaces[8] == @opponent_piece
+  def lower_right_l_set_up?(board, opponent_piece)
+    board.spaces[1] == opponent_piece && board.spaces[8] == opponent_piece
   end
 
-  def upper_left_l_set_up?(board)
-    board.spaces[0] == @opponent_piece && board.spaces[7] == @opponent_piece
+  def upper_left_l_set_up?(board, opponent_piece)
+    board.spaces[0] == opponent_piece && board.spaces[7] == opponent_piece
   end
 
-  def ai_second_turn?(board)
-    board.spaces.count(@game_piece) == 1
+  def ai_second_turn?(board, game_piece)
+    board.spaces.count(game_piece) == 1
   end
 
-  def score_available_moves(board, depth, current_player, move, score)
+  def score_available_moves(board, depth, current_player, move, score, opponent_piece, game_piece)
     return score if @game_rules.game_over?(board.spaces)
 
     board.open_spaces.each do |move|
       cloned_board = board.clone
       make_move(cloned_board, move, current_player)
-      score = rank(cloned_board.spaces, depth) if @game_rules.game_over?(board.spaces)
-      new_score = score_available_moves(cloned_board, depth + 1, next_player(current_player), move, score)
+      score = rank(cloned_board.spaces, depth, opponent_piece, game_piece) if @game_rules.game_over?(board.spaces)
+      new_score = score_available_moves(cloned_board, depth + 1, next_player(current_player, opponent_piece, game_piece), move, score, opponent_piece, game_piece)
       if new_score > score
         score = new_score
       end
@@ -68,29 +66,29 @@ class AI
     return score
   end
 
-  def track_best(move, score)
-    if @possible_moves.count > 0
-      add_new_possible(move, score)
+  def track_best(move, score, possible_moves)
+    if possible_moves.count > 0
+      add_new_possible(move, score, possible_moves)
     else
-      @possible_moves[move] = score
+      possible_moves[move] = score
     end
   end
 
-  def best_move
-    @possible_moves.each { |k, v| @possible_moves[k] = v.abs }
-    best_score = @possible_moves.values.max
-    @possible_moves.key(best_score)
+  def best_move(possible_moves)
+    possible_moves.each { |k, v| possible_moves[k] = v.abs }
+    best_score = possible_moves.values.max
+    possible_moves.key(best_score)
   end
 
-  def add_new_possible(move, score)
-    if @possible_moves[move] == nil || @possible_moves[move] < score.abs
-      @possible_moves[move] = score
+  def add_new_possible(move, score, possible_moves)
+    if possible_moves[move] == nil || possible_moves[move] < score.abs
+      possible_moves[move] = score
     end
-    @possible_moves
+    possible_moves
   end
 
-  def next_player(current_player)
-    current_player == "X" ? "O" : "X"
+  def next_player(current_player, opponent_piece, game_piece)
+    current_player == opponent_piece ? game_piece : opponent_piece
   end
 
   def reset(board, move)
@@ -103,11 +101,11 @@ class AI
     board
   end
 
-  def rank(board, depth)
+  def rank(board, depth, opponent_piece, game_piece)
     if @game_rules.game_over?(board)
       return TIE - depth if @game_rules.tie?(board)
-      return WIN - depth if @game_rules.winner(board) == @game_piece
-      return LOSS + depth if @game_rules.winner(board) == @opponent_piece
+      return WIN - depth if @game_rules.winner(board) == game_piece
+      return LOSS + depth if @game_rules.winner(board) == opponent_piece
     else
       return IN_PROGRESS_SCORE
     end
