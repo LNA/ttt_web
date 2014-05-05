@@ -14,7 +14,7 @@ describe AI do
     it 'scores an in progress game' do
       board.spaces = [nil] * 9
       depth = 1
-      @ai.rank(board.spaces, depth).should == AI::IN_PROGRESS_SCORE
+      @ai.rank(board.spaces, depth, 'X', 'O').should == AI::IN_PROGRESS_SCORE
     end
 
     it 'scores a win in one move for the ai' do
@@ -24,30 +24,27 @@ describe AI do
       board.spaces[2] = 'O'
 
       depth = 1
-      @ai.rank(board.spaces, depth).should == AI::WIN - 1
+      @ai.rank(board.spaces, depth, 'X', 'O').should == AI::WIN - 1
     end
 
     it 'scores a win in one move for the ai if the piece is X' do
-      @ai.game_piece = 'X'
       board.spaces = [nil] * 9
       board.spaces[0] = 'X'
       board.spaces[1] = 'X'
       board.spaces[2] = 'X'
 
       depth = 1
-      @ai.rank(board.spaces, depth).should == AI::WIN - 1
+      @ai.rank(board.spaces, depth, 'O', 'X').should == AI::WIN - 1
     end
 
-    it 'scores a win in one move for the opponent' do
-      @ai.game_piece = 'X'
-      @ai.opponent_piece = 'O'
+    it 'scores a win in one move for the opponent O' do
       board.spaces = [nil] * 9
       board.spaces[0] = 'O'
       board.spaces[1] = 'O'
       board.spaces[2] = 'O'
 
       depth = 1
-      @ai.rank(board.spaces, depth).should == AI::LOSS + 1
+      @ai.rank(board.spaces, depth, 'O', 'X').should == AI::LOSS - 1
     end
   end
 
@@ -57,7 +54,7 @@ describe AI do
                       'X', 'O', 'X',
                       'O', nil, 'O']
 
-      @ai.find_best_move(board).should == 7
+      @ai.find_best_move(board, 'X', 'O').should == 7
     end
 
     it 'blocks the doubble set up' do 
@@ -67,7 +64,7 @@ describe AI do
       board.spaces[8] = 'X'
 
       acceptable_moves = [1, 2, 6]
-      move = @ai.find_best_move(board)
+      move = @ai.find_best_move(board, 'X', 'O')
 
       acceptable_moves.should include(move)
     end
@@ -78,7 +75,7 @@ describe AI do
       board.spaces[3] = 'X'
       board.spaces[4] = 'O'
       acceptable_moves = [0, 2]
-      move = @ai.find_best_move(board)
+      move = @ai.find_best_move(board, 'X', 'O')
 
       acceptable_moves.should include(move)
     end
@@ -90,7 +87,7 @@ describe AI do
       board.spaces[4] = 'O'
 
       acceptable_moves = [0, 2]
-      move = @ai.find_best_move(board)
+      move = @ai.find_best_move(board, 'X', 'O')
 
       acceptable_moves.should include(move)
     end
@@ -102,7 +99,7 @@ describe AI do
       board.spaces[4] = 'O'
 
       acceptable_moves = [0, 6]
-      move = @ai.find_best_move(board)
+      move = @ai.find_best_move(board, 'X', 'O')
       acceptable_moves.should include(move)
     end
 
@@ -113,7 +110,7 @@ describe AI do
       board.spaces[4] = 'O'
 
       acceptable_moves = [0, 6]
-      move = @ai.find_best_move(board)
+      move = @ai.find_best_move(board, 'X', 'O')
       acceptable_moves.should include(move)
     end
 
@@ -124,7 +121,7 @@ describe AI do
       board.spaces[4] = 'O'
 
       acceptable_moves = [3, 5, 6, 8]
-      move = @ai.find_best_move(board)
+      move = @ai.find_best_move(board, 'X', 'O')
       acceptable_moves.should include(move)
     end
 

@@ -81,7 +81,8 @@ class AI
   end
 
   def add_new_possible(move, score, possible_moves)
-    if possible_moves[move] == nil || possible_moves[move] < score.abs
+    # binding.pry
+    if possible_moves[move] == nil || possible_moves[move] < score
       possible_moves[move] = score
     end
     possible_moves
@@ -105,7 +106,7 @@ class AI
     if @game_rules.game_over?(board)
       return TIE - depth if @game_rules.tie?(board)
       return WIN - depth if @game_rules.winner(board) == game_piece
-      return LOSS + depth if @game_rules.winner(board) == opponent_piece
+      return LOSS - depth if @game_rules.winner(board) == opponent_piece
     else
       return IN_PROGRESS_SCORE
     end
