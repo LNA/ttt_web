@@ -19,29 +19,29 @@ class AI
       make_move(cloned_board, move, current_player)
       score = rank(cloned_board.spaces, depth, opponent_piece, game_piece)
       track_best(move, score, possible_moves) 
-      new_score = score_available_moves(board, depth + 1, next_player(current_player, opponent_piece, game_piece), move, score, opponent_piece, game_piece)
+      new_score = score_available_moves(board, depth + 1, next_player(current_player, opponent_piece, game_piece), score, opponent_piece, game_piece)
       if new_score > score
         score = new_score
         track_best(move, score, possible_moves)
+      else
+        puts "new score - #{new_score}"
+        puts "score - #{score}"
       end
       board = reset(board, move)
     end
     best_move(possible_moves)
   end
-
-  def score_available_moves(board, depth, current_player, move, score, opponent_piece, game_piece)
+  
+private
+  def score_available_moves(board, depth, current_player, score, opponent_piece, game_piece)
     return score if @game_rules.game_over?(board.spaces)
 
     board.open_spaces.each do |move|
-      cloned_board = board.clone
-      make_move(cloned_board, move, current_player)
-      new_score = score_available_moves(cloned_board, depth + 1, next_player(current_player, opponent_piece, game_piece), move, score, opponent_piece, game_piece)
-      if new_score > score
-        score = new_score
-      end
+      make_move(board, move, current_player)
+      score_available_moves(board, depth + 1, next_player(current_player, opponent_piece, game_piece), score, opponent_piece, game_piece) 
       board = reset(board, move)
     end
-    return score
+    return score 
   end
 
   def track_best(move, score, possible_moves)

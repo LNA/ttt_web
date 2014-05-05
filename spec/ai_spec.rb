@@ -10,44 +10,6 @@ describe AI do
     @ai = AI.new(game_rules)
   end
 
-  context '#rank' do
-    it 'scores an in progress game' do
-      board.spaces = [nil] * 9
-      depth = 1
-      @ai.rank(board.spaces, depth, 'X', 'O').should == AI::IN_PROGRESS_SCORE
-    end
-
-    it 'scores a win in one move for the ai' do
-      board.spaces = [nil] * 9
-      board.spaces[0] = 'O'
-      board.spaces[1] = 'O'
-      board.spaces[2] = 'O'
-
-      depth = 1
-      @ai.rank(board.spaces, depth, 'X', 'O').should == AI::WIN - 1
-    end
-
-    it 'scores a win in one move for the ai if the piece is X' do
-      board.spaces = [nil] * 9
-      board.spaces[0] = 'X'
-      board.spaces[1] = 'X'
-      board.spaces[2] = 'X'
-
-      depth = 1
-      @ai.rank(board.spaces, depth, 'O', 'X').should == AI::WIN - 1
-    end
-
-    it 'scores a win in one move for the opponent O' do
-      board.spaces = [nil] * 9
-      board.spaces[0] = 'O'
-      board.spaces[1] = 'O'
-      board.spaces[2] = 'O'
-
-      depth = 1
-      @ai.rank(board.spaces, depth, 'O', 'X').should == AI::LOSS - 1
-    end
-  end
-
   context '#find_best_move' do
     it 'plays the last open move' do
       board.spaces = ['X', 'O', 'O',
@@ -133,7 +95,6 @@ describe AI do
 
       @ai.find_best_move(board, 'X', 'O').should == 7
     end
-
 
     # it 'chooses a corner or center as opening move' do 
     #   board.spaces = [nil] * 9
