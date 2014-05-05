@@ -163,5 +163,23 @@ describe AI do
       move = @ai.find_best_move(board)
       acceptable_moves.should include(move)
     end
+
+    it 'blocks an L set up' do 
+      board.spaces = [nil] * 9
+      board.spaces[0] = 'X'
+      board.spaces[7] = 'X'
+      board.spaces[4] = 'O'
+
+      acceptable_moves = [3, 5, 6, 8]
+      move = @ai.find_best_move(board)
+      acceptable_moves.should include(move)
+    end
+
+    it 'chooses a corner or center as opening move' do 
+      board.spaces = [nil] * 9
+      move = @ai.find_best_move(board)
+
+      move.should be_even
+    end
   end
 end

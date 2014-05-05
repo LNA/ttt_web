@@ -14,6 +14,10 @@ class AI
   WIN, TIE, LOSS, IN_PROGRESS_SCORE = 500, 0, -500, 100
 
   def find_best_move(board)
+    return 6 if upper_right_l_set_up?(board) && ai_second_turn?(board)
+    return 6 if lower_right_l_set_up?(board) && ai_second_turn?(board)
+    return 6 if upper_left_l_set_up?(board)  && ai_second_turn?(board)
+    return 6 if lower_left_l_set_up?(board)  && ai_second_turn?(board)
     current_player = @game_piece
     depth = 1
     board.open_spaces.each do |move|
@@ -28,8 +32,29 @@ class AI
     best_move
   end
 
+  def upper_right_l_set_up?(board) #thinks is true
+    board.spaces[2] == @opponent_piece && board.spaces[7] == @opponent_piece
+  end
+
+  def lower_left_l_set_up?(board)
+    board.spaces[1] == @opponent_piece && board.spaces[6] == @opponent_piece
+  end
+
+  def lower_right_l_set_up?(board)
+    board.spaces[1] == @opponent_piece && board.spaces[8] == @opponent_piece
+  end
+
+  def upper_left_l_set_up?(board)
+    board.spaces[0] == @opponent_piece && board.spaces[7] == @opponent_piece
+  end
+
+  def ai_second_turn?(board)
+    board.spaces.count(@game_piece) == 1
+  end
+
   def score_available_moves(board, depth, current_player, move, score)
     return score if @game_rules.game_over?(board.spaces)
+
     board.open_spaces.each do |move|
       cloned_board = board.clone
       make_move(cloned_board, move, current_player)
