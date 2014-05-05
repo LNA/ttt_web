@@ -1,18 +1,10 @@
 class GameRules
   def valid?(move, board)
-    if (board.spaces[move.to_i].is_a? String) || move.to_i > 8
-      false
-    else
-      true
-    end
+    board.spaces[move.to_i] == nil && move.to_i < 9
   end
 
   def full?(board)
-    if (board.include? nil )
-      false
-    else
-      true
-    end
+    board.count(nil) == 0
   end
 
   def winner(board)
@@ -39,11 +31,7 @@ class GameRules
   end
 
   def game_over?(board)
-    if full?(board) || winner(board)
-      true
-    else
-      false
-    end
+    full?(board) || winner(board)
   end
 
   def corner_set_up(board)

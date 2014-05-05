@@ -1,5 +1,3 @@
-require 'game'
-
 class WebGame
   attr_accessor :current_game, :player_one_piece, :player_two_piece
 

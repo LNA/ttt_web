@@ -1,5 +1,3 @@
-require 'game'
-
 class WebGameStore
   @@games = []
 

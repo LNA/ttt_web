@@ -2,9 +2,9 @@ $: << File.expand_path(File.dirname(__FILE__)) + '/lib'
 Dir[File.dirname(__FILE__) + '/lib/models/*.rb'].each {|file| require file }
 
 require 'sinatra'
-require 'game'
-require 'game_state'
-require 'game_tree'
+require 'ai'
+require 'board'
+require 'game_rules'
 require 'web_game'
 require 'web_game_store'
 require 'repository'

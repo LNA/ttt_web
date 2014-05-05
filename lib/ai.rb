@@ -24,21 +24,25 @@ class AI
         score = new_score
         track_best(move, score, possible_moves)
       else
-        puts "new score - #{new_score}"
-        puts "score - #{score}"
+        # puts "new score - #{new_score}"
+        # puts "score - #{score}"
       end
       board = reset(board, move)
     end
     best_move(possible_moves)
   end
-  
+
 private
   def score_available_moves(board, depth, current_player, score, opponent_piece, game_piece)
     return score if @game_rules.game_over?(board.spaces)
 
     board.open_spaces.each do |move|
       make_move(board, move, current_player)
-      score_available_moves(board, depth + 1, next_player(current_player, opponent_piece, game_piece), score, opponent_piece, game_piece) 
+      if current_player == opponent_piece
+        score = score_available_moves(board, depth + 1, next_player(current_player, opponent_piece, game_piece), score, opponent_piece, game_piece) * -1
+      else
+        score = score_available_moves(board, depth + 1, next_player(current_player, opponent_piece, game_piece), score, opponent_piece, game_piece) 
+      end
       board = reset(board, move)
     end
     return score 

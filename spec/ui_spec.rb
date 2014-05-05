@@ -12,7 +12,6 @@ describe UI do
     end
   end
 
-
   describe '#gets_player_type' do 
     it "gets the player_one type" do 
       ui.stub(:gets_player_type).and_return("H")
@@ -36,9 +35,9 @@ describe UI do
 
   describe "#ask_player_for_move" do
     it "prompts players move" do
-      STDOUT.should_receive(:puts).with("Player one: Enter your move:")
+      STDOUT.should_receive(:puts).with("Enter your move:")
 
-      ui.ask_player_for_move("one")
+      ui.ask_player_for_move
     end
   end
 
@@ -59,7 +58,7 @@ describe UI do
 
   describe "#winner_message" do
     it "displays the AI winning message" do
-      STDOUT.should_receive(:puts).with("AI has won!")
+      STDOUT.should_receive(:puts).with("O has won!")
 
       ui.winner_message('O')
     end

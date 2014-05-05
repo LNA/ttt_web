@@ -27,16 +27,9 @@ private
   def play_game(player_one, player_two)
     until @game_rules.game_over?(@board.spaces)
       turn(player_one)
-      check_for_winner 
       turn(player_two)
       check_for_winner 
       @ui.display_grid(@board.spaces)
-    end
-  end
-
-  def check_for_winner
-    if @game_rules.game_over?(@board.spaces) 
-      @ui.winner_message(@game_rules.winner(@board.spaces))
     end
   end
 
@@ -48,6 +41,10 @@ private
   def make_human_move
     @ui.ask_player_for_move
     @move = @ui.gets_move
+    check_validity_of_move
+  end
+
+  def check_validity_of_move
     if @game_rules.valid?(@move, @board) == false
       @ui.invalid_move_message
       turn(@player_one_type)
@@ -56,8 +53,14 @@ private
     end
   end
 
+  def check_for_winner
+    if @game_rules.game_over?(@board.spaces) 
+      @ui.winner_message(@game_rules.winner(@board.spaces))
+    end
+  end
+
   def make_ai_move
-    @move = @ai.find_best_move(@board) 
+    @move = @ai.find_best_move(@board, 'O', 'X') 
     @board.fill(@move, 'O')
   end
 
