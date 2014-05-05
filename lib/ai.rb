@@ -22,12 +22,31 @@ class AI
       cloned_board = board.clone
       make_move(cloned_board, move, current_player)
       score = rank(cloned_board.spaces, depth, opponent_piece, game_piece)
-      track_best(move, score, possible_moves) if @game_rules.game_over?(board.spaces)
-      score = score_available_moves(board, depth + 1, next_player(current_player, opponent_piece, game_piece), move, score, opponent_piece, game_piece)
       track_best(move, score, possible_moves) 
+      new_score = score_available_moves(board, depth + 1, next_player(current_player, opponent_piece, game_piece), move, score, opponent_piece, game_piece)
+      if new_score > score
+        score = new_score
+        track_best(move, score, possible_moves)
+      end
       board = reset(board, move)
     end
     best_move(possible_moves)
+  end
+
+  def score_available_moves(board, depth, current_player, move, score, opponent_piece, game_piece)
+    return score if @game_rules.game_over?(board.spaces)
+
+    board.open_spaces.each do |move|
+      cloned_board = board.clone
+      make_move(cloned_board, move, current_player)
+      score = rank(cloned_board.spaces, depth, opponent_piece, game_piece) if @game_rules.game_over?(board.spaces)
+      new_score = score_available_moves(cloned_board, depth + 1, next_player(current_player, opponent_piece, game_piece), move, score, opponent_piece, game_piece)
+      if new_score > score
+        score = new_score
+      end
+      board = reset(board, move)
+    end
+    return score
   end
 
   def upper_right_l_set_up?(board, opponent_piece)
@@ -50,42 +69,13 @@ class AI
     board.spaces.count(game_piece) == 1
   end
 
-  def score_available_moves(board, depth, current_player, move, score, opponent_piece, game_piece)
-    return score if @game_rules.game_over?(board.spaces)
-
-    board.open_spaces.each do |move|
-      cloned_board = board.clone
-      make_move(cloned_board, move, current_player)
-      score = rank(cloned_board.spaces, depth, opponent_piece, game_piece) if @game_rules.game_over?(board.spaces)
-      new_score = score_available_moves(cloned_board, depth + 1, next_player(current_player, opponent_piece, game_piece), move, score, opponent_piece, game_piece)
-      if new_score > score
-        score = new_score
-      end
-      board = reset(board, move)
-    end
-    return score
-  end
-
   def track_best(move, score, possible_moves)
-    if possible_moves.count > 0
-      add_new_possible(move, score, possible_moves)
-    else
-      possible_moves[move] = score
-    end
+    possible_moves[move] = score
   end
 
   def best_move(possible_moves)
-    possible_moves.each { |k, v| possible_moves[k] = v.abs }
     best_score = possible_moves.values.max
     possible_moves.key(best_score)
-  end
-
-  def add_new_possible(move, score, possible_moves)
-    # binding.pry
-    if possible_moves[move] == nil || possible_moves[move] < score
-      possible_moves[move] = score
-    end
-    possible_moves
   end
 
   def next_player(current_player, opponent_piece, game_piece)
