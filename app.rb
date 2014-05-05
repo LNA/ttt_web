@@ -5,9 +5,10 @@ require 'sinatra'
 require 'ai'
 require 'board'
 require 'game_rules'
+require 'game'
+require 'repository'
 require 'web_game'
 require 'web_game_store'
-require 'repository'
 
 # Repository.register(:game, WebGameStore)
 
@@ -28,24 +29,24 @@ class App < Sinatra::Application
 
   post '/new_game' do
     web_game_set_up
-    web_game_state_set_up
-    session[:game_state].current_player = session[:game].player_one_piece
+    web_game_rules_set_up
+    session[:game_rules].current_player = session[:game].player_one_piece
 
     redirect to('/play')
   end
 
   get '/play' do
-    @board = session[:game_state].board
+    @board = session[:board]
     erb '/board'.to_sym
   end
 
   post '/move' do 
     move = params.fetch("square")
 
-    session[:game_state].board[move.to_i] = session[:game_state].current_player
+    session[:game_rules].board[move.to_i] = session[:game_rules].current_player
     check_for_winner
-    session[:game_state].current_player = session[:game_state].next_player    
-    @board = session[:game_state].board  
+    session[:game_rules].current_player = session[:game_rules].next_player    
+    @board = session[:game_rules].board  
     
     erb '/board'.to_sym
   end
@@ -69,14 +70,14 @@ class App < Sinatra::Application
     # session[:game] = Repository.for(:game).current_game
   end
 
-  def web_game_state_set_up
-    session[:game_state] = WebGameStore.game_state
-    # Repository.for(:game).store(@game_state)
-    # session[:game_state] = Repository.for(:game).current_game_state
+  def web_game_rules_set_up
+    session[:game_rules] = WebGameStore.game_rules
+    # Repository.for(:game).store(@game_rules)
+    # session[:game_rules] = Repository.for(:game).current_game_rules
   end
 
   def check_for_winner
-    if session[:game_state].game_over?
+    if session[:game_rules].game_over?
       redirect '/winner'
     end
   end

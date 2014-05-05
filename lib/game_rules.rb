@@ -1,4 +1,5 @@
 class GameRules
+  attr_accessor :current_player
   def valid?(move, board)
     board.spaces[move.to_i] == nil && move.to_i < 9
   end
@@ -32,6 +33,14 @@ class GameRules
 
   def game_over?(board)
     full?(board) || winner(board)
+  end
+
+  def next_player
+    if current_player == 'X'
+     'O'
+    else
+     'X'
+    end
   end
 
   def corner_set_up(board)

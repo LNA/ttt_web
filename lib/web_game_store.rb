@@ -1,3 +1,4 @@
+require 'game'
 class WebGameStore
   @@games = []
 
@@ -21,11 +22,11 @@ class WebGameStore
     @game
   end
 
-  def self.game_state
-    @game_state = GameState.new('X', Array.new(9))
+  def self.game_rules
+    @game_rules = GameRules.new
   end
 
-  def self.current_game_state
-    @game_state
+  def self.current_game_rules
+    @game_rules
   end
 end
