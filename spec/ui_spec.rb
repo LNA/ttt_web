@@ -4,7 +4,7 @@ require 'ui'
 describe UI do 
   let (:ui) {UI.new}
 
-  describe "#welcome_user" do
+  context "#welcome_user" do
     it "sends a welcome message" do 
       STDOUT.should_receive(:puts).with("Welcome to ttt!")
 
@@ -12,7 +12,7 @@ describe UI do
     end
   end
 
-  describe '#gets_player_type' do 
+  context '#get_player_type' do 
     it "gets the player_one type" do 
       ui.stub(:gets_player_type).and_return("H")
 
@@ -20,7 +20,15 @@ describe UI do
     end
   end
 
-  describe "#display_grid" do
+  context '#gets_player_game_piece' do 
+    it "gets the player game piece" do
+      ui.stub(:gets_player_game_piece).and_return("Z")
+
+      ui.gets_player_game_piece.should == "Z"
+    end
+  end
+
+  context "#display_grid" do
     it "displays the grid" do
       board = ['X', 'O', 'X',
                nil, nil, nil,
@@ -33,7 +41,7 @@ describe UI do
     end
   end
 
-  describe "#ask_player_for_move" do
+  context "#ask_player_for_move" do
     it "prompts players move" do
       STDOUT.should_receive(:puts).with("Enter your move:")
 
@@ -41,7 +49,7 @@ describe UI do
     end
   end
 
-  describe "#invalid_move_message" do
+  context "#invalid_move_message" do
     it "displays an invalid move message" do
       STDOUT.should_receive(:puts).with("Sorry invalid move! Try again:")
 
@@ -49,14 +57,14 @@ describe UI do
     end
   end
 
-  describe "#gets_move" do
+  context "#gets_move" do
     it "gets a move" do
     ui.stub(:gets).and_return("1") 
 
     ui.gets_move.should == "1"
   end
 
-  describe "#winner_message" do
+  context "#winner_message" do
     it "displays the AI winning message" do
       STDOUT.should_receive(:puts).with("O has won!")
 
@@ -70,7 +78,7 @@ describe UI do
     end
   end
 
-  describe "#game_over"
+  context "#game_over"
     it "displays a game over message" do
       STDOUT.should_receive(:puts).with("Game Over!")
 

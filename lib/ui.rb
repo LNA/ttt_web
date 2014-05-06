@@ -8,13 +8,13 @@ class UI
     puts WELCOME_MESSAGE
   end
 
-  def get_player_type(player_number)
+  def gets_player_type(player_number)
     puts "Select Player #{player_number} type.  H for human, A for ai."
     type = gets.chomp
     type.upcase
   end
 
-  def get_player_game_piece
+  def gets_player_game_piece
     puts "Please select a letter to be your game peice"
     piece = gets.chomp
     piece.upcase

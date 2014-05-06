@@ -13,10 +13,10 @@ class ConsoleRunner
 
   def start_game
     @ui.welcome_user
-    player_one_type = @ui.get_player_type("one")
-    player_one_game_piece = @ui.get_player_game_piece
-    player_two_type = @ui.get_player_type("two")
-    player_two_game_piece = @ui.get_player_game_piece
+    player_one_type = @ui.gets_player_type("one")
+    player_one_game_piece = @ui.gets_player_game_piece
+    player_two_type = @ui.gets_player_type("two")
+    player_two_game_piece = @ui.gets_player_game_piece
     @ui.display_grid(@board.spaces)
     until @game_rules.game_over?(@board.spaces)
       play_game(player_one_type, player_two_type, player_one_game_piece, player_two_game_piece)
