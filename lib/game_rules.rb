@@ -9,11 +9,11 @@ class GameRules
   end
 
   def winner(board)
-    win_sets.each do |line|
-      line = line.first
-      if board[line].uniq.count == 1 
-        if board[line][0] != nil
-          return line[0]
+    win_sets.each do |set|
+      set = set.first
+      if board[set].uniq.count == 1 
+        if board[set][0] != nil
+          return set[0]
         end
       end
     end
