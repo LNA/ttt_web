@@ -8,26 +8,22 @@ class GameRules
     board.count(nil) == 0
   end
 
-  def winner(board)
-    win_sets.each do |set|
-      set = set.first
-      check(board, set)
-    end
-    false
-  end
-
-  def check(board, set)
-    if board[set].uniq.count == 1 
-      return set[0] if board[set][0] != nil
-    end
-  end
-
   def tie?(board)
     full?(board) == true && winner(board) == false
   end
 
   def game_over?(board)
     full?(board) || winner(board)
+  end
+
+  def winner(board)
+    win_sets.each do |set|
+      set = set.first
+      if board[set].uniq.count == 1 && board[set][0] != nil
+        return board[set][0] 
+      end
+    end
+    false
   end
 
   def win_sets

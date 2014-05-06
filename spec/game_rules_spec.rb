@@ -53,4 +53,18 @@ describe GameRules do
       game_rules.winner(board.spaces).should == false
     end
   end
+
+  context "#winner" do 
+    it "returns the winner" do 
+      board.spaces = ['X']*9
+
+      game_rules.winner(board.spaces).should == "X"
+    end
+
+    it "returns the false if there is no winner" do 
+      board.spaces = [nil]*9
+
+      game_rules.winner(board.spaces).should == false
+    end
+  end
 end
