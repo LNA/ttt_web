@@ -29,6 +29,8 @@ private
   def play_game(player_one_type, player_two_type, player_one_game_piece, player_two_game_piece)
     until @game_rules.game_over?(@board.spaces)
       turn(player_one_type, player_one_game_piece, player_two_game_piece)
+      check_for_winner
+      @ui.display_grid(@board.spaces)
       turn(player_two_type, player_two_game_piece, player_one_game_piece)
       check_for_winner
       @ui.display_grid(@board.spaces)
@@ -36,20 +38,20 @@ private
   end
 
   def turn(current_player_type, game_piece, opponent_game_piece)
-    make_human_move(game_piece) if current_player_type == "H"
+    make_human_move(current_player_type, game_piece, opponent_game_piece) if current_player_type == "H"
     make_ai_move(game_piece, opponent_game_piece) if current_player_type == "A"
   end
 
-  def make_human_move(game_piece)
+  def make_human_move(current_player_type, game_piece, opponent_game_piece)
     @ui.ask_player_for_move
     @move = @ui.gets_move
-    check_validity_of_move(game_piece)
+    check_validity_of_move(current_player_type, game_piece, opponent_game_piece)
   end
 
-  def check_validity_of_move(game_piece)
+  def check_validity_of_move(current_player_type, game_piece, opponent_game_piece)
     if @game_rules.valid?(@move, @board) == false
       @ui.invalid_move_message
-      turn(@player_one_type)
+      turn(current_player_type, game_piece, opponent_game_piece)
     else
       @board.fill(@move, game_piece)
     end

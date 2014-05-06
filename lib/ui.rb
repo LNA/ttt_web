@@ -41,10 +41,8 @@ class UI
   end
 
   def winner_message(winner)
-    if winner == 'O'
-      puts "O has won!"
-    elsif winner == 'X'
-      puts "X has won!"
+    if winner
+      puts "#{winner} has won!"
     else
       puts "Its a tie!"
     end
