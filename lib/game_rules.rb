@@ -11,13 +11,15 @@ class GameRules
   def winner(board)
     win_sets.each do |set|
       set = set.first
-      if board[set].uniq.count == 1 
-        if board[set][0] != nil
-          return set[0]
-        end
-      end
+      check(board, set)
     end
     false
+  end
+
+  def check(board, set)
+    if board[set].uniq.count == 1 
+      return set[0] if board[set][0] != nil
+    end
   end
 
   def tie?(board)
