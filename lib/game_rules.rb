@@ -35,34 +35,6 @@ class GameRules
     full?(board) || winner(board)
   end
 
-  def corner_set_up(board)
-    top_corner_set_up || bottom_corner_set_up 
-  end
-  
-  def top_corner_set_up(board)
-    top_left_corner_set_up(board) || top_right_corner_set_up(board)
-  end
-
-  def bottom_corner_set_up(board)
-    bottom_left_corner_set_up(board) || bottom_right_corner_set_up(board)
-  end
-
-  def top_left_corner_set_up(board)
-    board[1] && board[3] == 'X' 
-  end
-
-  def top_right_corner_set_up(board)
-    board[1] && board[5] == 'X' 
-  end
-
-  def bottom_left_corner_set_up(board)
-    board[7] && board[3] == 'X' 
-  end
-
-  def bottom_right_corner_set_up(board)
-    board[7] && board[5] == 'X' 
-  end
-
 private
 
   def first_row(board)
