@@ -53,40 +53,4 @@ describe GameRules do
       game_rules.winner(board.spaces).should == false
     end
   end
-
-  context "top_corner_set_up" do 
-    it "returns true for a 1-3 set up" do 
-      board.spaces = [nil]*9
-      board.spaces[1] = 'X'
-      board.spaces[3] = 'X'
-
-      game_rules.top_corner_set_up(board.spaces).should == true
-    end
-
-    it "returns true for a 1-5 set up" do 
-      board.spaces = [nil]*9
-      board.spaces[1] = 'X'
-      board.spaces[5] = 'X'
-
-      game_rules.top_corner_set_up(board.spaces).should == true
-    end
-  end
-
-  context "bottom_corner_set_up" do
-    it "returns true for a 7-3 set up" do 
-      board.spaces = [nil]*9
-      board.spaces[7] = 'X'
-      board.spaces[3] = 'X'
-
-      game_rules.bottom_corner_set_up(board.spaces).should == true
-    end
-
-    it "returns true for a 7-5 set up" do 
-      board.spaces = [nil]*9
-      board.spaces[7] = 'X'
-      board.spaces[5] = 'X'
-
-      game_rules.bottom_corner_set_up(board.spaces).should == true
-    end
-  end 
 end

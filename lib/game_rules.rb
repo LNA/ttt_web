@@ -9,17 +9,10 @@ class GameRules
   end
 
   def winner(board)
-    [first_row(board),
-     second_row(board),
-     third_row(board),
-     left_column(board),
-     middle_column(board),
-     right_column(board),
-     left_diag_winner(board),
-     right_diag_winner(board)
-    ].each do |line|
-      if line.uniq.count == 1 
-        if line[0] != nil
+    win_sets.each do |line|
+      line = line.first
+      if board[line].uniq.count == 1 
+        if board[line][0] != nil
           return line[0]
         end
       end
@@ -35,7 +28,21 @@ class GameRules
     full?(board) || winner(board)
   end
 
-private
+  def win_sets
+    [[0..2], [3..5], [6..8], [0..6], [1..7], [2..8], [0..8], [2..6]]
+  end
+
+  def winner?(board)
+    wining_game_piece = []
+    win_sets.each do |set|
+      set = set.first
+      if board[set].uniq.count == 1 && board[set][0] != nil
+        wining_game_piece << board[set][0]
+      end
+      wining_game_piece
+    end
+    wining_game_piece.first
+  end
 
   def first_row(board)
     board[0..2]
