@@ -35,14 +35,6 @@ class GameRules
     full?(board) || winner(board)
   end
 
-  def next_player
-    if current_player == 'X'
-     'O'
-    else
-     'X'
-    end
-  end
-
   def corner_set_up(board)
     top_corner_set_up || bottom_corner_set_up 
   end
