@@ -25,7 +25,7 @@ class GameRules
     end
     false
   end
-
+private
   def win_sets
     [[0..2], [3..5], [6..8], [0..6], [1..7], [2..8], [0..8], [2..6]]
   end
