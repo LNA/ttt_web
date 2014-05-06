@@ -14,13 +14,19 @@ class UI
     type.upcase
   end
 
+  def get_player_game_piece
+    puts "Please select a letter to be your game peice"
+    piece = gets.chomp
+    piece.upcase
+  end
+
   def display_grid(board)
     output = []
     0.upto(8) do |position|
       output << " #{board[position] || position} "
     end
     puts output.each_slice(3){|row| puts row.join}
-  end 
+  end
 
   def ask_player_for_move
     puts "Enter your move:"
@@ -43,7 +49,7 @@ class UI
       puts "Its a tie!"
     end
   end
-  
+
   def game_over
     puts GAME_OVER_MESSAGE
   end
