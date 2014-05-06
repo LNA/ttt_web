@@ -41,11 +41,11 @@ class UI
   end
 
   def winner_message(winner)
-    if winner
-      puts "#{winner} has won!"
-    else
-      puts "Its a tie!"
-    end
+    puts "#{winner} has won!"
+  end
+
+  def tie_message
+    puts "Its a tie!"
   end
 
   def game_over

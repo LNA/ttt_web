@@ -76,10 +76,18 @@ describe GameRules do
   end
 
   context "#winner" do 
-    it "returns the winner" do 
+    it "returns the winner on a full board" do 
       board.spaces = ['X'] * 9
 
       game_rules.winner(board.spaces).should == "X"
+    end
+
+    it "returns the winner on a partially full board" do 
+      board.spaces[0] = 'X'
+      board.spaces[3] = 'X'
+      board.spaces[6] = 'X'
+
+      game_rules.winner(board.spaces).should == 'X'
     end
 
     it "returns the false if there is no winner" do 

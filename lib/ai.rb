@@ -1,6 +1,4 @@
-require 'board'
 require 'game_rules'
-require 'pry'
 
 class AI
   attr_accessor  :current_player

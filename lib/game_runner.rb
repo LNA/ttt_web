@@ -3,7 +3,6 @@ require 'ai'
 require 'board'
 require 'console_runner'
 require 'ui'
-require 'game_options'
 require 'game_rules'
 
 board = Board.new
