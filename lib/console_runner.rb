@@ -27,25 +27,26 @@ class ConsoleRunner
 private
 
   def play_game(player_one_type, player_two_type, player_one_game_piece, player_two_game_piece)
-    until @game_rules.game_over?(@board.spaces)
+    until @game_rules.game_over?(@board.spaces) 
       turn(player_one_type, player_one_game_piece, player_two_game_piece)
-      check_for_winner
       @ui.display_grid(@board.spaces)
       turn(player_two_type, player_two_game_piece, player_one_game_piece)
-      check_for_winner
       @ui.display_grid(@board.spaces)
     end
   end
 
   def turn(current_player_type, game_piece, opponent_game_piece)
-    make_human_move(current_player_type, game_piece, opponent_game_piece) if current_player_type == "H"
+    make_human_move(current_player_type, game_piece, opponent_game_piece) if current_player_type == "H" 
     make_ai_move(game_piece, opponent_game_piece) if current_player_type == "A"
+    check_for_winner
   end
 
   def make_human_move(current_player_type, game_piece, opponent_game_piece)
-    @ui.ask_player_for_move
-    @move = @ui.gets_move
-    check_validity_of_move(current_player_type, game_piece, opponent_game_piece)
+    unless @game_rules.game_over?(@board.spaces) 
+      @ui.ask_player_for_move
+      @move = @ui.gets_move
+      check_validity_of_move(current_player_type, game_piece, opponent_game_piece)
+    end
   end
 
   def check_validity_of_move(current_player_type, game_piece, opponent_game_piece)
@@ -58,9 +59,7 @@ private
   end
 
   def check_for_winner
-    if @game_rules.game_over?(@board.spaces)
-      @ui.winner_message(@game_rules.winner(@board.spaces))
-    end
+    @ui.winner_message(@game_rules.winner(@board.spaces)) if @game_rules.game_over?(@board.spaces)
   end
 
   def make_ai_move(game_piece, opponent_game_piece)
