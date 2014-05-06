@@ -17,7 +17,7 @@
     </div>
     <form method="post" action="/move">
       <ul class="board clearfix">
-        <% @board.each_with_index do |square_value, index| %>
+        <% @board.spaces.each_with_index do |square_value, index| %>
           <li id="<%= index %>" class="square">
             <% if square_value.nil? %>
               <input type="submit" name="square" value="<%= index %>">

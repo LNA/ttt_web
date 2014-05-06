@@ -1,5 +1,5 @@
-require 'game_rules'
 require 'board'
+require 'game_rules'
 require 'pry'
 
 class AI
@@ -18,7 +18,7 @@ class AI
       cloned_board = board.clone
       make_move(cloned_board, move, current_player)
       score = rank(cloned_board.spaces, depth, opponent_piece, game_piece)
-      track_best(move, score, possible_moves) 
+      track_best(move, score, possible_moves)
       new_score = score_available_moves(board, depth + 1, next_player(current_player, opponent_piece, game_piece), score, opponent_piece, game_piece)
       if new_score > score
         score = new_score
@@ -41,11 +41,11 @@ private
       if current_player == opponent_piece
         score = score_available_moves(board, depth + 1, next_player(current_player, opponent_piece, game_piece), score, opponent_piece, game_piece) * -1
       else
-        score = score_available_moves(board, depth + 1, next_player(current_player, opponent_piece, game_piece), score, opponent_piece, game_piece) 
+        score = score_available_moves(board, depth + 1, next_player(current_player, opponent_piece, game_piece), score, opponent_piece, game_piece)
       end
       board = reset(board, move)
     end
-    return score 
+    return score
   end
 
   def track_best(move, score, possible_moves)

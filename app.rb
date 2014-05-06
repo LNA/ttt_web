@@ -36,17 +36,18 @@ class App < Sinatra::Application
   end
 
   get '/play' do
-    @board = session[:board]
+    @board = Board.new
     erb '/board'.to_sym
   end
 
   post '/move' do 
+    @board = Board.new # may need to change back to sessions
     move = params.fetch("square")
 
-    session[:game_rules].board[move.to_i] = session[:game_rules].current_player
+    @board.fill(move, session[:game_rules].current_player)
     check_for_winner
     session[:game_rules].current_player = session[:game_rules].next_player    
-    @board = session[:game_rules].board  
+    # @board = Board.new
     
     erb '/board'.to_sym
   end
@@ -77,7 +78,7 @@ class App < Sinatra::Application
   end
 
   def check_for_winner
-    if session[:game_rules].game_over?
+    if session[:game_rules].game_over?(@board.spaces)
       redirect '/winner'
     end
   end
