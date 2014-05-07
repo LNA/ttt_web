@@ -1,8 +1,9 @@
 class UI
 
-  WELCOME_MESSAGE = "Welcome to ttt!"
+  WELCOME_MESSAGE      = "Welcome to ttt!"
   INVALID_MOVE_MESSAGE = "Sorry invalid move! Try again:"
-  GAME_OVER_MESSAGE = "Game Over!"
+  GAME_OVER_MESSAGE    = "Game Over!"
+  TIE_MESSAGE          = "Its a tie!"
 
   def welcome_user
     puts WELCOME_MESSAGE
@@ -45,7 +46,7 @@ class UI
   end
 
   def tie_message
-    puts "Its a tie!"
+    puts TIE_MESSAGE
   end
 
   def game_over

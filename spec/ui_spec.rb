@@ -71,10 +71,10 @@ describe UI do
       ui.winner_message('O')
     end
 
-    it "displays a tie" do
+    it "#tie_message" do
       STDOUT.should_receive(:puts).with("Its a tie!")
 
-      ui.winner_message(false)
+      ui.tie_message
     end
   end
 
