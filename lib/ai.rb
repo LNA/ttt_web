@@ -20,10 +20,6 @@ class AI
       new_score = score_available_moves(board, depth + 1, next_player(current_player, opponent_piece, game_piece), score, opponent_piece, game_piece)
       if new_score > score
         score = new_score
-        track_best(move, score, possible_moves)
-      else
-        # puts "new score - #{new_score}"
-        # puts "score - #{score}"
       end
       board = reset(board, move)
     end
@@ -33,7 +29,6 @@ class AI
 private
   def score_available_moves(board, depth, current_player, score, opponent_piece, game_piece)
     return score if @game_rules.game_over?(board.spaces)
-
     board.open_spaces.each do |move|
       make_move(board, move, current_player)
       if current_player == opponent_piece
