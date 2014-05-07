@@ -35,7 +35,7 @@ private
   end
 
   def player_type(number)
-    @ui.gets_player_type(number)
+    @ui.gets_type_for(number)
   end
 
   def gets_mark_for(player_number)
@@ -55,10 +55,12 @@ private
   end
 
   def make_move(player, mark, opponent_mark)
-    make_human_move(player, mark, opponent_mark) if player == "H"
-    make_ai_move(mark, opponent_mark) if player == "A"
-    check_for_winner if game_over?
-    check_for_tie if game_over?
+    unless game_over?
+      make_human_move(player, mark, opponent_mark) if player == "H"
+      make_ai_move(mark, opponent_mark) if player == "A"
+      check_for_winner if game_over?
+      check_for_tie if game_over?
+    end
   end
 
   def make_human_move(player, mark, opponent_mark)
