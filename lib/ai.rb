@@ -1,4 +1,4 @@
-require 'game_rules'
+require 'spec_helper'
 
 class AI
   attr_accessor  :current_player
