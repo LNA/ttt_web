@@ -1,6 +1,4 @@
-require 'ai'
-require 'board'
-require 'game_rules'
+require 'spec_helper'
 
 describe AI do
   let (:game_rules) {GameRules.new}
