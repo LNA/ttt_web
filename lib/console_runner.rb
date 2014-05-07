@@ -39,6 +39,7 @@ private
     make_human_move(current_player_type, game_piece, opponent_game_piece) if current_player_type == "H"
     make_ai_move(game_piece, opponent_game_piece) if current_player_type == "A"
     check_for_winner
+    check_for_tie
   end
 
   def make_human_move(current_player_type, game_piece, opponent_game_piece)
@@ -60,11 +61,13 @@ private
 
   def check_for_winner
     if @game_rules.game_over?(@board.spaces)
-      if @game_rules.winner(@board.spaces) != false
-        @ui.winner_message(@game_rules.winner(@board.spaces)) 
-        else 
-        @ui.tie_message 
-      end
+      @ui.winner_message(@game_rules.winner(@board.spaces)) if @game_rules.winner(@board.spaces) != false
+    end
+  end
+
+  def check_for_tie
+    if @game_rules.game_over?(@board.spaces)
+      @ui.tie_message if @game_rules.winner(@board.spaces) == false
     end
   end
 
