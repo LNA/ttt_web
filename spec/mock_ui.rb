@@ -19,7 +19,7 @@ class MockUI
     @showed_welcome_message
   end
 
-  def get_player_type(player_number)
+  def gets_player_type_for(player_number)
     @got_player_type = true
   end
 

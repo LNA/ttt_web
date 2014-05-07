@@ -1,15 +1,16 @@
 class UI
 
-  WELCOME_MESSAGE      = "Welcome to ttt!"
-  INVALID_MOVE_MESSAGE = "Sorry invalid move! Try again:"
-  GAME_OVER_MESSAGE    = "Game Over!"
-  TIE_MESSAGE          = "Its a tie!"
+  WELCOME      = "Welcome to ttt!"
+  ENTER_MOVE   = "Enter your move:"
+  INVALID_MOVE = "Sorry invalid move! Try again:"
+  GAME_OVER    = "Game Over!"
+  TIE          = "Its a tie!"
 
   def welcome_user
-    puts WELCOME_MESSAGE
+    puts WELCOME
   end
-
-  def gets_player_type(player_number)
+    
+  def gets_type_for(player_number)
     puts "Select Player #{player_number} type.  H for human, A for ai."
     type = gets.chomp
     type.upcase
@@ -30,11 +31,11 @@ class UI
   end
 
   def ask_player_for_move
-    puts "Enter your move:"
+    puts ENTER_MOVE
   end
 
   def invalid_move_message
-    puts INVALID_MOVE_MESSAGE
+    puts INVALID_MOVE
   end
 
   def gets_move
@@ -46,10 +47,10 @@ class UI
   end
 
   def tie_message
-    puts TIE_MESSAGE
+    puts TIE
   end
 
   def game_over
-    puts GAME_OVER_MESSAGE
+    puts GAME_OVER
   end
 end

@@ -12,11 +12,11 @@ describe UI do
     end
   end
 
-  context '#get_player_type' do 
+  context '#get_player_type_for' do 
     it "gets the player_one type" do 
-      ui.stub(:gets_player_type).and_return("H")
+      ui.stub(:gets_player_type_for).and_return("H")
 
-      ui.gets_player_type.should == "H"
+      ui.gets_player_type_for.should == "H"
     end
   end
 
