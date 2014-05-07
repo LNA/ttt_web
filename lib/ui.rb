@@ -14,8 +14,8 @@ class UI
     type.upcase
   end
 
-  def gets_player_game_piece
-    puts "Please select a letter to be your game peice"
+  def gets_game_piece_for(player_number)
+    puts "Player #{player_number}: Please select a letter to be your game peice"
     piece = gets.chomp
     piece.upcase
   end

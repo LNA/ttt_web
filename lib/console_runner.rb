@@ -15,8 +15,8 @@ class ConsoleRunner
     welcome_message
     player_one      = player_type("one")
     player_two      = player_type("two")
-    player_one_mark = gets_player_mark
-    player_two_mark = gets_player_mark
+    player_one_mark = gets_mark_for("one")
+    player_two_mark = gets_mark_for("two")
     display_board
     until game_over?
       play_game(player_one, player_two, player_one_mark, player_two_mark)
@@ -38,8 +38,8 @@ private
     @ui.gets_player_type(number)
   end
 
-  def gets_player_mark 
-    @ui.gets_player_game_piece
+  def gets_mark_for(player_number)
+    @ui.gets_game_piece_for(player_number)
   end
 
   def welcome_message
