@@ -12,68 +12,83 @@ class ConsoleRunner
   end
 
   def start_game
-    @ui.welcome_user
-    player_one_type = @ui.gets_player_type("one")
-    player_one_game_piece = @ui.gets_player_game_piece
-    player_two_type = @ui.gets_player_type("two")
-    player_two_game_piece = @ui.gets_player_game_piece
-    @ui.display_grid(@board.spaces)
-    until @game_rules.game_over?(@board.spaces)
-      play_game(player_one_type, player_two_type, player_one_game_piece, player_two_game_piece)
+    welcome_message
+    player_one      = player_type("one")
+    player_two      = player_type("two")
+    player_one_mark = gets_player_mark
+    player_two_mark = gets_player_mark
+    display_board
+    until game_over?
+      play_game(player_one, player_two, player_one_mark, player_two_mark)
     end
-    @ui.display_grid(@board.spaces)
+    display_board
   end
 
 private
-
-  def play_game(player_one_type, player_two_type, player_one_game_piece, player_two_game_piece)
-    until @game_rules.game_over?(@board.spaces)
-      make_move(player_one_type, player_one_game_piece, player_two_game_piece)
-      @ui.display_grid(@board.spaces)
-      make_move(player_two_type, player_two_game_piece, player_one_game_piece)
-      @ui.display_grid(@board.spaces)
+  def play_game(player_one, player_two, player_one_mark, player_two_mark)
+    until game_over?
+      make_move(player_one, player_one_mark, player_two_mark)
+      display_board
+      make_move(player_two, player_two_mark, player_one_mark)
+      display_board
     end
   end
 
-  def make_move(current_player_type, game_piece, opponent_game_piece)
-    make_human_move(current_player_type, game_piece, opponent_game_piece) if current_player_type == "H"
-    make_ai_move(game_piece, opponent_game_piece) if current_player_type == "A"
-    check_for_winner
-    check_for_tie
+  def player_type(number)
+    @ui.gets_player_type(number)
   end
 
-  def make_human_move(current_player_type, game_piece, opponent_game_piece)
-    unless @game_rules.game_over?(@board.spaces)
+  def gets_player_mark 
+    @ui.gets_player_game_piece
+  end
+
+  def welcome_message
+    @ui.welcome_user
+  end
+
+  def game_over?
+    @game_rules.game_over?(@board.spaces)
+  end
+
+  def display_board
+    @ui.display_grid(@board.spaces)
+  end
+
+  def make_move(player, mark, opponent_mark)
+    make_human_move(player, mark, opponent_mark) if player == "H"
+    make_ai_move(mark, opponent_mark) if player == "A"
+    check_for_winner if game_over?
+    check_for_tie if game_over?
+  end
+
+  def make_human_move(player, mark, opponent_mark)
+    unless game_over?
       @ui.ask_player_for_move
       @move = @ui.gets_move
-      check_validity_of_move(current_player_type, game_piece, opponent_game_piece)
+      check_validity_of_move(player, mark, opponent_mark)
     end
   end
 
-  def check_validity_of_move(current_player_type, game_piece, opponent_game_piece)
+  def check_validity_of_move(player, mark, opponent_mark)
     if @game_rules.valid?(@move, @board) == false
       @ui.invalid_move_message
-      make_move(current_player_type, game_piece, opponent_game_piece)
+      make_move(player, mark, opponent_mark)
     else
-      @board.fill(@move, game_piece)
+      @board.fill(@move, mark)
     end
   end
 
   def check_for_winner
-    if @game_rules.game_over?(@board.spaces)
-      @ui.winner_message(@game_rules.winner(@board.spaces)) if @game_rules.winner(@board.spaces) != false
-    end
+    @ui.winner_message(@game_rules.winner(@board.spaces)) if @game_rules.winner(@board.spaces) != false
   end
 
   def check_for_tie
-    if @game_rules.game_over?(@board.spaces)
-      @ui.tie_message if @game_rules.winner(@board.spaces) == false
-    end
+    @ui.tie_message if @game_rules.winner(@board.spaces) == false
   end
 
-  def make_ai_move(game_piece, opponent_game_piece)
-    @move = @ai.find_best_move(@board, game_piece, opponent_game_piece)
-    @board.fill(@move, game_piece)
+  def make_ai_move(mark, opponent_mark)
+    @move = @ai.find_best_move(@board, mark, opponent_mark)
+    @board.fill(@move, mark)
   end
 
   def respond_to_invalid_move
