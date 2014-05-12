@@ -12,18 +12,18 @@ require 'web_game_store'
 
 # Repository.register(:game, WebGameStore)
 
-configure do 
-  enable :sessions 
+configure do
+  enable :sessions
   set :session_secret, "My session secret"
 end
 
 class App < Sinatra::Application
 
-  get '/' do 
+  get '/' do
     erb '/welcome'.to_sym
   end
 
-  post '/' do 
+  post '/' do
     erb '/board'.to_sym
   end
 
@@ -36,23 +36,21 @@ class App < Sinatra::Application
   end
 
   get '/play' do
-    @board = Board.new
+    @board = session[:board].spaces
     erb '/board'.to_sym
   end
 
-  post '/move' do 
-    @board = Board.new # may need to change back to sessions
+  post '/move' do
     move = params.fetch("square")
-
-    @board.fill(move, session[:game_rules].current_player)
+    session[:board].fill(move.to_i, session[:settings].current_player)
     check_for_winner
-    session[:game_rules].current_player = session[:game_rules].next_player    
-    # @board = Board.new
-    
+    session[:game_rules].current_player = session[:game_rules].next_player
+    @board = session[:board].spaces
+
     erb '/board'.to_sym
   end
 
-  get '/winner' do 
+  get '/winner' do
     erb '/game_over'.to_sym
   end
 
@@ -62,7 +60,7 @@ class App < Sinatra::Application
 
     redirect '/'
   end
-  
+
   private
 
   def web_game_set_up

@@ -31,12 +31,8 @@ private
     return score if @game_rules.game_over?(board.spaces)
     board.open_spaces.each do |move|
       make_move(board, move, current_player)
-      if current_player == opponent_piece
-        score = score_available_moves(board, depth + 1, next_player(current_player, opponent_piece, game_piece), score, opponent_piece, game_piece) * -1
-      else
-        score = score_available_moves(board, depth + 1, next_player(current_player, opponent_piece, game_piece), score, opponent_piece, game_piece)
-      end
       board = reset(board, move)
+      depth -= 1
     end
     return score
   end
@@ -61,7 +57,6 @@ private
 
   def make_move(board, move, current_player)
     board.spaces[move] = current_player
-    board
   end
 
   def rank(board, depth, opponent_piece, game_piece)

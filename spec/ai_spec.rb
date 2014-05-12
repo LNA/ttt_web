@@ -75,7 +75,10 @@ describe AI do
     end
 
     it 'blocks an L set up' do 
-      board.spaces = [nil] * 9
+      board.spaces = [ 'X', nil, nil,
+                       nil, 'O', nil,
+                       nil, 'X', nil ]
+
       board.spaces[0] = 'X'
       board.spaces[7] = 'X'
       board.spaces[4] = 'O'
@@ -100,5 +103,95 @@ describe AI do
 
     #   move.should be_even
     # end
+
+
+  it "gets the best move available from a board with 2 available spaces" do
+    board.spaces = ["o","x","o",
+                    "o","x","o",
+                    nil,nil,"o"]
+
+    @ai.find_best_move(board, 'o', 'x').should == 7
+  end
+
+  it "gets the best move available from a board with 3 available spaces" do
+    board.spaces = [nil,"o","x",
+                    "x","o","x",
+                    nil,nil,"o"]
+
+    @ai.find_best_move(board, 'x', 'o').should == 0
+  end
+
+  # it "gets the best move available from a board with 3 available spaces" do
+  # board.spaces = ["x","o","x",
+  #                 "x","o","x",
+  #                 "7","8","9"]
+  #   subject.move(board,["x","o"]).should == 7
+  # end
+
+#   it "gets the best move available from a board with 4 available spaces" do
+#   # board.spaces = ["x","x","o",
+#                   # "x","o","6",
+#                   # "7","8","9"]
+
+#     subject.move(board,["x","o"]).should == 7
+#   end
+
+#   it "gets the best move available from a board with 5 available spaces" do
+#   # board.spaces = ["x","o","o",
+#                   # "x","5","6",
+#                   # "o","8","9"]
+#     subject.move(board,["x","o"]).should == 5
+#   end
+
+#   it "gets the best move available from a board with 6 available spaces" do
+#   # board.spaces = ["x","o","3",
+#                   # "x","5","6",
+#                   # "7","8","9"]
+
+#     subject.move(board,["x","o"]).should == 7
+#   end
+
+#   it "gets the best move available from a board with 5 available spaces" do
+#   # board.spaces = ["x","o","3",
+#                   # "o","x","6",
+#                   # "7","8","9"]
+
+#     subject.move(board,["x","o"]).should == 9
+#   end
+
+#   it "gets the best move available from a board with 6 available spaces" do
+#   # board.spaces = ["x","o","3",
+#                   # "4","o","6",
+#                   # "7","8","9"]
+
+#     subject.move(board,["x","o"]).should == 8
+#   end
+
+#   it "gets the best move available from a board with 6 available spaces" do
+#   # board.spaces = ["x","o","3",
+#                   # "4","x","6",
+#                   # "7","8","9"]
+
+#     subject.move(board,["x","o"]).should == 9
+#   end
+
+  it "gets the best move available from a board with 8 available spaces" do
+    board.spaces = ["o",nil,nil,
+                    nil,nil,nil,
+                    nil,nil,nil]
+
+    @ai.find_best_move(board, 'o', 'x').should == 4
+  end
+
+#   it "gets the best move available from a board with 9 available spaces" do
+#   # board.spaces = ["1","2","3",
+#                   # "4","5","6",
+#                   # "7","8","9"]
+
+#     subject.move(board,["x","o"]).should == 1
+#   end
+
+# end
+
   end
 end
