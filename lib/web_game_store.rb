@@ -29,4 +29,8 @@ class WebGameStore
   def self.current_game_rules
     @game_rules
   end
+
+  def self.board
+    @board = Board.new 
+  end
 end

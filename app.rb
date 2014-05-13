@@ -28,9 +28,10 @@ class App < Sinatra::Application
   end
 
   post '/new_game' do
-    web_game_set_up
-    web_game_rules_set_up
-    session[:game_rules].current_player = session[:game].player_one_piece
+    create_game 
+    create_game_rules 
+    create_board
+    create_current_player
 
     redirect to('/play')
   end
@@ -42,9 +43,9 @@ class App < Sinatra::Application
 
   post '/move' do
     move = params.fetch("square")
-    session[:board].fill(move.to_i, session[:settings].current_player)
+    make(move)
     check_for_winner
-    session[:game_rules].current_player = session[:game_rules].next_player
+    session[:game].current_player = session[:game].next_player
     @board = session[:board].spaces
 
     erb '/board'.to_sym
@@ -63,20 +64,28 @@ class App < Sinatra::Application
 
   private
 
-  def web_game_set_up
+  def create_game
     session[:game] = WebGameStore.new_game(params)
-    # Repository.for(:game).store(@game)
-    # session[:game] = Repository.for(:game).current_game
   end
 
-  def web_game_rules_set_up
+  def create_game_rules
     session[:game_rules] = WebGameStore.game_rules
-    # Repository.for(:game).store(@game_rules)
-    # session[:game_rules] = Repository.for(:game).current_game_rules
+  end
+
+  def create_board
+    session[:board] = WebGameStore.board 
+  end
+
+  def create_current_player
+    session[:game_rules].current_player = session[:game].player_one_piece
+  end
+
+  def make(move)
+    session[:board].fill(move.to_i, session[:game].current_player)
   end
 
   def check_for_winner
-    if session[:game_rules].game_over?(@board.spaces)
+    if session[:game_rules].game_over?(session[:board].spaces)
       redirect '/winner'
     end
   end
